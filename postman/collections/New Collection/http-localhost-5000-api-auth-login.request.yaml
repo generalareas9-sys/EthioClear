@@ -1,0 +1,15 @@
+$kind: http-request
+name: http://localhost:5000/api/auth/login
+description: ""
+url: http://localhost:5000/api/auth/login
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"email\": \"admin@ethioclear.test\",\r
+
+    \  \"password\": \"Demo@1234\"\r
+
+    }"
+order: 1785134956989
