@@ -2,10 +2,9 @@
 // Layout for authenticated role dashboards: Navbar + responsive
 // Sidebar + content area (rendered via <Outlet/>) + Footer.
 //
-// Sidebar links are minimal placeholders for now — just a link back
-// to each role's dashboard home — since the pages those links would
-// point to (applications list, review queue, user management, etc.)
-// don't exist yet and are out of scope for this module.
+// Applicant links (Module 3) point at real pages now. Officer/Admin
+// links remain placeholders — just a link back to each role's
+// dashboard home — until those modules are built.
 
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
@@ -16,7 +15,11 @@ import { useAuth } from '../../hooks/useAuth.js';
 import { ROLES } from '../../utils/constants.js';
 
 const SIDEBAR_LINKS_BY_ROLE = {
-  [ROLES.APPLICANT]: [{ label: 'Dashboard', path: '/applicant' }],
+  [ROLES.APPLICANT]: [
+    { label: 'Dashboard', path: '/applicant' },
+    { label: 'My Applications', path: '/applicant/applications' },
+    { label: 'New Application', path: '/applicant/applications/new' },
+  ],
   [ROLES.OFFICER]: [{ label: 'Dashboard', path: '/officer' }],
   [ROLES.ADMIN]: [{ label: 'Dashboard', path: '/admin' }],
 };
