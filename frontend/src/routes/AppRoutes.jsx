@@ -17,9 +17,6 @@ import NotFound from '../pages/public/NotFound.jsx';
 import Login from '../pages/auth/Login.jsx';
 import Register from '../pages/auth/Register.jsx';
 import ApplicantDashboard from '../pages/applicant/ApplicantDashboard.jsx';
-import ApplicationsList from '../pages/applicant/ApplicationsList.jsx';
-import NewApplication from '../pages/applicant/NewApplication.jsx';
-import ApplicationDetails from '../pages/applicant/ApplicationDetails.jsx';
 import OfficerDashboard from '../pages/officer/OfficerDashboard.jsx';
 import AdminDashboard from '../pages/admin/AdminDashboard.jsx';
 
@@ -40,9 +37,6 @@ function AppRoutes() {
       <Route element={<ProtectedRoute allowedRoles={[ROLES.APPLICANT]} />}>
         <Route element={<DashboardLayout />}>
           <Route path="/applicant" element={<ApplicantDashboard />} />
-          <Route path="/applicant/applications" element={<ApplicationsList />} />
-          <Route path="/applicant/applications/new" element={<NewApplication />} />
-          <Route path="/applicant/applications/:id" element={<ApplicationDetails />} />
         </Route>
       </Route>
 
