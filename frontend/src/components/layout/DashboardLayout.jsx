@@ -1,36 +1,67 @@
 // src/components/layout/DashboardLayout.jsx
-// Layout for authenticated role dashboards: Navbar + responsive
-// Sidebar + content area (rendered via <Outlet/>) + Footer.
-//
-// Sidebar links are minimal placeholders for now — just a link back
-// to each role's dashboard home — since the pages those links would
-// point to (applications list, review queue, user management, etc.)
-// don't exist yet and are out of scope for this module.
+// Layout for authenticated role dashboards.
+// Module 7: fetches unread notification count and passes it to Navbar
+// for the bell badge; adds Profile and Notifications sidebar links
+// to all roles.
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import Navbar from './Navbar.jsx';
 import Sidebar from './Sidebar.jsx';
 import Footer from './Footer.jsx';
 import { useAuth } from '../../hooks/useAuth.js';
 import { ROLES } from '../../utils/constants.js';
+import { getUnreadCount } from '../../services/notificationService.js';
+
+// Shared links appended to every role's sidebar.
+const COMMON_LINKS = [
+  { label: 'Notifications', path: '/notifications' },
+  { label: 'My Profile',    path: '/profile' },
+];
 
 const SIDEBAR_LINKS_BY_ROLE = {
-  [ROLES.APPLICANT]: [{ label: 'Dashboard', path: '/applicant' }],
-  [ROLES.OFFICER]: [{ label: 'Dashboard', path: '/officer' }],
-  [ROLES.ADMIN]: [{ label: 'Dashboard', path: '/admin' }],
+  [ROLES.APPLICANT]: [
+    { label: 'Dashboard',        path: '/applicant' },
+    { label: 'My Applications',  path: '/applicant/applications' },
+    { label: 'New Application',  path: '/applicant/applications/new' },
+    ...COMMON_LINKS,
+  ],
+  [ROLES.OFFICER]: [
+    { label: 'Dashboard',        path: '/officer' },
+    { label: 'Review Queue',     path: '/officer/queue' },
+    ...COMMON_LINKS,
+  ],
+  [ROLES.ADMIN]: [
+    { label: 'Dashboard',        path: '/admin' },
+    { label: 'Users',            path: '/admin/users' },
+    { label: 'Reports',          path: '/admin/reports' },
+    { label: 'Audit Logs',       path: '/admin/audit-logs' },
+    ...COMMON_LINKS,
+  ],
 };
 
 function DashboardLayout() {
   const { currentUser } = useAuth();
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed]   = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [unreadCount, setUnreadCount]   = useState(0);
+
+  // Fetch unread notification count for the bell badge. Fails silently
+  // if the notifications endpoint isn't available yet (404).
+  useEffect(() => {
+    getUnreadCount()
+      .then(setUnreadCount)
+      .catch(() => {}); // endpoint not built yet — suppress silently
+  }, []);
 
   const links = SIDEBAR_LINKS_BY_ROLE[currentUser?.role] || [];
 
   return (
     <div className="flex min-h-screen flex-col">
-      <Navbar onMenuClick={() => setIsMobileOpen(true)} />
+      <Navbar
+        onMenuClick={() => setIsMobileOpen(true)}
+        unreadNotifications={unreadCount}
+      />
       <div className="flex flex-1">
         <Sidebar
           links={links}
