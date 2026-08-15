@@ -1,23 +1,24 @@
 // src/pages/officer/OfficerApplicationDetails.jsx
-// Full application detail view for officers (frontend Module 4).
-// Displays complete applicant information, application data, documents
-// with in-page preview support (PDF, JPEG, PNG), submission history,
-// current status, and Approve / Reject action dialogs.
+// Full application detail view for officers.
 //
-// Document preview note: the backend serves uploaded files as static
-// assets from storage/uploads/ — however, it does NOT expose a
-// public static file endpoint in any of the backend modules built so
-// far (Modules 3–8 only expose JSON API routes). The document rows
-// therefore show all metadata available from the API (type, name,
-// size, status, uploaded date). A preview modal is included that
-// constructs a URL pointing at the backend's likely static-serve path
-// (/uploads/<filename>) for when that route is added; until then,
-// clicking Preview shows a friendly "not yet available" message rather
-// than a broken image.
+// Certificate workflow (Module 8 fix):
+//   APPROVED   → shows "Generate Certificate" button
+//              → POST /api/certificates/applications/:id/generate
+//              → on success: application.status becomes certificate_issued,
+//                certificate.id returned → offer immediate download link
+//   CERTIFICATE_ISSUED → shows certificate info + download link (no Generate button)
+//   SUBMITTED / UNDER_REVIEW → shows Approve / Reject buttons
+//   REJECTED   → shows previous rejection reason (no actions)
 
 import { useState, useEffect, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { getApplication, approveApplication, rejectApplication } from '../../services/officerService.js';
+import {
+  getApplication,
+  approveApplication,
+  rejectApplication,
+  generateCertificate,
+  downloadCertificate,
+} from '../../services/officerService.js';
 import { parseApiError } from '../../utils/parseApiError.js';
 import { formatDate, formatDateTime, getReferenceNumber } from '../../utils/format.js';
 import { APPLICATION_STATUS_META, DOCUMENT_STATUS_META } from '../../utils/constants.js';
@@ -30,16 +31,26 @@ import StatusBadge from '../../components/ui/StatusBadge.jsx';
 const REVIEWABLE_STATUSES = ['submitted', 'under_review'];
 
 // ------------------------------------------------------------------
-// Document preview modal
+// Helper: browser-side download trigger from a Blob
+// ------------------------------------------------------------------
+function triggerBlobDownload(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+// ------------------------------------------------------------------
+// Document preview modal (unchanged from Module 4)
 // ------------------------------------------------------------------
 function DocumentPreviewModal({ doc, onClose }) {
-  // Backend doesn't yet expose a static-file serve route, so we
-  // construct the likely URL for when it does. If the fetch fails
-  // the <img>/<iframe> falls back to its error display.
   const previewUrl = doc
     ? `${import.meta.env.VITE_API_BASE_URL?.replace('/api', '')}/uploads/${doc.file_name}`
     : null;
-
   const isImage = doc && ['image/jpeg', 'image/png'].includes(doc.mime_type);
   const isPdf   = doc && doc.mime_type === 'application/pdf';
 
@@ -49,19 +60,13 @@ function DocumentPreviewModal({ doc, onClose }) {
         <div className="space-y-2">
           <p className="text-xs text-gray-500">{doc.original_file_name}</p>
           {isImage && (
-            <img
-              src={previewUrl}
-              alt={doc.document_type}
+            <img src={previewUrl} alt={doc.document_type}
               className="max-h-80 w-full rounded object-contain"
-              onError={(e) => { e.target.style.display = 'none'; }}
-            />
+              onError={(e) => { e.target.style.display = 'none'; }} />
           )}
           {isPdf && (
-            <iframe
-              src={previewUrl}
-              title={doc.document_type}
-              className="h-80 w-full rounded border"
-            />
+            <iframe src={previewUrl} title={doc.document_type}
+              className="h-80 w-full rounded border" />
           )}
           <p className="text-xs text-gray-400">
             If the preview doesn't load, the backend static-file route may not yet be enabled.
@@ -80,28 +85,18 @@ function RejectDialog({ isOpen, onClose, onConfirm, isSubmitting }) {
   const [error, setError]   = useState('');
 
   function handleConfirm() {
-    if (!reason.trim()) {
-      setError('Rejection reason is required.');
-      return;
-    }
-    if (reason.trim().length > 1000) {
-      setError('Rejection reason must be at most 1000 characters.');
-      return;
-    }
+    if (!reason.trim()) { setError('Rejection reason is required.'); return; }
+    if (reason.trim().length > 1000) { setError('Rejection reason must be at most 1000 characters.'); return; }
     setError('');
     onConfirm(reason.trim());
   }
 
-  // Reset form whenever dialog opens.
   useEffect(() => {
     if (isOpen) { setReason(''); setError(''); }
   }, [isOpen]);
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
-      title="Reject Application"
+    <Modal isOpen={isOpen} onClose={onClose} title="Reject Application"
       footer={
         <>
           <Button variant="outline" onClick={onClose} disabled={isSubmitting}>Cancel</Button>
@@ -118,10 +113,7 @@ function RejectDialog({ isOpen, onClose, onConfirm, isSubmitting }) {
           <label htmlFor="rejectReason" className="mb-1 block text-sm font-medium text-gray-700">
             Rejection Reason <span className="text-red-600">*</span>
           </label>
-          <textarea
-            id="rejectReason"
-            rows={4}
-            value={reason}
+          <textarea id="rejectReason" rows={4} value={reason}
             onChange={(e) => { setReason(e.target.value); setError(''); }}
             placeholder="e.g. Uploaded ID photo is illegible — please resubmit a clearer scan."
             className="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600"
@@ -138,10 +130,7 @@ function RejectDialog({ isOpen, onClose, onConfirm, isSubmitting }) {
 // ------------------------------------------------------------------
 function ApproveDialog({ isOpen, onClose, onConfirm, isSubmitting }) {
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
-      title="Approve Application"
+    <Modal isOpen={isOpen} onClose={onClose} title="Approve Application"
       footer={
         <>
           <Button variant="outline" onClick={onClose} disabled={isSubmitting}>Cancel</Button>
@@ -150,10 +139,91 @@ function ApproveDialog({ isOpen, onClose, onConfirm, isSubmitting }) {
       }
     >
       <p className="text-sm text-gray-600">
-        Are you sure you want to approve this application? The applicant's status will be updated immediately and
-        a certificate can then be generated.
+        Are you sure you want to approve this application? The applicant's status will be updated immediately
+        and you can then generate their certificate.
       </p>
     </Modal>
+  );
+}
+
+// ------------------------------------------------------------------
+// Generate Certificate confirmation dialog
+// ------------------------------------------------------------------
+function GenerateCertificateDialog({ isOpen, onClose, onConfirm, isSubmitting }) {
+  return (
+    <Modal isOpen={isOpen} onClose={onClose} title="Generate Certificate"
+      footer={
+        <>
+          <Button variant="outline" onClick={onClose} disabled={isSubmitting}>Cancel</Button>
+          <Button variant="primary" onClick={onConfirm} isLoading={isSubmitting}>
+            Generate Certificate
+          </Button>
+        </>
+      }
+    >
+      <p className="text-sm text-gray-600">
+        This will generate a PDF certificate and QR verification code for this application. The application
+        status will change to <strong>Certificate Issued</strong>. This action cannot be undone.
+      </p>
+      <p className="mt-2 rounded-md bg-yellow-50 px-3 py-2 text-xs text-yellow-700">
+        Academic prototype — the generated certificate is clearly marked "For Demonstration Purposes Only"
+        and is not a legal document.
+      </p>
+    </Modal>
+  );
+}
+
+// ------------------------------------------------------------------
+// Certificate info panel (shown when status === 'certificate_issued')
+// ------------------------------------------------------------------
+function CertificatePanel({ certificateId, certificateNumber }) {
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [downloadError, setDownloadError]   = useState('');
+  const [downloadSuccess, setDownloadSuccess] = useState(false);
+
+  async function handleDownload() {
+    if (!certificateId) return;
+    setIsDownloading(true);
+    setDownloadError('');
+    setDownloadSuccess(false);
+    try {
+      const blob = await downloadCertificate(certificateId);
+      triggerBlobDownload(blob, `${certificateNumber || certificateId}.pdf`);
+      setDownloadSuccess(true);
+    } catch (err) {
+      setDownloadError(parseApiError(err).message);
+    } finally {
+      setIsDownloading(false);
+    }
+  }
+
+  return (
+    <div className="mt-4 rounded-md bg-primary-50 px-4 py-3 text-sm text-primary-800">
+      <p className="font-semibold">🎉 Certificate Issued</p>
+      {certificateNumber && (
+        <p className="mt-1 text-xs text-primary-700">
+          Certificate Number: <span className="font-mono font-semibold">{certificateNumber}</span>
+        </p>
+      )}
+      <div className="mt-3 flex flex-wrap gap-2">
+        {certificateId ? (
+          <Button size="sm" onClick={handleDownload} isLoading={isDownloading}
+            disabled={isDownloading} aria-label="Download certificate PDF">
+            ⬇ Download Certificate PDF
+          </Button>
+        ) : (
+          <p className="text-xs text-primary-600">
+            Certificate ID not yet available — reload the page or check the database.
+          </p>
+        )}
+      </div>
+      {downloadError && (
+        <p className="mt-2 text-xs text-red-600">{downloadError}</p>
+      )}
+      {downloadSuccess && (
+        <p className="mt-2 text-xs text-secondary-700">Download started successfully.</p>
+      )}
+    </div>
   );
 }
 
@@ -169,13 +239,19 @@ function OfficerApplicationDetails() {
   const [error, setError]                     = useState('');
   const [notFound, setNotFound]               = useState(false);
 
+  // Certificate data returned by the generate endpoint.
+  // Stored separately so the download button appears immediately
+  // after generation without needing a full page reload.
+  const [certificate, setCertificate]         = useState(null);
+
   const [actionError, setActionError]         = useState('');
   const [successMessage, setSuccessMessage]   = useState('');
   const [isActioning, setIsActioning]         = useState(false);
 
-  const [showApproveDialog, setShowApproveDialog]   = useState(false);
-  const [showRejectDialog, setShowRejectDialog]     = useState(false);
-  const [previewDoc, setPreviewDoc]                 = useState(null);
+  const [showApproveDialog, setShowApproveDialog]             = useState(false);
+  const [showRejectDialog, setShowRejectDialog]               = useState(false);
+  const [showGenerateDialog, setShowGenerateDialog]           = useState(false);
+  const [previewDoc, setPreviewDoc]                           = useState(null);
 
   const load = useCallback(async () => {
     setIsLoading(true);
@@ -201,7 +277,7 @@ function OfficerApplicationDetails() {
     try {
       const updated = await approveApplication(id);
       setApplication(updated);
-      setSuccessMessage('Application approved successfully.');
+      setSuccessMessage('Application approved. You can now generate the certificate below.');
       setShowApproveDialog(false);
     } catch (err) {
       setActionError(parseApiError(err).message);
@@ -222,6 +298,27 @@ function OfficerApplicationDetails() {
     } catch (err) {
       setActionError(parseApiError(err).message);
       setShowRejectDialog(false);
+    } finally {
+      setIsActioning(false);
+    }
+  }
+
+  async function handleGenerateCertificate() {
+    setIsActioning(true);
+    setActionError('');
+    try {
+      // POST /api/certificates/applications/:id/generate
+      // Returns { certificate: { id, certificate_number, ... }, application: { status: 'certificate_issued', ... } }
+      const result = await generateCertificate(id);
+      setApplication(result.application);   // status is now 'certificate_issued'
+      setCertificate(result.certificate);   // has .id and .certificate_number for download
+      setSuccessMessage(
+        `Certificate generated successfully! Certificate number: ${result.certificate.certificate_number}`
+      );
+      setShowGenerateDialog(false);
+    } catch (err) {
+      setActionError(parseApiError(err).message);
+      setShowGenerateDialog(false);
     } finally {
       setIsActioning(false);
     }
@@ -255,8 +352,10 @@ function OfficerApplicationDetails() {
     );
   }
 
-  const statusMeta   = APPLICATION_STATUS_META[application.status];
-  const canReview    = REVIEWABLE_STATUSES.includes(application.status);
+  const statusMeta = APPLICATION_STATUS_META[application.status];
+  const canReview  = REVIEWABLE_STATUSES.includes(application.status);
+  const canGenerate = application.status === 'approved';
+  const isIssued    = application.status === 'certificate_issued';
 
   return (
     <div className="mx-auto max-w-2xl space-y-4">
@@ -318,25 +417,40 @@ function OfficerApplicationDetails() {
           </div>
         )}
 
-        {/* Action buttons */}
-        {canReview && (
-          <div className="mt-5 flex gap-3 border-t border-gray-100 pt-4">
-            <Button
-              variant="secondary"
-              onClick={() => { setActionError(''); setSuccessMessage(''); setShowApproveDialog(true); }}
-              disabled={isActioning}
-            >
-              Approve
-            </Button>
-            <Button
-              variant="danger"
-              onClick={() => { setActionError(''); setSuccessMessage(''); setShowRejectDialog(true); }}
-              disabled={isActioning}
-            >
-              Reject
-            </Button>
-          </div>
+        {/* Certificate panel — shown when already issued */}
+        {isIssued && (
+          <CertificatePanel
+            certificateId={certificate?.id || null}
+            certificateNumber={certificate?.certificate_number || null}
+          />
         )}
+
+        {/* Action buttons */}
+        <div className="mt-5 flex flex-wrap gap-3 border-t border-gray-100 pt-4">
+          {canReview && (
+            <>
+              <Button variant="secondary"
+                onClick={() => { setActionError(''); setSuccessMessage(''); setShowApproveDialog(true); }}
+                disabled={isActioning}>
+                Approve
+              </Button>
+              <Button variant="danger"
+                onClick={() => { setActionError(''); setSuccessMessage(''); setShowRejectDialog(true); }}
+                disabled={isActioning}>
+                Reject
+              </Button>
+            </>
+          )}
+
+          {canGenerate && (
+            <Button variant="primary"
+              onClick={() => { setActionError(''); setSuccessMessage(''); setShowGenerateDialog(true); }}
+              disabled={isActioning}
+              aria-label="Generate certificate for this approved application">
+              🏅 Generate Certificate
+            </Button>
+          )}
+        </div>
       </Card>
 
       {/* Documents */}
@@ -344,7 +458,7 @@ function OfficerApplicationDetails() {
         {documents.length === 0 ? (
           <p className="text-sm text-gray-500">No documents have been uploaded for this application.</p>
         ) : (
-          <ul className="divide-y divide-gray-100">
+          <ul className="divide-y divide-gray-100" role="list">
             {documents.map((doc) => {
               const docMeta = DOCUMENT_STATUS_META[doc.status];
               return (
@@ -357,11 +471,9 @@ function OfficerApplicationDetails() {
                   </div>
                   <div className="flex items-center gap-2">
                     <StatusBadge label={docMeta?.label || doc.status} badgeClass={docMeta?.badgeClass} />
-                    <button
-                      type="button"
-                      onClick={() => setPreviewDoc(doc)}
+                    <button type="button" onClick={() => setPreviewDoc(doc)}
                       className="text-xs font-medium text-primary-700 hover:underline"
-                    >
+                      aria-label={`Preview ${doc.document_type}`}>
                       Preview
                     </button>
                   </div>
@@ -383,6 +495,12 @@ function OfficerApplicationDetails() {
         isOpen={showRejectDialog}
         onClose={() => setShowRejectDialog(false)}
         onConfirm={handleReject}
+        isSubmitting={isActioning}
+      />
+      <GenerateCertificateDialog
+        isOpen={showGenerateDialog}
+        onClose={() => setShowGenerateDialog(false)}
+        onConfirm={handleGenerateCertificate}
         isSubmitting={isActioning}
       />
       <DocumentPreviewModal doc={previewDoc} onClose={() => setPreviewDoc(null)} />

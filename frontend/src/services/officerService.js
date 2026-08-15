@@ -53,3 +53,27 @@ export async function getQueueCounts() {
   });
   return totals;
 }
+
+/**
+ * POST /api/certificates/applications/:applicationId/generate
+ * Officer/admin only — generates a certificate PDF + QR code for an
+ * application that is currently in 'approved' status.
+ * Returns { certificate, application } — use certificate.id to
+ * construct the download URL.
+ */
+export async function generateCertificate(applicationId) {
+  const response = await api.post(`/certificates/applications/${applicationId}/generate`);
+  return response.data.data; // { certificate, application }
+}
+
+/**
+ * GET /api/certificates/:certificateId/download
+ * Any authenticated user — backend checks ownership/staff access.
+ * Returns a Blob (PDF binary) for the caller to trigger a browser download.
+ */
+export async function downloadCertificate(certificateId) {
+  const response = await api.get(`/certificates/${certificateId}/download`, {
+    responseType: 'blob',
+  });
+  return response.data; // Blob
+}

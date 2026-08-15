@@ -291,17 +291,19 @@ function ApplicationDetails() {
         {application.status === 'certificate_issued' && (
           <div className="mt-4 rounded-md bg-primary-50 px-4 py-3 text-sm text-primary-800">
             <p className="font-semibold">🎉 Certificate Issued</p>
-            <p className="mt-1">Your certificate has been issued successfully.</p>
+            <p className="mt-1">
+              Your certificate has been generated. Your verification officer or administrator
+              can download it from the officer dashboard and provide it to you.
+            </p>
             <p className="mt-2 text-xs text-primary-600">
-              Certificate download requires your certificate ID, which is currently only visible to officers
-              and administrators. To download your certificate, please log in as an officer/admin or contact
-              your administrator who can generate the download from the officer dashboard.
+              To check the authenticity of a certificate you've received, use the verification
+              link below — you'll need the certificate ID or the QR code from the PDF.
             </p>
             <Link
               to="/verify"
-              className="mt-2 inline-block text-xs font-medium text-primary-700 underline hover:text-primary-800"
+              className="mt-2 inline-block rounded-md bg-primary-700 px-3 py-1.5 text-xs font-medium text-white hover:bg-primary-800"
             >
-              Verify a certificate →
+              Verify a Certificate →
             </Link>
           </div>
         )}
