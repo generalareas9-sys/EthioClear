@@ -47,20 +47,3 @@ export async function uploadDocument(applicationId, file, documentType, onUpload
   });
   return response.data.data; // { document, application }
 }
-
-/**
- * GET /api/certificates/:certificateId/download
- * The backend enforces ownership: applicants can only download their
- * own certificate (certificate.service.js assertDownloadAccess).
- * Returns a Blob (PDF binary) for the caller to trigger a browser download.
- * The certificateId must come from the officer/admin UI or be known in
- * advance — the applicant's GET /applications/:id endpoint does not
- * yet return a certificateId field. If the backend is updated to include
- * it in the application response, remove this comment.
- */
-export async function downloadCertificate(certificateId) {
-  const response = await api.get(`/certificates/${certificateId}/download`, {
-    responseType: 'blob',
-  });
-  return response.data; // Blob
-}
