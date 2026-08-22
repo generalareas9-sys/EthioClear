@@ -9,45 +9,47 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth.js';
+import { useTranslation } from '../../i18n/LanguageContext.jsx';
 import { parseApiError } from '../../utils/parseApiError.js';
 import { isValidEmail, getPasswordRequirementErrors, isRequired } from '../../utils/validators.js';
 import Card from '../../components/common/Card.jsx';
 import Input from '../../components/common/Input.jsx';
 import Button from '../../components/common/Button.jsx';
+import PasswordInput from '../../components/common/PasswordInput.jsx';
 
 const INITIAL_FORM = { fullName: '', email: '', phoneNumber: '', password: '' };
-
-/** Client-side validation, mirroring the backend's rules (backend auth.routes.js). Returns a field -> message map; empty object means valid. */
-function validate(formData) {
-  const errors = {};
-
-  if (!isRequired(formData.fullName)) {
-    errors.fullName = 'Full name is required.';
-  } else if (formData.fullName.trim().length < 2) {
-    errors.fullName = 'Full name must be at least 2 characters.';
-  }
-
-  if (!isRequired(formData.email)) {
-    errors.email = 'Email is required.';
-  } else if (!isValidEmail(formData.email)) {
-    errors.email = 'Enter a valid email address.';
-  }
-
-  if (!isRequired(formData.password)) {
-    errors.password = 'Password is required.';
-  } else {
-    const unmet = getPasswordRequirementErrors(formData.password);
-    if (unmet.length > 0) {
-      errors.password = `Password must include ${unmet.join(', ')}.`;
-    }
-  }
-
-  return errors;
-}
 
 function Register() {
   const { register } = useAuth();
   const navigate = useNavigate();
+  const { t } = useTranslation();
+
+  function validate(formData) {
+    const errors = {};
+
+    if (!isRequired(formData.fullName)) {
+      errors.fullName = t('auth.validation.fullNameRequired');
+    } else if (formData.fullName.trim().length < 2) {
+      errors.fullName = t('auth.validation.fullNameTooShort');
+    }
+
+    if (!isRequired(formData.email)) {
+      errors.email = t('auth.validation.emailRequired');
+    } else if (!isValidEmail(formData.email)) {
+      errors.email = t('auth.validation.emailInvalid');
+    }
+
+    if (!isRequired(formData.password)) {
+      errors.password = t('auth.validation.passwordRequired');
+    } else {
+      const unmet = getPasswordRequirementErrors(formData.password);
+      if (unmet.length > 0) {
+        errors.password = `Password must include ${unmet.join(', ')}.`;
+      }
+    }
+
+    return errors;
+  }
 
   const [formData, setFormData] = useState(INITIAL_FORM);
   const [fieldErrors, setFieldErrors] = useState({});
@@ -94,7 +96,7 @@ function Register() {
 
   return (
     <div className="mx-auto flex max-w-md flex-col justify-center px-4 py-16">
-      <Card title="Create an applicant account">
+      <Card title={t('auth.createAccount')}>
         {formError && (
           <div role="alert" className="mb-4 rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
             {formError}
@@ -103,7 +105,7 @@ function Register() {
 
         <form className="space-y-4" onSubmit={handleSubmit} noValidate>
           <Input
-            label="Full name"
+            label={t('auth.fullName')}
             name="fullName"
             type="text"
             placeholder="Abebe Kebede"
@@ -113,7 +115,7 @@ function Register() {
             required
           />
           <Input
-            label="Email address"
+            label={t('auth.email')}
             name="email"
             type="email"
             placeholder="you@example.com"
@@ -123,7 +125,7 @@ function Register() {
             required
           />
           <Input
-            label="Phone number"
+            label={t('auth.phoneNumber')}
             name="phoneNumber"
             type="tel"
             placeholder="+251 9xx xxx xxx"
@@ -131,10 +133,9 @@ function Register() {
             onChange={handleChange}
             error={fieldErrors.phoneNumber}
           />
-          <Input
-            label="Password"
+          <PasswordInput
+            label={t('auth.password')}
             name="password"
-            type="password"
             placeholder="••••••••"
             value={formData.password}
             onChange={handleChange}
@@ -142,17 +143,17 @@ function Register() {
             required
           />
           <p className="text-xs text-gray-500">
-            Must be at least 8 characters, with an uppercase letter, a lowercase letter, and a number.
+            {t('auth.mustMeetPassword')}
           </p>
           <Button type="submit" fullWidth isLoading={isSubmitting}>
-            Register
+            {t('auth.registerButton')}
           </Button>
         </form>
 
         <p className="mt-4 text-center text-sm text-gray-500">
-          Already have an account?{' '}
+          {t('auth.alreadyHaveAccount')}{' '}
           <Link to="/login" className="font-medium text-primary-700 hover:underline">
-            Log in
+            {t('auth.loginButton')}
           </Link>
         </p>
       </Card>

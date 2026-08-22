@@ -11,16 +11,78 @@
 @layer base {
   html {
     @apply antialiased;
+    background-color: #f8fafc;
+  }
+
+  html.dark {
+    background-color: #020817;
+  }
+
+  /* Theme variables — used by base elements so text color follows the
+     active theme even if the cascade or timing causes utility classes to lag. */
+  :root {
+    --site-foreground: #0f172a; /* slate-900 */
+    --site-muted: #6b7280;      /* gray-500 */
+    --site-bg: #f8fafc;
+    --site-bg-weak: #ffffff;
+    --site-primary: #1e7f3a;
+  }
+
+  html.dark {
+    --site-foreground: #f8fafc; /* slate-100-ish */
+    --site-muted: #94a3b8;      /* slate-400 */
+    --site-bg: #020817;
+    --site-bg-weak: #071018;
+    --site-primary: #1e7f3a;
   }
 
   body {
-    @apply bg-gray-50 text-gray-900 font-sans;
+    @apply font-sans transition-colors duration-200;
+    color: var(--site-foreground);
+    background-color: var(--site-bg);
+    min-height: 100vh;
   }
 
-  /* Always show a visible focus ring for keyboard navigation —
-     required for an accessible government-style portal. Only for
-     keyboard focus (not mouse clicks), via :focus-visible. */
+  /* Keep #root full height */
+  #root {
+    @apply min-h-screen;
+  }
+
+  /* Semantic text color defaults — components that use neutral utility
+     classes still get accessible defaults via the CSS variables above. */
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--site-foreground);
+  }
+
+  p, label, span, li, a {
+    color: var(--site-muted);
+  }
+
+  small, .text-xs {
+    color: var(--site-muted);
+  }
+
+  /* Always show a visible focus ring for keyboard navigation */
   :focus-visible {
     @apply outline outline-2 outline-offset-2 outline-primary-600;
   }
+}
+
+/* Hero banner backgrounds (light/dark) used on public pages. The SVGs are intentionally low-contrast
+   and subtle so text placed on top remains readable. The .hero-banner element should also include
+   an overlay (gradient) in markup to guarantee contrast. */
+.hero-banner {
+  background-image: url('/src/assets/banner-light.svg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+html.dark .hero-banner {
+  background-image: url('/src/assets/banner-dark.svg');
+}
+
+/* Small helper to reduce heavy imagery intrusiveness on very small screens */
+@media (max-width: 640px) {
+  .hero-banner { background-position: center 30%; background-size: 200% auto; }
 }

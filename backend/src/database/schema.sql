@@ -230,6 +230,24 @@ CREATE INDEX idx_notifications_is_read ON notifications (is_read);
 
 
 -- =====================================================================
+-- Password reset tokens
+-- Secure, single-use tokens for password reset flows. Only a hash of
+-- the token is stored so a database leak does not expose usable tokens.
+-- Expires_at enforces time limits; used prevents replay.
+-- =====================================================================
+CREATE TABLE password_reset_tokens (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID REFERENCES users (id) ON DELETE CASCADE,
+    token_hash TEXT NOT NULL,
+    expires_at TIMESTAMPTZ NOT NULL,
+    used BOOLEAN NOT NULL DEFAULT FALSE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE INDEX idx_password_reset_tokens_token_hash ON password_reset_tokens (token_hash);
+CREATE INDEX idx_password_reset_tokens_user_id ON password_reset_tokens (user_id);
+
+-- =====================================================================
 -- TRIGGER FUNCTION: auto-update `updated_at` columns
 -- Keeps updated_at accurate on every row modification without relying
 -- on application code to remember to set it.

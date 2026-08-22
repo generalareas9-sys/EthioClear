@@ -9,7 +9,7 @@ function AccessDenied() {
   return (
     <div className="mx-auto flex max-w-md flex-col items-center px-4 py-24 text-center">
       <span className="text-5xl font-bold text-red-600">403</span>
-      <h1 className="mt-2 text-xl font-semibold text-gray-900">Access Denied</h1>
+      <h1 className="mt-2 text-xl font-semibold text-gray-900 dark:text-slate-100">Access Denied</h1>
       <p className="mt-2 text-sm text-gray-600">
         You don&apos;t have permission to view this page with your current account role.
       </p>

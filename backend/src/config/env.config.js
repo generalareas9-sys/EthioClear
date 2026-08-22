@@ -14,16 +14,18 @@ require('dotenv').config({ path: path.resolve(process.cwd(), '.env') });
 // Variables that MUST be present for the app to start safely.
 // (Auth-related secrets are required now so Module 4 doesn't silently
 // run with insecure defaults; they are not yet used by any route.)
-const REQUIRED_VARS = [
-  'PORT',
-  'PGHOST',
-  'PGPORT',
-  'PGUSER',
-  'PGPASSWORD',
-  'PGDATABASE',
-  'JWT_SECRET',
-  'JWT_REFRESH_SECRET',
-];
+const DEFAULT_ENV = {
+  PORT: '5000',
+  PGHOST: 'localhost',
+  PGPORT: '5432',
+  PGUSER: 'ethioclear_user',
+  PGPASSWORD: 'change_me',
+  PGDATABASE: 'ethioclear_db',
+  JWT_SECRET: 'development_jwt_secret_change_me',
+  JWT_REFRESH_SECRET: 'development_jwt_refresh_secret_change_me',
+};
+
+const REQUIRED_VARS = Object.keys(DEFAULT_ENV);
 
 function getMissingVars() {
   return REQUIRED_VARS.filter((key) => !process.env[key] || process.env[key].trim() === '');
@@ -31,14 +33,26 @@ function getMissingVars() {
 
 function validateEnv() {
   const missing = getMissingVars();
+
   if (missing.length > 0) {
-    // Fail fast and loudly — a misconfigured server should never start.
+    missing.forEach((key) => {
+      process.env[key] = DEFAULT_ENV[key];
+    });
+
+    if (process.env.NODE_ENV === 'production') {
+      // Fail fast in production to avoid starting with insecure defaults.
+      // eslint-disable-next-line no-console
+      console.error(
+        `[env.config] Missing required environment variables: ${missing.join(', ')}\n` +
+          'Set real values in your environment or .env before running in production.'
+      );
+      process.exit(1);
+    }
+
     // eslint-disable-next-line no-console
-    console.error(
-      `[env.config] Missing required environment variables: ${missing.join(', ')}\n` +
-        'Copy .env.example to .env and fill in real values before starting the server.'
+    console.warn(
+      `[env.config] Missing environment variables: ${missing.join(', ')}. Falling back to development defaults.`
     );
-    process.exit(1);
   }
 }
 
@@ -51,7 +65,7 @@ const config = {
   server: {
     port: parseInt(process.env.PORT, 10) || 5000,
     apiBasePath: process.env.API_BASE_PATH || '/api',
-    clientOrigins: (process.env.CLIENT_ORIGIN || 'http://localhost:5173')
+    clientOrigins: (process.env.CLIENT_ORIGIN || 'http://localhost:4173')
       .split(',')
       .map((origin) => origin.trim()),
   },
@@ -90,7 +104,7 @@ const config = {
   },
 
   verification: {
-    baseUrl: process.env.VERIFICATION_BASE_URL || 'http://localhost:5173/verify',
+    baseUrl: process.env.VERIFICATION_BASE_URL || 'http://localhost:4173/verify',
   },
 };
 

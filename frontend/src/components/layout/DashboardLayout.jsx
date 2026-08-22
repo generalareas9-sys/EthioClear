@@ -57,12 +57,13 @@ function DashboardLayout() {
   const links = SIDEBAR_LINKS_BY_ROLE[currentUser?.role] || [];
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col bg-gray-50 text-gray-900 dark:bg-slate-950 dark:text-slate-100">
       <Navbar
+        variant="dashboard"
         onMenuClick={() => setIsMobileOpen(true)}
         unreadNotifications={unreadCount}
       />
-      <div className="flex flex-1">
+      <div className="flex flex-1 bg-gray-50 dark:bg-slate-950">
         <Sidebar
           links={links}
           isCollapsed={isCollapsed}
@@ -70,7 +71,7 @@ function DashboardLayout() {
           isMobileOpen={isMobileOpen}
           onCloseMobile={() => setIsMobileOpen(false)}
         />
-        <main className="flex-1 p-4 md:p-6">
+        <main className="flex-1 bg-gray-50 p-4 md:p-6 dark:bg-slate-950">
           <Outlet />
         </main>
       </div>

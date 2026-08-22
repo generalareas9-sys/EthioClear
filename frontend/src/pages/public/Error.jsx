@@ -13,7 +13,7 @@ function Error() {
   return (
     <div className="mx-auto flex max-w-md flex-col items-center px-4 py-24 text-center">
       <span className="text-5xl" role="img" aria-label="Error">⚠️</span>
-      <h1 className="mt-4 text-xl font-semibold text-gray-900">Something Went Wrong</h1>
+      <h1 className="mt-4 text-xl font-semibold text-gray-900 dark:text-slate-100">Something Went Wrong</h1>
       <p className="mt-2 text-sm text-gray-600">
         An unexpected error occurred. Please try again, or return to the home page.
       </p>

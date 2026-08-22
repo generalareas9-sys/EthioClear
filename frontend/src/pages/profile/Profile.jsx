@@ -88,7 +88,7 @@ function Profile() {
 
   return (
     <div className="mx-auto max-w-xl space-y-6">
-      <h1 className="text-xl font-semibold text-gray-900">My Profile</h1>
+      <h1 className="text-xl font-semibold text-gray-900 dark:text-slate-100">My Profile</h1>
 
       {/* Profile information */}
       <Card title="Account Information">
@@ -100,27 +100,27 @@ function Profile() {
             ['National ID',  currentUser?.nationalId || '—'],
           ].map(([label, value]) => (
             <div key={label}>
-              <dt className="text-xs font-medium uppercase tracking-wide text-gray-400">{label}</dt>
-              <dd className="mt-0.5 text-gray-900">{value}</dd>
+              <dt className="text-xs font-medium uppercase tracking-wide text-gray-400 dark:text-slate-400">{label}</dt>
+              <dd className="mt-0.5 text-gray-900 dark:text-slate-100">{value}</dd>
             </div>
           ))}
 
           <div>
-            <dt className="text-xs font-medium uppercase tracking-wide text-gray-400">Role</dt>
-            <dd className="mt-0.5 text-gray-900">{ROLE_LABELS[currentUser?.role] || currentUser?.role || '—'}</dd>
+            <dt className="text-xs font-medium uppercase tracking-wide text-gray-400 dark:text-slate-400">Role</dt>
+            <dd className="mt-0.5 text-gray-900 dark:text-slate-100">{ROLE_LABELS[currentUser?.role] || currentUser?.role || '—'}</dd>
           </div>
 
           <div>
-            <dt className="text-xs font-medium uppercase tracking-wide text-gray-400">Account Status</dt>
+            <dt className="text-xs font-medium uppercase tracking-wide text-gray-400 dark:text-slate-400">Account Status</dt>
             <dd className="mt-0.5">
               {statusMeta
                 ? <StatusBadge label={statusMeta.label} badgeClass={statusMeta.badgeClass} />
-                : <span className="text-gray-900">{currentUser?.status || '—'}</span>}
+                : <span className="text-gray-900 dark:text-slate-100">{currentUser?.status || '—'}</span>}
             </dd>
           </div>
         </dl>
 
-        <p className="mt-4 text-xs text-gray-400">
+        <p className="mt-4 text-xs text-gray-400 dark:text-slate-400">
           To update your name, email, or phone number, please contact an administrator.
           Full profile editing will be available in a future version of EthioClear.
         </p>

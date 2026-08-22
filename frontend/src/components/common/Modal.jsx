@@ -28,17 +28,17 @@ function Modal({ isOpen, onClose, title, children, footer }) {
       onClick={onClose}
     >
       <div
-        className="w-full max-w-md rounded-lg bg-white shadow-lg"
+        className="w-full max-w-md rounded-lg bg-[var(--site-bg-weak)] shadow-lg dark:bg-slate-900 dark:text-slate-100"
         // Stop backdrop click-to-close from firing when clicking inside the dialog itself.
         onClick={(event) => event.stopPropagation()}
       >
-        <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3">
-          <h2 className="text-base font-semibold text-gray-900">{title}</h2>
+        <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3 dark:border-slate-700">
+          <h2 className="text-base font-semibold text-[var(--site-foreground)]">{title}</h2>
           <button
             type="button"
             onClick={onClose}
             aria-label="Close dialog"
-            className="rounded p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
+            className="rounded p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-slate-800 dark:hover:text-slate-200"
           >
             ✕
           </button>
@@ -46,7 +46,7 @@ function Modal({ isOpen, onClose, title, children, footer }) {
 
         <div className="px-4 py-4">{children}</div>
 
-        {footer && <div className="flex justify-end gap-2 border-t border-gray-200 px-4 py-3">{footer}</div>}
+        {footer && <div className="flex justify-end gap-2 border-t border-gray-200 px-4 py-3 dark:border-slate-700">{footer}</div>}
       </div>
     </div>
   );

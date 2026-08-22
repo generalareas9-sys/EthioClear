@@ -130,6 +130,17 @@ async function updateStatus(id, status) {
   return result.rows[0] || null;
 }
 
+async function updatePassword(id, passwordHash) {
+  const result = await query(
+    `UPDATE users
+     SET password_hash = $2
+     WHERE id = $1
+     RETURNING id, full_name, email, phone_number, role, status, created_at, updated_at`,
+    [id, passwordHash]
+  );
+  return result.rows[0] || null;
+}
+
 module.exports = {
   createUser,
   findByEmailWithPassword,
@@ -138,4 +149,5 @@ module.exports = {
   findAll,
   countAll,
   updateStatus,
+  updatePassword,
 };

@@ -23,7 +23,7 @@ import api from './api.js';
 
 /**
  * Attempts to extract a UUID from either a bare UUID string or a
- * full verification URL (e.g. http://localhost:5173/verify/<uuid>).
+ * full verification URL (e.g. http://localhost:4173/verify/<uuid>).
  * Returns the UUID string if found, otherwise returns null.
  */
 export function extractCertificateId(input) {

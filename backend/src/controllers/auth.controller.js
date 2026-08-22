@@ -211,4 +211,82 @@ async function logout(req, res, next) {
   }
 }
 
-module.exports = { register, login, refresh, logout };
+
+async function requestPasswordReset(req, res, next) {
+  try {
+    const { email } = req.body;
+
+    // Always respond with a generic success message to avoid revealing
+    // whether the email exists in the system.
+    const user = await userModel.findByEmail(email);
+    if (!user) {
+      return success(res, { message: 'If an account with that email exists, a password reset email has been sent.' });
+    }
+
+    // Create a single-use, time-limited token. Raw token is returned so
+    // the caller (mailer) can include it in the email. The raw token is
+    // NOT logged. Only the SHA-256 hash is stored in the database.
+    const rawToken = require('crypto').randomBytes(32).toString('hex');
+    const tokenHash = authService.hashToken(rawToken);
+    const expiresAt = authService.expiryDateFromNow('1h');
+
+    await require('../models/passwordReset.model').create({ userId: user.id, tokenHash, expiresAt });
+
+    // Send email if mailer is configured. Mailer implementation is
+    // optional in development; do not expose the token in logs if mail
+    // isn't available. The frontend will receive a generic success.
+    try {
+      const mailer = require('../utils/mailer');
+      const resetUrl = `${config.server.clientOrigins[0].replace(/\/$/, '')}/reset-password?token=${rawToken}`;
+      // Do NOT log rawToken. mailer.sendPasswordResetEmail should handle sending.
+      await mailer.sendPasswordResetEmail(user.email, { fullName: user.full_name, resetUrl });
+    } catch (mailErr) {
+      // Mailer not configured or failed — swallow error to avoid
+      // revealing implementation details. Do not log the token.
+    }
+
+    return success(res, { message: 'If an account with that email exists, a password reset email has been sent.' });
+  } catch (err) {
+    return next(err);
+  }
+}
+
+async function confirmPasswordReset(req, res, next) {
+  try {
+    const { token, password } = req.body;
+    const tokenHash = authService.hashToken(token);
+
+    const pr = await require('../models/passwordReset.model').findActiveByHash(tokenHash);
+    if (!pr) {
+      // Generic failure — do not reveal whether token expired or didn't exist.
+      return failure(res, { statusCode: 400, message: 'Password reset token is invalid or expired.' });
+    }
+
+    const user = await userModel.findById(pr.user_id);
+    if (!user) {
+      return failure(res, { statusCode: 400, message: 'Password reset token is invalid or expired.' });
+    }
+
+    // Hash new password and update user
+    const newHash = await authService.hashPassword(password);
+    await userModel.updatePassword(user.id, newHash);
+
+    // Mark token used to prevent replay
+    await require('../models/passwordReset.model').markUsedById(pr.id);
+
+    await require('../models/auditLog.model').record({
+      actorId: user.id,
+      action: 'PASSWORD_RESET',
+      entityType: 'user',
+      entityId: user.id,
+      metadata: { via: 'password_reset' },
+      ipAddress: req.ip,
+    });
+
+    return success(res, { message: 'Password has been reset successfully.' });
+  } catch (err) {
+    return next(err);
+  }
+}
+
+module.exports = { register, login, refresh, logout, requestPasswordReset, confirmPasswordReset };

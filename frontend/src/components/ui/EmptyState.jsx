@@ -7,7 +7,7 @@ function EmptyState({ icon = '📭', message = 'No data found.', action }) {
   return (
     <div className="flex flex-col items-center justify-center py-12 text-center">
       <span className="text-4xl" role="img" aria-hidden="true">{icon}</span>
-      <p className="mt-3 text-sm text-gray-500">{message}</p>
+      <p className="mt-3 text-sm text-gray-500 dark:text-slate-400">{message}</p>
       {action && <div className="mt-4">{action}</div>}
     </div>
   );

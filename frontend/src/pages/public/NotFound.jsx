@@ -9,7 +9,7 @@ function NotFound() {
   return (
     <div className="mx-auto flex max-w-md flex-col items-center px-4 py-24 text-center">
       <span className="text-5xl font-bold text-primary-700">404</span>
-      <h1 className="mt-2 text-xl font-semibold text-gray-900">Page Not Found</h1>
+      <h1 className="mt-2 text-xl font-semibold text-gray-900 dark:text-slate-100">Page Not Found</h1>
       <p className="mt-2 text-sm text-gray-600">The page you're looking for doesn't exist or has moved.</p>
       <Link to="/" className="mt-6">
         <Button variant="outline">Back to home</Button>

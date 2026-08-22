@@ -4,35 +4,44 @@
 
 import { Link } from 'react-router-dom';
 import Button from '../../components/common/Button.jsx';
+import { useTranslation } from '../../i18n/LanguageContext.jsx';
+import { useTheme } from '../../theme/ThemeContext.jsx';
 
 function Landing() {
-  return (
-    <div className="mx-auto max-w-3xl px-4 py-16 text-center">
-      <span className="mb-4 inline-block rounded-full bg-secondary-100 px-3 py-1 text-xs font-semibold text-secondary-800">
-        University Graduation Project — Academic Prototype
-      </span>
-      <h1 className="text-3xl font-bold text-gray-900 sm:text-4xl">
-        EthioClear
-      </h1>
-      <p className="mt-3 text-lg text-gray-600">
-        A demonstration of how a criminal record certificate application process could be digitized —
-        from submission and document upload through officer review to certificate issuance.
-      </p>
+  const { t } = useTranslation();
+  const { isDark } = useTheme();
 
-      <div className="mt-8 flex justify-center gap-3">
+  // Explicit text classes to guarantee readable text over the banner regardless of
+  // surrounding layout/theme mismatches. Uses isDark from ThemeContext to pick
+  // the correct foreground color.
+  const headingClass = `relative z-10 text-3xl font-bold ${isDark ? 'text-white' : 'text-gray-900'} sm:text-4xl`;
+  const leadClass = `relative z-10 mt-3 text-lg ${isDark ? 'text-slate-200' : 'text-gray-600'}`;
+  const badgeClass = `relative z-10 mb-4 inline-block rounded-full bg-secondary-100 px-3 py-1 text-xs font-semibold ${isDark ? 'text-secondary-200 dark:bg-secondary-900/30' : 'text-secondary-800'}`;
+  const disclaimerClass = `relative z-10 mt-10 text-xs ${isDark ? 'text-slate-400' : 'text-gray-400'}`;
+
+  return (
+    <div className="mx-auto max-w-3xl px-4 py-16 text-center relative overflow-hidden hero-banner">
+      {/* Overlay to ensure readable text over the banner */}
+      <div className={`absolute inset-0 pointer-events-none ${isDark ? 'bg-gradient-to-b from-slate-900/80 to-transparent' : 'bg-gradient-to-b from-white/80 to-transparent'}`} aria-hidden="true" />
+
+      <span className={badgeClass}>
+        {t('landing.badge')}
+      </span>
+      <h1 className={headingClass}>{t('landing.title')}</h1>
+      <p className={leadClass}>{t('landing.intro')}</p>
+
+      <div className="relative z-10 mt-8 flex justify-center gap-3">
         <Link to="/register">
-          <Button size="lg">Get started</Button>
+          <Button size="lg">{t('landing.getStarted')}</Button>
         </Link>
         <Link to="/login">
           <Button variant="outline" size="lg">
-            Log in
+            {t('landing.login')}
           </Button>
         </Link>
       </div>
 
-      <p className="mt-10 text-xs text-gray-400">
-        This is not a real government system and does not connect to any official database.
-      </p>
+      <p className={disclaimerClass}>{t('landing.disclaimer')}</p>
     </div>
   );
 }

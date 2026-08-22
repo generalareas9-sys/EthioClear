@@ -14,12 +14,12 @@ const SIZE_CLASSES = {
  * @param {string} label - accessible label for screen readers
  * @param {string} colorClass - Tailwind border-color class (defaults to the primary brand color; pass 'border-white' for use on a dark/colored button background)
  */
-function LoadingSpinner({ size = 'md', label = 'Loading…', colorClass = 'border-primary-600' }) {
+function LoadingSpinner({ size = 'md', label = 'Loading…', style = {} }) {
   const sizeClass = SIZE_CLASSES[size] || SIZE_CLASSES.md;
 
   return (
     <div role="status" className="inline-flex items-center justify-center">
-      <span className={`${sizeClass} ${colorClass} animate-spin rounded-full border-t-transparent`} />
+      <span className={`${sizeClass} animate-spin rounded-full border-t-transparent`} style={style} />
       <span className="sr-only">{label}</span>
     </div>
   );

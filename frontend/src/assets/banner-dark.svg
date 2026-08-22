@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Ethiopia-inspired background dark">
+  <defs>
+    <linearGradient id="g1d" x1="0" x2="1">
+      <stop offset="0%" stop-color="#061018" stop-opacity="1" />
+      <stop offset="100%" stop-color="#08121A" stop-opacity="1" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="360" fill="url(#g1d)" />
+
+  <!-- Subtle map-like curve in muted green -->
+  <path d="M120 240c40-30 130-60 220-40 90 20 170 60 260 40 90-20 170-80 260-90" fill="none" stroke="#0F5E2F" stroke-width="26" stroke-linecap="round" stroke-linejoin="round" opacity="0.25" />
+
+  <!-- Faint digital grid -->
+  <g stroke="#0B2A15" stroke-width="1" opacity="0.25">
+    <path d="M0 280 L1200 280" />
+    <path d="M0 300 L1200 300" />
+    <path d="M0 320 L1200 320" />
+  </g>
+
+  <!-- Certificate / badge shape on right, low contrast for subtlety -->
+  <g transform="translate(880,120) scale(1)" opacity="0.2">
+    <rect x="0" y="0" width="200" height="120" rx="8" fill="#0D2E16" stroke="#123A21" stroke-width="1" />
+    <circle cx="34" cy="96" r="18" fill="#1E7F3A" />
+    <polyline points="24,96 34,104 52,84" fill="none" stroke="#DFF6E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+
+  <!-- Decorative shapes -->
+  <g opacity="0.18">
+    <rect x="40" y="20" width="220" height="80" rx="14" fill="#0F2F18" />
+    <rect x="320" y="40" width="260" height="60" rx="12" fill="#071018" />
+  </g>
+</svg>

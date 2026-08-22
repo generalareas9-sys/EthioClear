@@ -20,7 +20,9 @@ function SidebarLinks({ links, isCollapsed }) {
           className={({ isActive }) =>
             [
               'block rounded-md px-3 py-2 text-sm font-medium',
-              isActive ? 'bg-primary-50 text-primary-700' : 'text-gray-700 hover:bg-gray-100',
+              isActive
+                ? 'bg-primary-50 text-primary-700 dark:bg-primary-900/40 dark:text-primary-300'
+                : 'text-gray-700 hover:bg-gray-100 dark:text-slate-200 dark:hover:bg-slate-800',
             ].join(' ')
           }
           title={isCollapsed ? link.label : undefined}
@@ -38,7 +40,7 @@ function Sidebar({ links, isCollapsed, onToggleCollapse, isMobileOpen, onCloseMo
       {/* Desktop sidebar */}
       <aside
         className={[
-          'hidden shrink-0 flex-col border-r border-gray-200 bg-white transition-all duration-200 md:flex',
+          'hidden shrink-0 flex-col border-r border-gray-200 bg-white transition-all duration-200 dark:border-slate-700 dark:bg-slate-900 md:flex',
           isCollapsed ? 'w-16' : 'w-64',
         ].join(' ')}
       >
@@ -47,7 +49,7 @@ function Sidebar({ links, isCollapsed, onToggleCollapse, isMobileOpen, onCloseMo
           type="button"
           onClick={onToggleCollapse}
           aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-          className="border-t border-gray-200 p-3 text-xs font-medium text-gray-500 hover:bg-gray-50"
+          className="border-t border-gray-200 p-3 text-xs font-medium text-gray-500 hover:bg-gray-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
         >
           {isCollapsed ? '»' : '« Collapse'}
         </button>
@@ -57,14 +59,14 @@ function Sidebar({ links, isCollapsed, onToggleCollapse, isMobileOpen, onCloseMo
       {isMobileOpen && (
         <div className="fixed inset-0 z-40 md:hidden">
           <div className="fixed inset-0 bg-black/50" onClick={onCloseMobile} aria-hidden="true" />
-          <aside className="fixed inset-y-0 left-0 z-50 flex w-64 flex-col bg-white shadow-lg">
-            <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3">
+          <aside className="fixed inset-y-0 left-0 z-50 flex w-64 flex-col bg-white shadow-lg dark:bg-slate-900">
+            <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3 dark:border-slate-700">
               <span className="font-semibold text-primary-700">Menu</span>
               <button
                 type="button"
                 onClick={onCloseMobile}
                 aria-label="Close navigation menu"
-                className="rounded p-1 text-gray-400 hover:bg-gray-100"
+                className="rounded p-1 text-gray-400 hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-800"
               >
                 ✕
               </button>

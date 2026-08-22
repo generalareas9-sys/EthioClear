@@ -11,11 +11,17 @@ import DashboardLayout from '../components/layout/DashboardLayout.jsx';
 import ProtectedRoute from './ProtectedRoute.jsx';
 
 import Landing from '../pages/public/Landing.jsx';
+import About from '../pages/public/About.jsx';
+import Information from '../pages/public/Information.jsx';
+import Contact from '../pages/public/Contact.jsx';
+import HelpContactPlus from '../pages/public/HelpContactPlus.jsx';
 import AccessDenied from '../pages/public/AccessDenied.jsx';
 import NotFound from '../pages/public/NotFound.jsx';
 import ErrorPage from '../pages/public/Error.jsx';
 import CertificateVerification from '../pages/public/CertificateVerification.jsx';
 import Login from '../pages/auth/Login.jsx';
+import ForgotPassword from '../pages/auth/ForgotPassword.jsx';
+import ResetPassword from '../pages/auth/ResetPassword.jsx';
 import Register from '../pages/auth/Register.jsx';
 import ApplicantDashboard from '../pages/applicant/ApplicantDashboard.jsx';
 import ApplicationsList from '../pages/applicant/ApplicationsList.jsx';
@@ -41,7 +47,13 @@ function AppRoutes() {
       {/* Public routes */}
       <Route element={<PublicLayout />}>
         <Route path="/" element={<Landing />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/information" element={<Information />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/help" element={<HelpContactPlus />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/register" element={<Register />} />
         <Route path="/403" element={<AccessDenied />} />
         <Route path="/error" element={<ErrorPage />} />

@@ -76,7 +76,7 @@ function Notifications() {
   if (notAvailable) {
     return (
       <div className="mx-auto max-w-xl space-y-4">
-        <h1 className="text-xl font-semibold text-gray-900">Notifications</h1>
+        <h1 className="text-xl font-semibold text-gray-900 dark:text-slate-100">Notifications</h1>
         <Card>
           <EmptyState
             icon="🔔"
@@ -90,7 +90,7 @@ function Notifications() {
   return (
     <div className="mx-auto max-w-xl space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-xl font-semibold text-gray-900">
+        <h1 className="text-xl font-semibold text-gray-900 dark:text-slate-100">
           Notifications{unreadCount > 0 && <span className="ml-2 rounded-full bg-primary-600 px-2 py-0.5 text-xs font-bold text-white">{unreadCount}</span>}
         </h1>
         {unreadCount > 0 && (
@@ -119,14 +119,14 @@ function Notifications() {
               {notifications.map((n) => (
                 <li
                   key={n.id}
-                  className={`flex items-start justify-between gap-3 px-4 py-3 text-sm ${n.is_read ? '' : 'bg-primary-50'}`}
+                  className={`flex items-start justify-between gap-3 px-4 py-3 text-sm ${n.is_read ? '' : 'bg-primary-50 dark:bg-primary-900/20'}`}
                 >
                   <div className="min-w-0 flex-1">
-                    <p className={`font-medium ${n.is_read ? 'text-gray-700' : 'text-gray-900'}`}>
+                    <p className={`font-medium ${n.is_read ? 'text-gray-700 dark:text-slate-200' : 'text-gray-900 dark:text-slate-100'}`}>
                       {n.title}
                     </p>
-                    <p className="mt-0.5 text-gray-600">{n.message}</p>
-                    <p className="mt-1 text-xs text-gray-400">{formatDateTime(n.created_at)}</p>
+                                        <p className="mt-0.5 text-gray-600 dark:text-slate-300">{n.message}</p>
+                                        <p className="mt-1 text-xs text-gray-400 dark:text-slate-400">{formatDateTime(n.created_at)}</p>
                   </div>
                   {!n.is_read && (
                     <button

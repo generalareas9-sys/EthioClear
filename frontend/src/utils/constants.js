@@ -30,6 +30,8 @@ export const STORAGE_KEYS = Object.freeze({
   ACCESS_TOKEN: 'ethioclear_access_token',
   REFRESH_TOKEN: 'ethioclear_refresh_token',
   CURRENT_USER: 'ethioclear_current_user',
+  APP_LANGUAGE: 'ethioclear_language',
+  APP_THEME: 'ethioclear_theme',
 });
 
 // ---------------------------------------------------------------------

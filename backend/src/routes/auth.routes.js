@@ -68,9 +68,30 @@ const refreshValidators = [body('refreshToken').notEmpty().withMessage('Refresh 
 
 const logoutValidators = [body('refreshToken').notEmpty().withMessage('Refresh token is required.')];
 
+const passwordResetRequestValidators = [
+  body('email').trim().notEmpty().withMessage('Email is required.').isEmail().withMessage('A valid email is required.').normalizeEmail(),
+];
+
+const passwordResetConfirmValidators = [
+  body('token').notEmpty().withMessage('Reset token is required.'),
+  body('password')
+    .isLength({ min: 8 })
+    .withMessage('Password must be at least 8 characters long.')
+    .matches(/[A-Z]/)
+    .withMessage('Password must contain at least one uppercase letter.')
+    .matches(/[a-z]/)
+    .withMessage('Password must contain at least one lowercase letter.')
+    .matches(/[0-9]/)
+    .withMessage('Password must contain at least one number.'),
+];
+
 router.post('/register', authRateLimiter, registerValidators, validate, authController.register);
 router.post('/login', authRateLimiter, loginValidators, validate, authController.login);
 router.post('/refresh', authRateLimiter, refreshValidators, validate, authController.refresh);
 router.post('/logout', authenticate, logoutValidators, validate, authController.logout);
+
+// Password reset flows
+router.post('/password-reset/request', authRateLimiter, passwordResetRequestValidators, validate, authController.requestPasswordReset);
+router.post('/password-reset/confirm', authRateLimiter, passwordResetConfirmValidators, validate, authController.confirmPasswordReset);
 
 module.exports = router;

@@ -10,31 +10,34 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth.js';
+import { useTranslation } from '../../i18n/LanguageContext.jsx';
 import { ROLE_DASHBOARD_PATHS } from '../../utils/constants.js';
 import { parseApiError } from '../../utils/parseApiError.js';
 import { isValidEmail, isRequired } from '../../utils/validators.js';
 import Card from '../../components/common/Card.jsx';
 import Input from '../../components/common/Input.jsx';
 import Button from '../../components/common/Button.jsx';
+import PasswordInput from '../../components/common/PasswordInput.jsx';
 
 /** Client-side validation — just enough to avoid an obviously-doomed network request. */
-function validate(formData) {
-  const errors = {};
-  if (!isRequired(formData.email)) {
-    errors.email = 'Email is required.';
-  } else if (!isValidEmail(formData.email)) {
-    errors.email = 'Enter a valid email address.';
-  }
-  if (!isRequired(formData.password)) {
-    errors.password = 'Password is required.';
-  }
-  return errors;
-}
-
 function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useTranslation();
+
+  function validate(formData) {
+    const errors = {};
+    if (!isRequired(formData.email)) {
+      errors.email = t('auth.validation.emailRequired');
+    } else if (!isValidEmail(formData.email)) {
+      errors.email = t('auth.validation.emailInvalid');
+    }
+    if (!isRequired(formData.password)) {
+      errors.password = t('auth.validation.passwordRequired');
+    }
+    return errors;
+  }
 
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [fieldErrors, setFieldErrors] = useState({});
@@ -85,10 +88,10 @@ function Login() {
 
   return (
     <div className="mx-auto flex max-w-md flex-col justify-center px-4 py-16">
-      <Card title="Log in to EthioClear">
+      <Card title={t('auth.loginTitle')}>
         {justRegistered && (
           <div className="mb-4 rounded-md bg-secondary-50 px-3 py-2 text-sm text-secondary-800">
-            Registration successful. You may now log in.
+            {t('auth.registrationSuccessful')}
           </div>
         )}
 
@@ -100,7 +103,7 @@ function Login() {
 
         <form className="space-y-4" onSubmit={handleSubmit} noValidate>
           <Input
-            label="Email address"
+            label={t('auth.email')}
             name="email"
             type="email"
             placeholder="you@example.com"
@@ -109,27 +112,35 @@ function Login() {
             error={fieldErrors.email}
             required
           />
-          <Input
-            label="Password"
-            name="password"
-            type="password"
-            placeholder="••••••••"
-            value={formData.password}
-            onChange={handleChange}
-            error={fieldErrors.password}
-            required
-          />
-          <Button type="submit" fullWidth isLoading={isSubmitting}>
-            Log in
-          </Button>
-        </form>
+                {/* Password with visibility toggle and accessible labels */}
+                <div className="flex items-center justify-between">
+                  <label className="text-sm text-[var(--site-foreground)] font-medium">{t('auth.password')}</label>
+                  <Link to="/forgot-password" className="text-sm text-primary-700 hover:underline">
+                    Forgot password?
+                  </Link>
+                </div>
 
-        <p className="mt-4 text-center text-sm text-gray-500">
-          Don&apos;t have an account?{' '}
-          <Link to="/register" className="font-medium text-primary-700 hover:underline">
-            Register
-          </Link>
-        </p>
+                <PasswordInput
+                  label={null}
+                  name="password"
+                  placeholder="••••••••"
+                  value={formData.password}
+                  onChange={handleChange}
+                  error={fieldErrors.password}
+                  required
+                />
+
+                <Button type="submit" fullWidth isLoading={isSubmitting}>
+                  {t('auth.loginButton')}
+                </Button>
+              </form>
+
+              <p className="mt-4 text-center text-sm text-gray-500">
+                {t('auth.noAccount')}{' '}
+                <Link to="/register" className="font-medium text-primary-700 hover:underline">
+                  {t('auth.signUp')}
+                </Link>
+              </p>
       </Card>
     </div>
   );
