@@ -1,0 +1,28 @@
+# Environment
+.env
+
+# Dependencies
+node_modules/
+
+# Runtime file storage (keep folder structure via .gitkeep, ignore contents)
+storage/uploads/*
+storage/certificates/*
+storage/temp/*
+!storage/uploads/.gitkeep
+!storage/certificates/.gitkeep
+!storage/temp/.gitkeep
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Test coverage
+coverage/
