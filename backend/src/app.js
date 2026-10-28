@@ -20,6 +20,10 @@ const routes = require('./routes');
 
 const app = express();
 
+// Render places exactly one reverse proxy in front of the app.
+// Trust it so req.ip reflects the real client (needed for rate limiting).
+app.set('trust proxy', 1);
+
 // ---------------------------------------------------------------------
 // Security headers
 // ---------------------------------------------------------------------
