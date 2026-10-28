@@ -54,6 +54,7 @@ function Register() {
   const [formData, setFormData] = useState(INITIAL_FORM);
   const [fieldErrors, setFieldErrors] = useState({});
   const [formError, setFormError] = useState('');
+  const [isConflict, setIsConflict] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   function handleChange(event) {
@@ -62,11 +63,16 @@ function Register() {
     if (fieldErrors[name]) {
       setFieldErrors((prev) => ({ ...prev, [name]: undefined }));
     }
+    if (formError) {
+      setFormError('');
+      setIsConflict(false);
+    }
   }
 
   async function handleSubmit(event) {
     event.preventDefault();
     setFormError('');
+    setIsConflict(false);
 
     // Client-side validation first — only hit the network if the form
     // is well-formed. The backend still re-validates independently.
@@ -87,6 +93,8 @@ function Register() {
       navigate('/login', { state: { registered: true } });
     } catch (error) {
       const { message, fieldErrors: apiFieldErrors } = parseApiError(error);
+      const is409 = error?.response?.status === 409;
+      setIsConflict(is409);
       setFormError(message);
       setFieldErrors(apiFieldErrors);
     } finally {
@@ -99,7 +107,21 @@ function Register() {
       <Card title={t('auth.createAccount')}>
         {formError && (
           <div role="alert" className="mb-4 rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
-            {formError}
+            {isConflict ? (
+              <span>
+                We couldn&#39;t complete registration with these details. If you already registered, you can{' '}
+                <Link to="/login" className="font-semibold underline hover:text-red-900">
+                  log in
+                </Link>{' '}
+                or{' '}
+                <Link to="/forgot-password" className="font-semibold underline hover:text-red-900">
+                  reset your password
+                </Link>
+                .
+              </span>
+            ) : (
+              formError
+            )}
           </div>
         )}
 
