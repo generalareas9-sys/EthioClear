@@ -1,0 +1,10 @@
+$kind: collection
+name: New Collection
+description: ""
+variables:
+  - key: supabase_service_role_api_key_0wrr
+    secret: true
+    disabled: false
+  - key: json_web_token_1b3d
+    secret: true
+    disabled: false
