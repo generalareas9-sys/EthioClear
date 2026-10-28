@@ -1,0 +1,38 @@
+{
+  "name": "ethioclear-backend",
+  "version": "0.1.0",
+  "description": "EthioClear — university prototype backend (Criminal Record Certificate Management System). Academic project only; not a real government system.",
+  "main": "src/server.js",
+  "private": true,
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test": "jest --runInBand",
+    "db:schema": "psql -U $PGUSER -d $PGDATABASE -f src/database/schema.sql",
+    "db:seed": "psql -U $PGUSER -d $PGDATABASE -f src/database/seed.sql"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.4.0",
+    "express-validator": "^7.2.0",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "pdfkit": "^0.15.0",
+    "pg": "^8.12.0",
+    "qrcode": "^1.5.4",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.4",
+    "supertest": "^7.0.0"
+  }
+}
