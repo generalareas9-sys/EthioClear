@@ -1,24 +1,36 @@
 // src/components/ui/Pagination.jsx
-// Simple previous/next pagination control. Generic — takes the
-// current page, total pages, and a change handler; used by
-// ApplicationsList.jsx and reusable later for officer/admin lists.
+// Responsive pagination controls with min-44px touch targets.
 
 import Button from '../common/Button.jsx';
 
-function Pagination({ page, totalPages, onPageChange }) {
+function Pagination({ page, totalPages, onPageChange, isLoading = false }) {
   if (totalPages <= 1) return null;
 
   return (
-    <div className="flex items-center justify-between border-t border-gray-200 px-2 py-3">
-      <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => onPageChange(page - 1)}>
-        Previous
-      </Button>
-      <span className="text-sm text-gray-600">
-        Page {page} of {totalPages}
-      </span>
-      <Button variant="outline" size="sm" disabled={page >= totalPages} onClick={() => onPageChange(page + 1)}>
-        Next
-      </Button>
+    <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4 border-t border-border-theme">
+      <p className="text-xs text-text-muted font-medium">
+        Page <span className="font-bold text-text-primary">{page}</span> of{' '}
+        <span className="font-bold text-text-primary">{totalPages}</span>
+      </p>
+
+      <div className="flex items-center gap-2">
+        <Button
+          variant="outline"
+          size="sm"
+          disabled={page <= 1 || isLoading}
+          onClick={() => onPageChange(page - 1)}
+        >
+          ‹ Previous
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          disabled={page >= totalPages || isLoading}
+          onClick={() => onPageChange(page + 1)}
+        >
+          Next ›
+        </Button>
+      </div>
     </div>
   );
 }
