@@ -1,16 +1,16 @@
 // src/components/common/Card.jsx
-// Simple bordered container used throughout the dashboards for
-// grouping content (stat tiles, forms, list items, etc.).
+// Bordered container with theme tokens and flexible padding for responsive layouts.
 
-function Card({ title, children, className = '', bodyClassName = '' }) {
+function Card({ title, children, className = '', bodyClassName = '', headerRight = null }) {
   return (
-    <div className={`rounded-lg border border-gray-200 bg-[var(--site-bg-weak)] shadow-sm dark:border-slate-700 dark:bg-slate-900 ${className}`}>
+    <div className={`rounded-xl border border-border-theme bg-card text-text-primary shadow-sm transition-colors duration-150 ${className}`}>
       {title && (
-        <div className="border-b border-gray-200 px-4 py-3 dark:border-slate-700">
-          <h3 className="text-sm font-semibold text-[var(--site-foreground)]">{title}</h3>
+        <div className="flex items-center justify-between border-b border-border-theme px-4 py-3 sm:px-6">
+          <h3 className="text-base font-semibold text-text-primary">{title}</h3>
+          {headerRight && <div>{headerRight}</div>}
         </div>
       )}
-      <div className={`p-4 ${bodyClassName}`}>{children}</div>
+      <div className={`p-4 sm:p-6 ${bodyClassName}`}>{children}</div>
     </div>
   );
 }
