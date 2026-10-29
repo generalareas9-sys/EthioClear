@@ -61,42 +61,7 @@ const INITIAL_FORM = {
 function Logo({ size = 34 }) {
   return (
     <div className="flex items-center gap-2.5">
-      <svg
-        width={size}
-        height={size}
-        viewBox="0 0 44 44"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        aria-hidden="true"
-      >
-        <rect x="3" y="2" width="26" height="34" rx="3" fill="#0f2d6b" />
-        <path d="M25 2 L29 6 L25 6 Z" fill="#162f7a" />
-        <rect x="8" y="10" width="15" height="2.5" rx="1.25" fill="#d4a843" />
-        <rect x="8" y="16" width="13" height="1.5" rx="0.75" fill="rgba(255,255,255,0.5)" />
-        <rect x="8" y="20" width="15" height="1.5" rx="0.75" fill="rgba(255,255,255,0.4)" />
-        <rect x="8" y="24" width="11" height="1.5" rx="0.75" fill="rgba(255,255,255,0.4)" />
-        <rect x="8" y="28" width="14" height="1.5" rx="0.75" fill="rgba(255,255,255,0.4)" />
-        <rect x="3" y="34" width="8.5" height="2" fill="#078930" />
-        <rect x="11.5" y="34" width="8.5" height="2" fill="#fcdd09" />
-        <rect x="20" y="34" width="9" height="2" fill="#da121a" />
-        <circle cx="33" cy="33" r="11" fill="white" />
-        <circle cx="33" cy="33" r="10" fill="#16a34a" />
-        <path
-          d="M27.5 33 L31 36.5 L38.5 29"
-          stroke="white"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-      <div className="leading-none text-left">
-        <div className="font-bold tracking-tight text-lg leading-tight text-[#0f2d6b] dark:text-blue-200">
-          Ethio<span className="text-[#b8860b] dark:text-amber-400">Clear</span>
-        </div>
-        <div className="text-[9px] font-semibold tracking-[0.08em] uppercase text-slate-500 dark:text-slate-400">
-          Certificate System
-        </div>
-      </div>
+      <img src="/logo.svg" alt="EthioClear" className="h-8 w-auto object-contain" />
     </div>
   );
 }
@@ -383,17 +348,17 @@ export default function Register() {
     formData.agreeTerms;
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#f4f6f9] dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans">
+    <div className="min-h-screen flex flex-col bg-app text-text-primary font-sans transition-colors duration-150">
       {/* Top Header */}
-      <header className="flex items-center justify-between px-4 sm:px-8 py-3.5 bg-white dark:bg-slate-900 border-b border-gray-100 dark:border-slate-800">
-        <Link to="/" className="focus:outline-none focus:ring-2 focus:ring-[#0f2d6b] rounded-lg p-1">
+      <header className="flex items-center justify-between px-4 sm:px-8 py-3.5 bg-header border-b border-border-theme">
+        <Link to="/" className="focus:outline-none focus:ring-2 focus:ring-primary-600 rounded-lg p-1">
           <Logo size={32} />
         </Link>
-        <p className="text-sm text-slate-500 dark:text-slate-400">
+        <p className="text-xs sm:text-sm text-text-muted">
           Already have an account?{' '}
           <Link
             to="/login"
-            className="font-semibold text-[#0f2d6b] dark:text-blue-400 hover:underline focus:outline-none focus:underline"
+            className="font-semibold text-primary-600 hover:text-primary-700 dark:text-primary-400 hover:underline"
           >
             Sign In
           </Link>
@@ -469,7 +434,7 @@ export default function Register() {
           </nav>
 
           {/* Wizard Card */}
-          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-[0_2px_12px_rgba(0,0,0,0.06)] dark:shadow-none p-6 sm:p-8">
+          <div className="bg-card text-text-primary rounded-2xl border border-border-theme shadow-lg p-5 sm:p-8">
             {/* General / Conflict Alert Box */}
             {formError && (
               <div
