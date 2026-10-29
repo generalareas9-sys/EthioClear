@@ -1,11 +1,5 @@
 // src/pages/auth/Login.jsx
-// Functional login page (frontend Module 2). Validates input
-// client-side first, then submits credentials to the backend via
-// AuthContext.login(), shows field/general validation errors returned
-// by the API, shows a loading state on the submit button, and
-// redirects by role once logged in (or back to whatever protected
-// page the user originally tried to visit — see routes/ProtectedRoute.jsx,
-// which sets location.state.from).
+// Mobile-first responsive login form with theme tokens and accessible states.
 
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -19,7 +13,6 @@ import Input from '../../components/common/Input.jsx';
 import Button from '../../components/common/Button.jsx';
 import PasswordInput from '../../components/common/PasswordInput.jsx';
 
-/** Client-side validation — just enough to avoid an obviously-doomed network request. */
 function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -44,14 +37,11 @@ function Login() {
   const [formError, setFormError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // If the person just registered, Register.jsx sends them here with
-  // this flag so we can show a friendly confirmation banner.
   const justRegistered = Boolean(location.state?.registered);
 
   function handleChange(event) {
     const { name, value } = event.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    // Clear that field's error as soon as the person starts fixing it.
     if (fieldErrors[name]) {
       setFieldErrors((prev) => ({ ...prev, [name]: undefined }));
     }
@@ -71,9 +61,6 @@ function Login() {
 
     try {
       const user = await login(formData.email, formData.password);
-
-      // Prefer sending the user back to the page they originally
-      // tried to reach; otherwise send them to their role's dashboard.
       const from = location.state?.from?.pathname;
       const destination = from || ROLE_DASHBOARD_PATHS[user.role] || '/';
       navigate(destination, { replace: true });
@@ -87,16 +74,16 @@ function Login() {
   }
 
   return (
-    <div className="mx-auto flex max-w-md flex-col justify-center px-4 py-16">
-      <Card title={t('auth.loginTitle')}>
+    <div className="mx-auto flex w-full max-w-md flex-col justify-center px-4 py-8 sm:py-16">
+      <Card title={t('auth.loginTitle')} className="shadow-lg">
         {justRegistered && (
-          <div className="mb-4 rounded-md bg-secondary-50 px-3 py-2 text-sm text-secondary-800">
+          <div className="mb-4 rounded-lg bg-secondary-50 dark:bg-secondary-950/40 border border-secondary-200 dark:border-secondary-900/50 px-4 py-3 text-sm text-secondary-800 dark:text-secondary-300">
             {t('auth.registrationSuccessful')}
           </div>
         )}
 
         {formError && (
-          <div role="alert" className="mb-4 rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
+          <div role="alert" className="mb-4 rounded-lg bg-red-500/10 border border-red-500/20 px-4 py-3 text-sm text-red-600 dark:text-red-400 font-medium">
             {formError}
           </div>
         )}
@@ -112,35 +99,41 @@ function Login() {
             error={fieldErrors.email}
             required
           />
-                {/* Password with visibility toggle and accessible labels */}
-                <div className="flex items-center justify-between">
-                  <label className="text-sm text-[var(--site-foreground)] font-medium">{t('auth.password')}</label>
-                  <Link to="/forgot-password" className="text-sm text-primary-700 hover:underline">
-                    Forgot password?
-                  </Link>
-                </div>
 
-                <PasswordInput
-                  label={null}
-                  name="password"
-                  placeholder="••••••••"
-                  value={formData.password}
-                  onChange={handleChange}
-                  error={fieldErrors.password}
-                  required
-                />
+          <div>
+            <div className="mb-1.5 flex items-center justify-between">
+              <label className="text-xs sm:text-sm font-medium text-text-primary">
+                {t('auth.password')}
+              </label>
+              <Link to="/forgot-password" className="text-xs font-semibold text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:underline">
+                Forgot password?
+              </Link>
+            </div>
 
-                <Button type="submit" fullWidth isLoading={isSubmitting}>
-                  {t('auth.loginButton')}
-                </Button>
-              </form>
+            <PasswordInput
+              label={null}
+              name="password"
+              placeholder="••••••••"
+              value={formData.password}
+              onChange={handleChange}
+              error={fieldErrors.password}
+              required
+            />
+          </div>
 
-              <p className="mt-4 text-center text-sm text-gray-500">
-                {t('auth.noAccount')}{' '}
-                <Link to="/register" className="font-medium text-primary-700 hover:underline">
-                  {t('auth.signUp')}
-                </Link>
-              </p>
+          <div className="pt-2">
+            <Button type="submit" fullWidth size="lg" isLoading={isSubmitting}>
+              {t('auth.loginButton')}
+            </Button>
+          </div>
+        </form>
+
+        <p className="mt-6 text-center text-sm text-text-muted">
+          {t('auth.noAccount')}{' '}
+          <Link to="/register" className="font-semibold text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:underline">
+            {t('auth.signUp')}
+          </Link>
+        </p>
       </Card>
     </div>
   );
