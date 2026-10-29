@@ -1,10 +1,9 @@
 // src/components/common/Modal.jsx
-// Reusable modal dialog. Closes on Escape key or backdrop click.
-// Controlled entirely by the parent via `isOpen` / `onClose`.
+// Reusable modal dialog with internal scrolling, responsive sizing, and full keyboard escape support.
 
 import { useEffect } from 'react';
 
-function Modal({ isOpen, onClose, title, children, footer }) {
+function Modal({ isOpen, onClose, title, children, footer, maxWidth = 'max-w-lg' }) {
   // Close on Escape key while the modal is open.
   useEffect(() => {
     if (!isOpen) return undefined;
@@ -21,32 +20,41 @@ function Modal({ isOpen, onClose, title, children, footer }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 overflow-y-auto animate-in fade-in duration-150"
       role="dialog"
       aria-modal="true"
       aria-label={title}
       onClick={onClose}
     >
       <div
-        className="w-full max-w-md rounded-lg bg-[var(--site-bg-weak)] shadow-lg dark:bg-slate-900 dark:text-slate-100"
+        className={`w-full ${maxWidth} my-8 flex flex-col rounded-2xl border border-border-theme bg-surface text-text-primary shadow-2xl max-h-[90vh] overflow-hidden animate-in zoom-in-95 duration-150`}
         // Stop backdrop click-to-close from firing when clicking inside the dialog itself.
         onClick={(event) => event.stopPropagation()}
       >
-        <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3 dark:border-slate-700">
-          <h2 className="text-base font-semibold text-[var(--site-foreground)]">{title}</h2>
+        {/* Header */}
+        <div className="flex items-center justify-between border-b border-border-theme px-5 py-4 shrink-0">
+          <h2 className="text-base sm:text-lg font-semibold text-text-primary">{title}</h2>
           <button
             type="button"
             onClick={onClose}
             aria-label="Close dialog"
-            className="rounded p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-slate-800 dark:hover:text-slate-200"
+            className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-text-muted hover:bg-card-subtle hover:text-text-primary transition-colors focus-visible:outline-primary-600"
           >
             ✕
           </button>
         </div>
 
-        <div className="px-4 py-4">{children}</div>
+        {/* Scrollable Body */}
+        <div className="px-5 py-5 overflow-y-auto flex-1 text-sm leading-relaxed text-text-secondary">
+          {children}
+        </div>
 
-        {footer && <div className="flex justify-end gap-2 border-t border-gray-200 px-4 py-3 dark:border-slate-700">{footer}</div>}
+        {/* Footer */}
+        {footer && (
+          <div className="flex flex-wrap items-center justify-end gap-2.5 border-t border-border-theme px-5 py-3.5 bg-card-subtle/50 shrink-0">
+            {footer}
+          </div>
+        )}
       </div>
     </div>
   );
