@@ -1,76 +1,77 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 260" width="900" height="260" role="img" aria-label="EthioClear logo">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 950 250" width="950" height="250" role="img" aria-label="EthioClear Logo">
   <defs>
+    <!-- Shield Subtle Gradient (#1E6FE8 to #0B2A6F) -->
     <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#2563EB;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#1B2A6B;stop-opacity:1" />
+      <stop offset="0%" stop-color="#1E6FE8" />
+      <stop offset="100%" stop-color="#0B2A6F" />
     </linearGradient>
-    <clipPath id="docClip">
-      <rect x="0" y="0" width="900" height="260"/>
-    </clipPath>
   </defs>
 
-  <!-- ═══════════════════════════════════════════════
-       ICON GROUP  (centered vertically at y=130)
-       ═══════════════════════════════════════════════ -->
+  <!-- ==========================================
+       SYMBOL (Left Side)
+       Centered vertically around y=125
+       ========================================== -->
+  <g transform="translate(10, 15)">
+    <!-- Three smooth ribbons sweeping up from bottom-left behind document -->
+    <!-- Green (#0E8A3E) -->
+    <path d="M 22 200 C 35 125 75 75 130 52 C 112 75 75 130 65 200 Z" fill="#0E8A3E" />
+    <!-- Yellow (#FCCB0B) -->
+    <path d="M 12 205 C 28 140 65 92 115 72 C 98 94 65 145 52 205 Z" fill="#FCCB0B" />
+    <!-- Red (#E11D1D) -->
+    <path d="M 2 210 C 20 155 55 110 102 92 C 85 115 52 165 40 210 Z" fill="#E11D1D" />
 
-  <!-- Ethiopian ribbon swooshes — thin elegant arcs behind the document -->
-  <!-- Green ribbon -->
-  <path d="M 30,195 Q 60,100 130,60" stroke="#078930" stroke-width="11" fill="none" stroke-linecap="round"/>
-  <!-- Yellow ribbon -->
-  <path d="M 20,210 Q 55,115 125,72" stroke="#FCDD09" stroke-width="10" fill="none" stroke-linecap="round"/>
-  <!-- Red ribbon -->
-  <path d="M 10,225 Q 50,130 120,85" stroke="#DA121A" stroke-width="10" fill="none" stroke-linecap="round"/>
+    <!-- Document Frame & Shape (White with folded top-right corner) -->
+    <g transform="translate(68, 18)">
+      <!-- Document Outer Navy Frame/Shadow -->
+      <path d="M 6 0 L 100 0 L 138 38 L 138 174 C 138 180 134 184 128 184 L 6 184 C 0 184 -4 180 -4 174 L -4 10 C -4 4 0 0 6 0 Z" fill="#0B2A6F" />
+      
+      <!-- Document Body (White) -->
+      <path d="M 10 4 L 98 4 L 134 40 L 134 170 C 134 174 130 178 126 178 L 10 178 C 6 178 2 174 2 170 L 2 12 C 2 8 6 4 10 4 Z" fill="#FFFFFF" />
 
-  <!-- Document body — white with navy border, folded top-right corner -->
-  <g transform="translate(55, 38)">
-    <!-- Main document rectangle -->
-    <path d="M 8,0 L 120,0 L 148,28 L 148,185 Q 148,193 140,193 L 8,193 Q 0,193 0,185 L 0,8 Q 0,0 8,0 Z"
-          fill="white" stroke="#1B2A6B" stroke-width="5"/>
-    <!-- Folded corner triangle -->
-    <path d="M 120,0 L 148,28 L 120,28 Z" fill="#CBD5E1" stroke="#1B2A6B" stroke-width="3"/>
-    <!-- Document lines -->
-    <rect x="20" y="55"  width="90" height="10" rx="5" fill="#1B2A6B" opacity="0.85"/>
-    <rect x="20" y="78"  width="90" height="10" rx="5" fill="#1B2A6B" opacity="0.85"/>
-    <rect x="20" y="101" width="72" height="10" rx="5" fill="#1B2A6B" opacity="0.85"/>
-    <rect x="20" y="124" width="55" height="10" rx="5" fill="#2563EB" opacity="0.6"/>
+      <!-- Folded Corner Triangle (Bright Blue #1E6FE8) -->
+      <path d="M 98 4 L 134 40 L 98 40 Z" fill="#1E6FE8" />
+
+      <!-- Three Navy Text Lines (#0B2A6F) -->
+      <rect x="24" y="60" width="76" height="13" rx="6.5" fill="#0B2A6F" />
+      <rect x="24" y="85" width="76" height="13" rx="6.5" fill="#0B2A6F" />
+      <rect x="24" y="110" width="54" height="13" rx="6.5" fill="#0B2A6F" />
+    </g>
+
+    <!-- Verification Shield (Overlapping lower-right of document) -->
+    <g transform="translate(142, 110)">
+      <!-- White Outer Border / Outline for Contrast -->
+      <path d="M 44 0 L 88 18 L 88 56 C 88 94 44 112 44 112 C 44 112 0 94 0 56 L 0 18 Z" fill="#FFFFFF" />
+
+      <!-- Shield Body with Gradient (#1E6FE8 -> #0B2A6F) -->
+      <path d="M 44 6 L 82 22 L 82 56 C 82 89 44 104 44 104 C 44 104 6 89 6 56 L 6 22 Z" fill="url(#shieldGrad)" />
+
+      <!-- Bold White Checkmark -->
+      <path d="M 24 53 L 37 67 L 64 36" fill="none" stroke="#FFFFFF" stroke-width="9.5" stroke-linecap="round" stroke-linejoin="round" />
+    </g>
   </g>
 
-  <!-- Verification shield overlapping bottom-right of document -->
-  <g transform="translate(138, 118)">
-    <!-- Shield shape -->
-    <path d="M 52,0 L 104,20 L 104,60 Q 104,100 52,115 Q 0,100 0,60 L 0,20 Z"
-          fill="url(#shieldGrad)" stroke="white" stroke-width="4"/>
-    <!-- White checkmark -->
-    <polyline points="24,58 44,78 82,36"
-              fill="none" stroke="white" stroke-width="11"
-              stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- ==========================================
+       WORDMARK & TAGLINE (Right Side)
+       ========================================== -->
+  <g transform="translate(265, 0)">
+    <!-- Wordmark: "Ethio" in #0B2A6F, "Clear" in #1E6FE8 -->
+    <text x="0" y="125" font-family="'Outfit', 'Montserrat', 'Poppins', 'Segoe UI', sans-serif" font-weight="800" font-size="88" letter-spacing="-1">
+      <tspan fill="#0B2A6F">Ethio</tspan><tspan fill="#1E6FE8">Clear</tspan>
+    </text>
+
+    <!-- Tagline: "Your Criminal Record Certificate, Simplified" in Medium-Weight Navy -->
+    <text x="4" y="166" font-family="'Outfit', 'Montserrat', 'Poppins', 'Segoe UI', sans-serif" font-weight="500" font-size="22.5" fill="#0B2A6F" letter-spacing="0.2">
+      Your Criminal Record Certificate, Simplified
+    </text>
+
+    <!-- Accent Line: Split into Green, Yellow, and Red segments -->
+    <g transform="translate(4, 185)">
+      <!-- Green segment (#0E8A3E) -->
+      <rect x="0" y="0" width="170" height="4" rx="2" fill="#0E8A3E" />
+      <!-- Yellow segment (#FCCB0B) -->
+      <rect x="178" y="0" width="170" height="4" rx="2" fill="#FCCB0B" />
+      <!-- Red segment (#E11D1D) -->
+      <rect x="356" y="0" width="170" height="4" rx="2" fill="#E11D1D" />
+    </g>
   </g>
-
-  <!-- ═══════════════════════════════════════════════
-       TEXT GROUP
-       ═══════════════════════════════════════════════ -->
-
-  <!-- Brand name: "Ethio" navy + "Clear" bright blue -->
-  <text x="285" y="148"
-        font-family="'Montserrat','Poppins','Segoe UI',Arial,sans-serif"
-        font-size="96" font-weight="800" letter-spacing="-1">
-    <tspan fill="#1B2A6B">Ethio</tspan><tspan fill="#2563EB">Clear</tspan>
-  </text>
-
-  <!-- Tagline -->
-  <text x="288" y="182"
-        font-family="'Montserrat','Poppins','Segoe UI',Arial,sans-serif"
-        font-size="22" font-weight="400" fill="#1B2A6B" letter-spacing="0.3">
-    Your Criminal Record Certificate, Simplified.
-  </text>
-
-  <!-- Decorative divider: green line — gold star — red line -->
-  <!-- Green left line -->
-  <line x1="290" y1="206" x2="555" y2="206" stroke="#078930" stroke-width="2.5" stroke-linecap="round"/>
-  <!-- Red right line -->
-  <line x1="585" y1="206" x2="850" y2="206" stroke="#DA121A" stroke-width="2.5" stroke-linecap="round"/>
-  <!-- Gold 5-pointed star at center -->
-  <polygon points="570,197 573,204 581,204 575,209 577,217 570,212 563,217 565,209 559,204 567,204"
-           fill="#FCDD09"/>
 </svg>
-
