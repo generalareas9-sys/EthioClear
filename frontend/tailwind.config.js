@@ -15,6 +15,20 @@ export default {
   theme: {
     extend: {
       colors: {
+        app: 'var(--color-bg-app)',
+        surface: 'var(--color-bg-surface)',
+        card: 'var(--color-bg-card)',
+        'card-subtle': 'var(--color-bg-subtle)',
+        header: 'var(--color-bg-header)',
+        
+        'border-theme': 'var(--color-border)',
+        'border-subtle': 'var(--color-border-subtle)',
+        'border-focus': 'var(--color-border-focus)',
+
+        'text-primary': 'var(--color-text-primary)',
+        'text-secondary': 'var(--color-text-secondary)',
+        'text-muted': 'var(--color-text-muted)',
+
         primary: {
           50: '#EFF6FF',
           100: '#DBEAFE',
