@@ -1,12 +1,5 @@
 // tailwind.config.js
 // Tailwind CSS configuration for EthioClear.
-//
-// Color palette: "primary" (blue) and "secondary" (green) are defined
-// as full 50–900 scales so components have room for hover/active/
-// disabled states, not just one flat brand color. The 700-shade of
-// each intentionally matches the colors already used in the
-// certificate PDF (Module 8: #1D4ED8 blue banner text, #15803D green
-// subtitle) so a certificate and the web portal read as one product.
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -29,6 +22,31 @@ export default {
         'text-secondary': 'var(--color-text-secondary)',
         'text-muted': 'var(--color-text-muted)',
 
+        gold: {
+          50: '#fdfbf0',
+          100: '#faf5dc',
+          200: '#f3e8ae',
+          300: '#ebd67b',
+          400: '#e1be47',
+          500: '#d4a017',
+          600: '#b8860b',
+          700: '#92650c',
+          800: '#775010',
+          900: '#644212',
+        },
+        navy: {
+          50: '#f0f4fa',
+          100: '#dce6f4',
+          200: '#bdd1ec',
+          300: '#90b4e0',
+          400: '#5c90cf',
+          500: '#3972bc',
+          600: '#2858a3',
+          700: '#214684',
+          800: '#1e3c6d',
+          900: '#0f2a6b',
+          950: '#0a1945',
+        },
         primary: {
           50: '#EFF6FF',
           100: '#DBEAFE',
@@ -37,7 +55,7 @@ export default {
           400: '#60A5FA',
           500: '#3B82F6',
           600: '#2563EB',
-          700: '#1D4ED8', // matches certificate PDF header color
+          700: '#1D4ED8',
           800: '#1E40AF',
           900: '#1E3A8A',
         },
@@ -49,24 +67,15 @@ export default {
           400: '#4ADE80',
           500: '#22C55E',
           600: '#16A34A',
-          700: '#15803D', // matches certificate PDF subtitle color
+          700: '#15803D',
           800: '#166534',
           900: '#14532D',
         },
       },
       fontFamily: {
-        // System font stack: fast, accessible, no external font
-        // requests — appropriate for a government-style portal.
-        sans: [
-          'ui-sans-serif',
-          'system-ui',
-          '-apple-system',
-          'Segoe UI',
-          'Roboto',
-          'Helvetica Neue',
-          'Arial',
-          'sans-serif',
-        ],
+        sans: ['"Outfit"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        serif: ['"DM Serif Display"', 'Georgia', 'serif'],
+        mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
       },
     },
   },
