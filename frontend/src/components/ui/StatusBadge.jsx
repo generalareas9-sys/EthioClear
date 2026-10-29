@@ -1,18 +1,47 @@
 // src/components/ui/StatusBadge.jsx
-// Small colored pill for displaying a status value. Generic by
-// design — takes the already-resolved label/color classes rather than
-// a raw status string, so it can be reused for application statuses,
-// document statuses, or anything else with a status-to-color mapping
-// (see utils/constants.js: APPLICATION_STATUS_META, DOCUMENT_STATUS_META).
+// Status pill with soft colored background, border, matching dot indicator, and dark mode support.
+// Covers: Approved green, Rejected red, Under Review blue, Pending amber, Certificate Issued indigo.
 
-function StatusBadge({ label, badgeClass }) {
+function getBadgeVariant(label = '', badgeClass = '') {
+  const text = (label || '').toLowerCase();
+
+  if (text.includes('approved') || text.includes('verified') || text.includes('active')) {
+    return 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800/60 dot-emerald';
+  }
+  if (text.includes('rejected') || text.includes('suspended')) {
+    return 'bg-red-50 text-red-700 border-red-200 dark:bg-red-950/40 dark:text-red-300 dark:border-red-800/60 dot-red';
+  }
+  if (text.includes('review') || text.includes('submitted')) {
+    return 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/40 dark:text-blue-300 dark:border-blue-800/60 dot-blue';
+  }
+  if (text.includes('pending')) {
+    return 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-800/60 dot-amber';
+  }
+  if (text.includes('certificate') || text.includes('issued')) {
+    return 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-300 dark:border-indigo-800/60 dot-indigo';
+  }
+
+  // Fallback to existing badgeClass or gray
+  return badgeClass || 'bg-slate-100 text-slate-700 border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700 dot-slate';
+}
+
+function StatusBadge({ label, badgeClass = '' }) {
+  const variant = getBadgeVariant(label, badgeClass);
+
+  // Extract dot color
+  let dotBg = 'bg-slate-400';
+  if (variant.includes('dot-emerald')) dotBg = 'bg-emerald-500';
+  if (variant.includes('dot-red')) dotBg = 'bg-red-500';
+  if (variant.includes('dot-blue')) dotBg = 'bg-blue-500';
+  if (variant.includes('dot-amber')) dotBg = 'bg-amber-500';
+  if (variant.includes('dot-indigo')) dotBg = 'bg-indigo-500';
+
   return (
     <span
-      className={`inline-flex items-center whitespace-nowrap rounded-full px-2.5 py-0.5 text-xs font-medium ${
-        badgeClass || 'bg-gray-100 text-gray-700'
-      }`}
+      className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-semibold shadow-xs transition-colors ${variant}`}
     >
-      {label}
+      <span className={`h-1.5 w-1.5 rounded-full ${dotBg}`} />
+      <span>{label}</span>
     </span>
   );
 }
