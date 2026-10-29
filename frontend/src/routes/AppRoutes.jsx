@@ -11,6 +11,7 @@ import DashboardLayout from '../components/layout/DashboardLayout.jsx';
 import ProtectedRoute from './ProtectedRoute.jsx';
 
 import Landing from '../pages/public/Landing.jsx';
+import HowItWorks from '../pages/public/HowItWorks.jsx';
 import About from '../pages/public/About.jsx';
 import Information from '../pages/public/Information.jsx';
 import Contact from '../pages/public/Contact.jsx';
@@ -49,6 +50,7 @@ function AppRoutes() {
       {/* Public routes */}
       <Route element={<PublicLayout />}>
         <Route path="/" element={<Landing />} />
+        <Route path="/how-it-works" element={<HowItWorks />} />
         <Route path="/about" element={<About />} />
         <Route path="/information" element={<Information />} />
         <Route path="/contact" element={<Contact />} />
