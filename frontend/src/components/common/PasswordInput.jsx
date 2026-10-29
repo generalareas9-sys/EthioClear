@@ -1,3 +1,6 @@
+// src/components/common/PasswordInput.jsx
+// Password input with visibility toggle, minimum 44px tap target, and theme tokens.
+
 import { useState } from 'react';
 
 function EyeIcon({ className = 'h-5 w-5' }) {
@@ -25,9 +28,9 @@ export default function PasswordInput({ label, id, name, value, onChange, placeh
   return (
     <div className="relative w-full">
       {label && (
-        <label htmlFor={inputId} className="mb-1 block text-sm font-medium text-[var(--site-foreground)]">
+        <label htmlFor={inputId} className="mb-1.5 block text-xs sm:text-sm font-medium text-text-primary">
           {label}
-          {required && <span className="text-red-600"> *</span>}
+          {required && <span className="text-red-500 font-bold"> *</span>}
         </label>
       )}
       <div className="relative">
@@ -42,26 +45,27 @@ export default function PasswordInput({ label, id, name, value, onChange, placeh
           aria-invalid={Boolean(error)}
           aria-describedby={error ? `${inputId}-error` : undefined}
           className={[
-            'block w-full rounded-md border px-3 py-2 text-sm shadow-sm pr-10',
-            'focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2',
-            'dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-400',
-            error ? 'border-red-400 focus-visible:outline-red-500' : 'border-gray-300 focus-visible:outline-primary-600',
-            'bg-[var(--site-bg-weak)] text-[var(--site-foreground)]',
+            'block w-full min-h-[44px] rounded-lg border px-3.5 py-2.5 pr-11 text-sm sm:text-base shadow-sm transition-colors',
+            'placeholder:text-text-muted',
+            'focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent dark:focus:ring-primary-500',
+            error
+              ? 'border-red-400 bg-red-50/20 text-text-primary'
+              : 'border-border-theme bg-surface text-text-primary hover:border-border-subtle',
           ].join(' ')}
         />
 
         <button
           type="button"
           onClick={() => setShow((s) => !s)}
-          className="absolute right-2 top-1/2 -translate-y-1/2 rounded p-1 text-gray-500 hover:text-gray-700 dark:text-slate-300 dark:hover:text-slate-100"
+          className="absolute right-1.5 top-1/2 -translate-y-1/2 inline-flex h-9 w-9 items-center justify-center rounded-lg text-text-muted hover:text-text-primary focus-visible:outline-primary-600"
           aria-label={show ? 'Hide password' : 'Show password'}
         >
-          {show ? <EyeOffIcon /> : <EyeIcon />}
+          {show ? <EyeOffIcon className="h-5 w-5" /> : <EyeIcon className="h-5 w-5" />}
         </button>
       </div>
 
       {error && (
-        <p id={`${inputId}-error`} className="mt-1 text-sm text-red-600">
+        <p id={`${inputId}-error`} className="mt-1.5 text-xs text-red-600 dark:text-red-400 font-medium">
           {error}
         </p>
       )}
