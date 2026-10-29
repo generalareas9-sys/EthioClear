@@ -88,7 +88,7 @@ function AuditLogs() {
                             dateFrom: dateFrom || undefined, dateTo: dateTo || undefined };
 
   useEffect(() => { load(page, currentFilters); },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line
     [load, page, actionFilter, entityType, dateFrom, dateTo]);
 
   function handleActionSearch(e) {
