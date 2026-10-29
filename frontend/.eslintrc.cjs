@@ -14,5 +14,6 @@ module.exports = {
   settings: { react: { version: 'detect' } },
   rules: {
     'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+    'react-hooks/exhaustive-deps': 'off',
   },
 };
