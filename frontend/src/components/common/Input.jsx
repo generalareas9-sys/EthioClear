@@ -1,7 +1,5 @@
 // src/components/common/Input.jsx
-// Reusable labeled text input with optional error message and
-// required-field indicator. Fully controlled — expects `value` and
-// `onChange` from the parent.
+// Reusable labeled text input with accessible errors, responsive touch targets, and full theme token support.
 
 function Input({
   label,
@@ -20,11 +18,11 @@ function Input({
   const inputId = id || name;
 
   return (
-    <div className={className}>
+    <div className={`w-full ${className}`}>
       {label && (
-        <label htmlFor={inputId} className="mb-1 block text-sm font-medium text-gray-700 dark:text-slate-200">
+        <label htmlFor={inputId} className="mb-1.5 block text-xs sm:text-sm font-medium text-text-primary">
           {label}
-          {required && <span className="text-red-600"> *</span>}
+          {required && <span className="text-red-500 font-bold"> *</span>}
         </label>
       )}
       <input
@@ -39,18 +37,20 @@ function Input({
         aria-invalid={Boolean(error)}
         aria-describedby={error ? `${inputId}-error` : undefined}
         className={[
-          'block w-full rounded-md border px-3 py-2 text-sm shadow-sm',
-          'focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2',
-          'dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-400',
+          'block w-full min-h-[44px] rounded-lg border px-3.5 py-2.5 text-sm sm:text-base shadow-sm transition-colors',
+          'placeholder:text-text-muted',
+          'focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent dark:focus:ring-primary-500',
           error
-            ? 'border-red-400 focus-visible:outline-red-500'
-            : 'border-gray-300 focus-visible:outline-primary-600',
-          disabled ? 'bg-gray-100 text-gray-500 dark:bg-slate-800 dark:text-slate-400' : 'bg-[var(--site-bg-weak)] text-[var(--site-foreground)]',
+            ? 'border-red-400 bg-red-50/20 text-text-primary'
+            : 'border-border-theme bg-surface text-text-primary hover:border-border-subtle',
+          disabled
+            ? 'bg-card-subtle text-text-muted cursor-not-allowed opacity-75'
+            : '',
         ].join(' ')}
         {...rest}
       />
       {error && (
-        <p id={`${inputId}-error`} className="mt-1 text-sm text-red-600">
+        <p id={`${inputId}-error`} className="mt-1.5 text-xs text-red-600 dark:text-red-400 font-medium">
           {error}
         </p>
       )}
