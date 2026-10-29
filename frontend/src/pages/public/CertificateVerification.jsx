@@ -1,21 +1,10 @@
 // src/pages/public/CertificateVerification.jsx
-// Public certificate verification page (frontend Module 6).
-// Accessible at /verify (search form) and /verify/:id (auto-verify).
+// Public certificate verification page (Module 6) matching Figma style with academic transparency.
+// Accessible at /verify (search form) and /verify/:id (auto-verify via QR code).
 // Requires NO login — this is a fully public route inside PublicLayout.
-//
-// Accepts:
-//   • A certificate UUID  (e.g. d0000000-0000-4000-8000-000000000001)
-//   • A full QR verification URL (e.g. http://…/verify/<uuid>)
-//   • A certificate number for UX clarity; surfaces a friendly
-//     "can't look up by number" message since the backend has no
-//     search-by-number endpoint.
-//
-// When the route includes :id (/verify/:id), the page auto-runs
-// the verification on mount without requiring a form submission —
-// this is the URL embedded in the QR code on every certificate PDF.
 
 import { useState, useEffect, useCallback } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { extractCertificateId, verifyCertificate } from '../../services/verificationService.js';
 import { parseApiError } from '../../utils/parseApiError.js';
 import { formatDate } from '../../utils/format.js';
@@ -25,14 +14,13 @@ import Button from '../../components/common/Button.jsx';
 import LoadingSpinner from '../../components/common/LoadingSpinner.jsx';
 
 // ------------------------------------------------------------------
-// Result status badge — larger than the usual StatusBadge pill since
-// this is the primary output of the verification page.
+// Result status badge
 // ------------------------------------------------------------------
 const RESULT_META = {
-  valid:     { label: 'VALID',     className: 'bg-secondary-100 text-secondary-800 border border-secondary-300' },
-  revoked:   { label: 'REVOKED',   className: 'bg-red-100     text-red-800     border border-red-300'          },
-  not_found: { label: 'NOT FOUND', className: 'bg-gray-100    text-gray-700    border border-gray-300'         },
-  invalid:   { label: 'INVALID',   className: 'bg-red-100     text-red-800     border border-red-300'          },
+  valid:     { label: 'VALID CERTIFICATE', className: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-300 border-emerald-300' },
+  revoked:   { label: 'REVOKED RECORD',    className: 'bg-rose-100 text-rose-800 dark:bg-rose-950/70 dark:text-rose-300 border-rose-300' },
+  not_found: { label: 'RECORD NOT FOUND',  className: 'bg-amber-100 text-amber-800 dark:bg-amber-950/70 dark:text-amber-300 border-amber-300' },
+  invalid:   { label: 'INVALID SIGNATURE', className: 'bg-rose-100 text-rose-800 dark:bg-rose-950/70 dark:text-rose-300 border-rose-300' },
 };
 
 function deriveResultKey(data) {
@@ -40,7 +28,6 @@ function deriveResultKey(data) {
   if (data.notSearchable) return 'not_found';
   if (!data.certificateId && !data.certificateNumber) return 'not_found';
   if (!data.isValid) {
-    // Backend returns status:'revoked' when revoked
     return data.status === 'revoked' ? 'revoked' : 'not_found';
   }
   return 'valid';
@@ -49,56 +36,63 @@ function deriveResultKey(data) {
 function ResultBadge({ resultKey }) {
   const meta = RESULT_META[resultKey] || RESULT_META.invalid;
   return (
-    <span className={`inline-flex items-center rounded-lg px-4 py-1.5 text-lg font-bold tracking-wide ${meta.className}`}>
+    <span className={`inline-flex items-center rounded-xl px-5 py-2 text-base sm:text-lg font-bold tracking-wider border shadow-sm ${meta.className}`}>
       {meta.label}
     </span>
   );
 }
 
 // ------------------------------------------------------------------
-// Displays the verification result — fields from the backend's
-// toPublicVerificationView() shape.
+// Displays the verification result
 // ------------------------------------------------------------------
 function VerificationResult({ data }) {
   const resultKey = deriveResultKey(data);
 
-  // "Not searchable" case — cert number entered, no UUID available.
+  // "Not searchable" case — cert number entered, no UUID available
   if (data?.notSearchable) {
     return (
-      <Card>
-        <div className="space-y-3 text-center">
-          <ResultBadge resultKey="not_found" />
-          <p className="text-sm text-gray-600">{data.message}</p>
-          {data.certificateNumber && (
-            <p className="text-xs text-gray-400">Entered: {data.certificateNumber}</p>
-          )}
-        </div>
-      </Card>
+      <div className="bg-white dark:bg-slate-900 rounded-2xl p-8 border border-slate-200 dark:border-slate-800 shadow-md text-center space-y-4">
+        <ResultBadge resultKey="not_found" />
+        <p className="text-sm text-slate-600 dark:text-slate-300 max-w-md mx-auto">{data.message}</p>
+        {data.certificateNumber && (
+          <p className="text-xs font-mono text-slate-400">Entered: {data.certificateNumber}</p>
+        )}
+      </div>
     );
   }
 
-  // Certificate not found (200 with isValid:false and no cert data).
+  // Certificate not found
   if (!data?.certificateId && !data?.certificateNumber) {
     return (
-      <Card>
-        <div className="space-y-3 text-center">
-          <ResultBadge resultKey="not_found" />
-          <p className="text-sm text-gray-600">No certificate was found for the provided identifier.</p>
-        </div>
-      </Card>
+      <div className="bg-white dark:bg-slate-900 rounded-2xl p-8 border border-slate-200 dark:border-slate-800 shadow-md text-center space-y-4">
+        <ResultBadge resultKey="not_found" />
+        <p className="text-sm text-slate-600 dark:text-slate-300">
+          No active certificate was found for the provided identifier. Please confirm the UUID or scan the certificate QR code directly.
+        </p>
+      </div>
     );
   }
 
   return (
-    <Card>
-      {/* Status header */}
-      <div className="flex flex-col items-center gap-2 border-b border-gray-100 pb-4 text-center">
-        <ResultBadge resultKey={resultKey} />
-        {data.notice && <p className="max-w-md text-xs text-gray-400">{data.notice}</p>}
+    <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-lg relative overflow-hidden space-y-6">
+      
+      {/* National Ribbon Stripe across top */}
+      <div className="flex h-1.5 w-full rounded-full overflow-hidden absolute top-0 left-0 right-0">
+        <div className="w-1/3 bg-[#0E8A3E]"></div>
+        <div className="w-1/3 bg-[#FCCB0B]"></div>
+        <div className="w-1/3 bg-[#E11D1D]"></div>
       </div>
 
-      {/* Certificate fields */}
-      <dl className="mt-4 grid grid-cols-1 gap-4 text-sm sm:grid-cols-2">
+      {/* Status header */}
+      <div className="flex flex-col items-center gap-3 border-b border-slate-100 dark:border-slate-800 pb-5 text-center pt-2">
+        <ResultBadge resultKey={resultKey} />
+        {data.notice && (
+          <p className="max-w-md text-xs text-slate-500 dark:text-slate-400">{data.notice}</p>
+        )}
+      </div>
+
+      {/* Certificate fields grid */}
+      <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
         {[
           ['Certificate Number', data.certificateNumber],
           ['Status',             data.status ? data.status.charAt(0).toUpperCase() + data.status.slice(1) : '—'],
@@ -108,22 +102,27 @@ function VerificationResult({ data }) {
           ['Certificate ID',     data.certificateId],
         ].map(([label, value]) =>
           value ? (
-            <div key={label}>
-              <dt className="text-xs font-medium uppercase tracking-wide text-gray-400">{label}</dt>
-              <dd className="mt-0.5 break-all text-gray-900">{value}</dd>
+            <div key={label} className="p-3 rounded-lg bg-[#F4F6FB] dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800">
+              <dt className="text-xs font-mono uppercase tracking-wider text-slate-400">{label}</dt>
+              <dd className="mt-1 font-semibold text-slate-900 dark:text-slate-100 break-all">{value}</dd>
             </div>
           ) : null
         )}
       </dl>
 
-      {/* QR value — shown if returned by the backend */}
+      {/* QR verification URL */}
       {data.qrCodeValue && (
-        <div className="mt-4 border-t border-gray-100 pt-4">
-          <p className="mb-1 text-xs font-medium uppercase tracking-wide text-gray-400">Verification URL</p>
-          <p className="break-all text-xs text-gray-600">{data.qrCodeValue}</p>
+        <div className="border-t border-slate-100 dark:border-slate-800 pt-4 text-xs text-slate-500 dark:text-slate-400">
+          <span className="font-mono uppercase text-[10px] block text-slate-400 mb-1">Authenticated QR URL</span>
+          <p className="font-mono break-all text-blue-600 dark:text-blue-400">{data.qrCodeValue}</p>
         </div>
       )}
-    </Card>
+
+      {/* Prototype seal statement */}
+      <div className="p-3 rounded-lg bg-blue-50/70 dark:bg-blue-950/40 border border-blue-200/50 dark:border-blue-900/40 text-center text-xs text-blue-900 dark:text-blue-200">
+        Demo Record • Verified by EthioClear Academic Prototype (Haramaya University)
+      </div>
+    </div>
   );
 }
 
@@ -131,7 +130,7 @@ function VerificationResult({ data }) {
 // Main page component
 // ------------------------------------------------------------------
 function CertificateVerification() {
-  const { id } = useParams();          // present on /verify/:id
+  const { id } = useParams();
   const navigate = useNavigate();
 
   const [inputValue, setInputValue]   = useState('');
@@ -140,28 +139,23 @@ function CertificateVerification() {
   const [isLoading, setIsLoading]     = useState(false);
   const [serverError, setServerError] = useState('');
 
-  // Core verification logic, shared by form submit and auto-verify.
   const runVerification = useCallback(async (raw) => {
     setServerError('');
     setResult(null);
     setIsLoading(true);
     try {
-      // The service handles UUID extraction, full URL parsing, and
-      // the cert-number "not searchable" case (see verificationService.js).
       const certId = extractCertificateId(raw);
       if (certId) {
         const data = await verifyCertificate(certId);
         setResult(data);
       } else {
-        // Input is neither a UUID nor a URL containing one — treat
-        // as a certificate number with a clear explanation.
         setResult({
           isValid: false,
           notSearchable: true,
           certificateNumber: raw.trim(),
           message:
-            'Certificate number lookup is not yet supported by this system. ' +
-            'Please scan the QR code on your certificate or paste the full verification URL.',
+            'Certificate number lookup is not directly supported by this prototype. ' +
+            'Please enter the full certificate UUID or scan the QR code to verify.',
         });
       }
     } catch (err) {
@@ -171,7 +165,6 @@ function CertificateVerification() {
     }
   }, []);
 
-  // Auto-verify when a :id is present in the URL (QR scan flow).
   useEffect(() => {
     if (id) {
       setInputValue(id);
@@ -187,69 +180,89 @@ function CertificateVerification() {
       setInputError('Please enter a certificate ID or verification URL.');
       return;
     }
-    // Update the URL so the result is shareable/bookmarkable.
     const certId = extractCertificateId(trimmed);
     if (certId && certId !== id) {
       navigate(`/verify/${certId}`, { replace: false });
-      // The useEffect above will fire and call runVerification.
       return;
     }
-    // Non-UUID input — run inline (no URL change needed).
     runVerification(trimmed);
   }
 
   return (
-    <div className="mx-auto max-w-xl px-4 py-12">
-      <div className="mb-8 text-center">
-        <h1 className="text-2xl font-bold text-gray-900">Certificate Verification</h1>
-        <p className="mt-2 text-sm text-gray-600">
-          Verify the authenticity of an EthioClear certificate by entering its ID or scanning its QR code.
-        </p>
-        <div className="mx-auto mt-2 max-w-md rounded-md bg-yellow-50 px-3 py-1.5 text-xs text-yellow-700">
-          Academic prototype — certificates verified here are demonstration records, not legal documents.
-        </div>
-      </div>
-
-      {/* Search form */}
-      <Card>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <Input
-            label="Certificate ID or Verification URL"
-            name="certificateInput"
-            value={inputValue}
-            onChange={(e) => { setInputValue(e.target.value); setInputError(''); }}
-            placeholder="Paste certificate UUID or full /verify/… URL"
-            error={inputError}
-          />
-          <p className="text-xs text-gray-400">
-            Tip: scan the QR code on the certificate with your phone camera — it will open this page automatically.
+    <div className="bg-[#F4F6FB] dark:bg-slate-950 min-h-screen text-slate-800 dark:text-slate-100 transition-colors">
+      
+      {/* 1. HERO BANNER */}
+      <section className="bg-gradient-to-r from-[#0F2A6B] to-[#1E3A8A] text-white py-16 sm:py-20 px-4 sm:px-6 lg:px-8 border-b border-blue-900/50">
+        <div className="max-w-4xl mx-auto text-center space-y-4">
+          <div className="w-12 h-1 bg-[#D4A53A] mx-auto rounded-full"></div>
+          <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
+            Certificate Verification
+          </h1>
+          <p className="max-w-xl mx-auto text-blue-100 text-sm sm:text-base leading-relaxed">
+            Verify the authenticity of an EthioClear criminal record clearance certificate by entering its certificate UUID or scanning its QR code.
           </p>
-          <Button type="submit" fullWidth isLoading={isLoading}>
-            Verify Certificate
-          </Button>
-        </form>
-      </Card>
-
-      {/* Loading */}
-      {isLoading && (
-        <div className="mt-6 flex justify-center">
-          <LoadingSpinner size="lg" label="Verifying certificate…" />
         </div>
-      )}
+      </section>
 
-      {/* Server error */}
-      {serverError && !isLoading && (
-        <div role="alert" className="mt-4 rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
-          {serverError}
+      {/* 2. VERIFIER FORM & RESULTS */}
+      <section className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-16 space-y-8">
+        
+        {/* Academic prototype disclaimer */}
+        <div className="rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/40 p-4 text-xs text-amber-800 dark:text-amber-300 flex items-start gap-3">
+          <span className="w-5 h-5 rounded-full bg-amber-200 dark:bg-amber-900 text-amber-800 dark:text-amber-200 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">!</span>
+          <p>
+            <strong>Academic Demonstration:</strong> Certificates verified on this platform are prototype test records generated for Haramaya University graduation research, not legal government documents.
+          </p>
         </div>
-      )}
 
-      {/* Verification result */}
-      {result && !isLoading && (
-        <div className="mt-6">
-          <VerificationResult data={result} />
+        {/* Verification input card */}
+        <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 sm:p-8 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <Input
+              label="Certificate ID or Verification URL"
+              name="certificateInput"
+              value={inputValue}
+              onChange={(e) => { setInputValue(e.target.value); setInputError(''); }}
+              placeholder="Paste certificate UUID (e.g. d0000000-0000-4000-8000-000000000001) or /verify/... URL"
+              error={inputError}
+            />
+            <p className="text-xs text-slate-500 dark:text-slate-400">
+              Tip: Scanning the QR code on a clearance certificate will open this verifier automatically with the authentic record.
+            </p>
+            <Button 
+              type="submit" 
+              fullWidth 
+              isLoading={isLoading} 
+              className="bg-[#0F2A6B] hover:bg-[#1e3a8a] text-white font-semibold py-3"
+            >
+              Verify Certificate
+            </Button>
+          </form>
         </div>
-      )}
+
+        {/* Loading Spinner */}
+        {isLoading && (
+          <div className="py-8 flex justify-center">
+            <LoadingSpinner size="lg" label="Querying verification database…" />
+          </div>
+        )}
+
+        {/* Server Error Alert */}
+        {serverError && !isLoading && (
+          <div role="alert" className="rounded-xl bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-900 p-4 text-sm text-rose-700 dark:text-rose-300">
+            {serverError}
+          </div>
+        )}
+
+        {/* Result view */}
+        {result && !isLoading && (
+          <div>
+            <VerificationResult data={result} />
+          </div>
+        )}
+
+      </section>
+
     </div>
   );
 }
