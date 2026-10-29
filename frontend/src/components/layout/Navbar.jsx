@@ -1,10 +1,7 @@
 // src/components/layout/Navbar.jsx
-// Top navigation bar.
-// Module 6: "Verify Certificate" link in public nav.
-// Module 7: Notification bell (🔔) and Profile link for authenticated users.
-// Public nav (logged-out state) is unchanged.
+// Top navigation bar with responsive mobile drawer, accessible toggles, and unified themes.
 
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../../hooks/useAuth.js';
 import { useTranslation } from '../../i18n/LanguageContext.jsx';
@@ -78,24 +75,64 @@ function BellIcon({ className = 'h-4 w-4' }) {
   );
 }
 
+function SunIcon({ className = 'h-4 w-4' }) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={className} aria-hidden="true">
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+    </svg>
+  );
+}
+
+function MoonIcon({ className = 'h-4 w-4' }) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={className} aria-hidden="true">
+      <path d="M21 12.8A9 9 0 0 1 11.2 3a9 9 0 1 0 9.8 9.8Z" />
+    </svg>
+  );
+}
+
 function Navbar({ onMenuClick, unreadNotifications = 0, variant = 'dashboard' }) {
   const { isAuthenticated, currentUser, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const { language, setLanguage, languages, t } = useTranslation();
   const { isDark, toggleTheme } = useTheme();
   const isPublicMode = variant === 'public';
 
   const [langOpen, setLangOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const containerRef = useRef(null);
   const langButtonRef = useRef(null);
 
+  // Close menus on route change
+  useEffect(() => {
+    setMobileMenuOpen(false);
+    setLangOpen(false);
+  }, [location.pathname]);
+
+  // Click outside language selector
   useEffect(() => {
     function onDoc(e) {
-      if (langOpen && containerRef.current && !containerRef.current.contains(e.target)) setLangOpen(false);
+      if (langOpen && containerRef.current && !containerRef.current.contains(e.target)) {
+        setLangOpen(false);
+      }
     }
     document.addEventListener('mousedown', onDoc);
     return () => document.removeEventListener('mousedown', onDoc);
   }, [langOpen]);
+
+  // Close mobile drawer on Escape key
+  useEffect(() => {
+    function onKey(e) {
+      if (e.key === 'Escape') {
+        setMobileMenuOpen(false);
+        setLangOpen(false);
+      }
+    }
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, []);
 
   const publicNavItems = [
     { label: 'Home', path: '/', icon: HomeIcon },
@@ -111,164 +148,247 @@ function Navbar({ onMenuClick, unreadNotifications = 0, variant = 'dashboard' })
   }
 
   return (
-    <header className="sticky top-0 z-30 border-b border-gray-200 bg-white/90 backdrop-blur-sm dark:border-slate-700 dark:bg-slate-900/90">
-      <div className="flex h-16 items-center justify-between px-4 lg:px-6">
+    <header className="sticky top-0 z-30 border-b border-border-theme bg-header/95 backdrop-blur-md shadow-sm transition-colors duration-150">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        
+        {/* Left: Brand Logo & Optional Dashboard Drawer Trigger */}
         <div className="flex items-center gap-3">
+          {/* Dashboard mobile menu trigger (only when onMenuClick provided) */}
           {onMenuClick && (
             <button
               type="button"
               onClick={onMenuClick}
-              aria-label="Toggle navigation menu"
-              className="rounded-md p-2 text-gray-600 transition hover:bg-gray-100 dark:text-slate-200 dark:hover:bg-slate-800 md:hidden"
+              aria-label="Toggle dashboard menu"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-lg text-text-secondary hover:bg-card-subtle md:hidden focus-visible:outline-primary-600"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
           )}
 
-          <Link to="/" aria-label="EthioClear home">
+          <Link to="/" aria-label="EthioClear home" className="flex items-center rounded focus-visible:outline-primary-600">
             <img
               src="/logo.svg"
               alt="EthioClear — Your Criminal Record Certificate, Simplified."
-              className="h-9 w-auto"
-              style={{ maxWidth: '220px' }}
+              className="h-8 sm:h-9 w-auto object-contain transition-opacity hover:opacity-95"
+              style={{ maxWidth: '210px' }}
             />
           </Link>
         </div>
 
+        {/* Center: Desktop Public Navigation Links */}
         {isPublicMode && (
-          <nav className="flex items-center gap-1 overflow-x-auto" aria-label="Public navigation">
-            {publicNavItems.map(({ label, path, icon: Icon }) => (
-              <Link
-                key={label}
-                to={path}
-                className="inline-flex items-center gap-2 rounded-md px-2.5 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100 hover:text-primary-700 dark:text-slate-200 dark:hover:bg-slate-800 dark:hover:text-primary-400"
-              >
-                <Icon className="h-4 w-4" />
-                <span>{label}</span>
-              </Link>
-            ))}
+          <nav className="hidden md:flex items-center gap-1 lg:gap-2" aria-label="Public navigation">
+            {publicNavItems.map(({ label, path, icon: Icon }) => {
+              const isActive = location.pathname === path;
+              return (
+                <Link
+                  key={label}
+                  to={path}
+                  className={[
+                    'inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+                    isActive
+                      ? 'bg-primary-50 text-primary-700 dark:bg-primary-950/60 dark:text-primary-300 font-semibold'
+                      : 'text-text-secondary hover:bg-card-subtle hover:text-text-primary',
+                  ].join(' ')}
+                >
+                  <Icon className="h-4 w-4 shrink-0" />
+                  <span>{label}</span>
+                </Link>
+              );
+            })}
           </nav>
         )}
 
+        {/* Right: Actions, Language, Theme, Auth */}
         <div className="flex items-center gap-2 sm:gap-3">
+          
+          {/* Language Selector Dropdown */}
           <div className="relative" ref={containerRef}>
-            <div className="relative flex items-center rounded-md border border-gray-200 bg-white px-2 py-1.5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
-              <GlobeIcon className="mr-2 h-4 w-4 text-gray-600 dark:text-slate-200" />
-
-              <button
-                type="button"
-                aria-haspopup="listbox"
-                aria-expanded={langOpen}
-                onClick={() => setLangOpen((s) => !s)}
-                className="text-sm font-medium text-gray-700 dark:text-slate-100"
-                id="language-selector-button"
-                ref={langButtonRef}
-              >
-                {language === 'en' ? `${language.toUpperCase()} / English` : languages.find((l) => l.code === language)?.nativeName}
-              </button>
-
-              <svg xmlns="http://www.w3.org/2000/svg" className="ml-1 h-4 w-4 text-gray-500 dark:text-slate-300" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <button
+              type="button"
+              aria-haspopup="listbox"
+              aria-expanded={langOpen}
+              onClick={() => setLangOpen((s) => !s)}
+              ref={langButtonRef}
+              className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-border-theme bg-surface px-2.5 text-xs sm:text-sm font-medium text-text-secondary hover:bg-card-subtle hover:text-text-primary transition-colors shadow-sm focus-visible:outline-primary-600"
+              id="language-selector-button"
+            >
+              <GlobeIcon className="h-4 w-4 shrink-0 text-text-muted" />
+              <span className="hidden xs:inline">
+                {language === 'en' ? 'EN' : language.toUpperCase()}
+              </span>
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 text-text-muted" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                 <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.17l3.71-3.94a.75.75 0 1 1 1.08 1.04l-4.25 4.5a.75.75 0 0 1-1.08 0l-4.25-4.5a.75.75 0 0 1 .02-1.06Z" clipRule="evenodd" />
               </svg>
+            </button>
 
-              {langOpen && (
-                              <div className="absolute right-0 mt-10 w-44 max-h-56 overflow-auto rounded-md border border-gray-200 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-800 z-50">
-                  <ul role="listbox" aria-labelledby="language-selector-button">
-                                  {languages.map((item, idx) => (
-                      <li key={item.code}>
-                        <button
-                          type="button"
-                          role="option"
-                          aria-selected={language === item.code}
-                          onClick={() => {
-                            setLanguage(item.code);
-                            setLangOpen(false);
-                            langButtonRef.current?.focus();
-                          }}
-                            className={[
-                              'w-full text-left px-3 py-2 text-sm hover:bg-gray-50 dark:hover:bg-slate-700 flex items-center justify-between',
-                              language === item.code ? 'bg-primary-50 dark:bg-primary-900/30 font-semibold text-gray-900 dark:text-slate-100' : 'text-gray-900 dark:text-slate-100'
-                            ].join(' ')}
-                          >
-                            <span>{item.code === 'en' ? `${item.code.toUpperCase()} / ${item.name}` : item.nativeName}</span>
-                            <span className="ml-2 text-xs text-gray-500 dark:text-slate-400">{item.code === 'en' ? null : item.name}</span>
-                          </button>
-                        </li>
-                                  ))}
-                                </ul>
-                              </div>
-                            )}
-            </div>
+            {langOpen && (
+              <div className="absolute right-0 mt-2 w-48 max-h-60 overflow-y-auto rounded-xl border border-border-theme bg-surface p-1 shadow-xl z-50 animate-in fade-in zoom-in-95 duration-100">
+                <ul role="listbox" aria-labelledby="language-selector-button">
+                  {languages.map((item) => (
+                    <li key={item.code}>
+                      <button
+                        type="button"
+                        role="option"
+                        aria-selected={language === item.code}
+                        onClick={() => {
+                          setLanguage(item.code);
+                          setLangOpen(false);
+                          langButtonRef.current?.focus();
+                        }}
+                        className={[
+                          'w-full text-left px-3 py-2 text-sm rounded-lg flex items-center justify-between transition-colors',
+                          language === item.code
+                            ? 'bg-primary-50 text-primary-700 font-semibold dark:bg-primary-950/60 dark:text-primary-300'
+                            : 'text-text-secondary hover:bg-card-subtle hover:text-text-primary',
+                        ].join(' ')}
+                      >
+                        <span>{item.nativeName}</span>
+                        <span className="text-xs text-text-muted">{item.name}</span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
 
+          {/* Theme Toggle Button */}
           <button
             type="button"
             onClick={toggleTheme}
             aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-gray-200 bg-white text-gray-700 shadow-sm transition hover:bg-gray-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-border-theme bg-surface text-text-secondary hover:bg-card-subtle hover:text-text-primary transition-colors shadow-sm focus-visible:outline-primary-600"
           >
-            {isDark ? (
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-4 w-4" aria-hidden="true">
-                <circle cx="12" cy="12" r="4" />
-                <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
-              </svg>
-            ) : (
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-4 w-4" aria-hidden="true">
-                <path d="M21 12.8A9 9 0 0 1 11.2 3a9 9 0 1 0 9.8 9.8Z" />
-              </svg>
-            )}
+            {isDark ? <SunIcon className="h-4 w-4 text-amber-400" /> : <MoonIcon className="h-4 w-4 text-slate-700" />}
           </button>
 
-          {isPublicMode ? (
-            <>
-              <Link to="/login" className="text-sm font-medium text-gray-700 transition hover:text-primary-700 dark:text-slate-200 dark:hover:text-primary-400">
-                Log in
-              </Link>
-              <Link to="/register">
-                <Button size="sm">Get Started</Button>
-              </Link>
-            </>
-          ) : isAuthenticated ? (
-            <>
-              <Link
-                to="/notifications"
-                className="relative rounded-md p-2 text-gray-600 transition hover:bg-gray-100 dark:text-slate-200 dark:hover:bg-slate-800"
-                aria-label={unreadNotifications > 0 ? `${unreadNotifications} unread notifications` : t('nav.notifications')}
-              >
-                <BellIcon className="h-4 w-4" />
-                {unreadNotifications > 0 && (
-                  <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
-                    {unreadNotifications > 9 ? '9+' : unreadNotifications}
-                  </span>
+          {/* Desktop Auth Actions */}
+          <div className="hidden sm:flex items-center gap-2">
+            {isPublicMode ? (
+              <>
+                <Link
+                  to="/login"
+                  className="rounded-lg px-3 py-2 text-sm font-medium text-text-secondary hover:bg-card-subtle hover:text-text-primary transition-colors"
+                >
+                  Log in
+                </Link>
+                <Link to="/register">
+                  <Button size="sm">Get Started</Button>
+                </Link>
+              </>
+            ) : isAuthenticated ? (
+              <>
+                <Link
+                  to="/notifications"
+                  className="relative rounded-lg p-2 text-text-secondary hover:bg-card-subtle transition-colors"
+                  aria-label={unreadNotifications > 0 ? `${unreadNotifications} unread notifications` : t('nav.notifications')}
+                >
+                  <BellIcon className="h-5 w-5" />
+                  {unreadNotifications > 0 && (
+                    <span className="absolute 1.5 top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white shadow-sm">
+                      {unreadNotifications > 9 ? '9+' : unreadNotifications}
+                    </span>
+                  )}
+                </Link>
+
+                <Link
+                  to="/profile"
+                  className="text-sm font-medium text-text-secondary hover:text-primary-600 transition-colors"
+                  aria-label={t('nav.myProfile')}
+                >
+                  {currentUser?.fullName || currentUser?.email}
+                </Link>
+
+                <Button variant="outline" size="sm" onClick={handleLogout} aria-label={t('nav.logout')}>
+                  {t('nav.logout')}
+                </Button>
+              </>
+            ) : (
+              <>
+                <Link to="/login" className="text-sm font-medium text-text-secondary hover:text-primary-600 transition-colors">
+                  {t('nav.login')}
+                </Link>
+                <Link to="/register">
+                  <Button size="sm">{t('nav.register')}</Button>
+                </Link>
+              </>
+            )}
+          </div>
+
+          {/* Mobile Hamburger Button for Public Navigation */}
+          {isPublicMode && (
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen((o) => !o)}
+              aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              aria-expanded={mobileMenuOpen}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-lg text-text-secondary hover:bg-card-subtle md:hidden focus-visible:outline-primary-600"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                {mobileMenuOpen ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 )}
-              </Link>
-
-              <Link
-                to="/profile"
-                className="hidden text-sm font-medium text-gray-700 hover:text-primary-700 dark:text-slate-200 dark:hover:text-primary-400 sm:inline"
-                aria-label={t('nav.myProfile')}
-              >
-                {currentUser?.fullName || currentUser?.email}
-              </Link>
-
-              <Button variant="outline" size="sm" onClick={handleLogout} aria-label={t('nav.logout')}>
-                {t('nav.logout')}
-              </Button>
-            </>
-          ) : (
-            <>
-              <Link to="/login" className="text-sm font-medium text-gray-700 hover:text-primary-700 dark:text-slate-200 dark:hover:text-primary-400">
-                {t('nav.login')}
-              </Link>
-              <Link to="/register">
-                <Button size="sm">{t('nav.register')}</Button>
-              </Link>
-            </>
+              </svg>
+            </button>
           )}
+
         </div>
       </div>
+
+      {/* Mobile Drawer Overlay & Panel for Public Navigation */}
+      {isPublicMode && mobileMenuOpen && (
+        <div className="fixed inset-0 top-16 z-40 md:hidden animate-in fade-in duration-200">
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 top-16 bg-black/60 backdrop-blur-sm"
+            onClick={() => setMobileMenuOpen(false)}
+            aria-hidden="true"
+          />
+
+          {/* Drawer Menu */}
+          <div className="relative border-b border-border-theme bg-surface px-4 py-6 shadow-2xl space-y-4 max-h-[calc(100vh-4rem)] overflow-y-auto">
+            <nav className="flex flex-col space-y-1.5" aria-label="Mobile navigation">
+              {publicNavItems.map(({ label, path, icon: Icon }) => {
+                const isActive = location.pathname === path;
+                return (
+                  <Link
+                    key={label}
+                    to={path}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={[
+                      'flex items-center gap-3 rounded-lg px-3.5 py-2.5 text-base font-medium transition-colors min-h-[44px]',
+                      isActive
+                        ? 'bg-primary-50 text-primary-700 font-semibold dark:bg-primary-950/60 dark:text-primary-300'
+                        : 'text-text-primary hover:bg-card-subtle',
+                    ].join(' ')}
+                  >
+                    <Icon className="h-5 w-5 shrink-0" />
+                    <span>{label}</span>
+                  </Link>
+                );
+              })}
+            </nav>
+
+            <div className="pt-4 border-t border-border-theme flex flex-col gap-2.5">
+              <Link to="/login" onClick={() => setMobileMenuOpen(false)}>
+                <Button variant="outline" fullWidth size="lg">
+                  Log in
+                </Button>
+              </Link>
+              <Link to="/register" onClick={() => setMobileMenuOpen(false)}>
+                <Button fullWidth size="lg">
+                  Get Started
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 }
