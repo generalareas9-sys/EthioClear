@@ -1,56 +1,56 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="EthioClear favicon">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="EthioClear Favicon">
   <defs>
-    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#1E3A8A;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#1B2A6B;stop-opacity:1" />
+    <!-- Background Gradient (#0B2A6F to #123C94) -->
+    <linearGradient id="favTileGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B2A6F" />
+      <stop offset="100%" stop-color="#123C94" />
     </linearGradient>
-    <linearGradient id="shieldFav" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#2563EB;stop-opacity:1" />
-    </linearGradient>
-    <linearGradient id="docFav" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#E8F0FE;stop-opacity:1" />
+
+    <!-- Shield Gradient -->
+    <linearGradient id="favShieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E6FE8" />
+      <stop offset="100%" stop-color="#0B2A6F" />
     </linearGradient>
   </defs>
 
-  <!-- ── Rounded-square background ── -->
-  <rect x="0" y="0" width="512" height="512" rx="100" ry="100" fill="url(#bgGrad)"/>
+  <!-- 1. Rounded-Square Deep-Navy Tile (96px corner radius, transparent area outside) -->
+  <rect x="0" y="0" width="512" height="512" rx="100" ry="100" fill="url(#favTileGrad)" />
 
-  <!-- ── Ethiopian ribbon swooshes (left accent) ── -->
-  <!-- Green -->
-  <path d="M 35,360 Q 90,220 175,130" stroke="#078930" stroke-width="28" fill="none"
-        stroke-linecap="round" opacity="0.95"/>
-  <!-- Yellow -->
-  <path d="M 20,395 Q 80,255 165,165" stroke="#FCDD09" stroke-width="24" fill="none"
-        stroke-linecap="round" opacity="0.95"/>
-  <!-- Red -->
-  <path d="M 5,430 Q 70,290 155,200" stroke="#DA121A" stroke-width="24" fill="none"
-        stroke-linecap="round" opacity="0.95"/>
+  <!-- 2. Centered Icon Group (Simplified, thick shapes, high contrast for 16x16 / 32x32 readability) -->
+  <g transform="translate(14, 0)">
+    
+    <!-- Three simple ribbons curving in from bottom-left behind the document -->
+    <!-- Green Ribbon (#0E8A3E) -->
+    <path d="M 52 430 C 60 295 125 185 220 120 C 185 170 125 285 110 430 Z" fill="#0E8A3E" />
+    <!-- Yellow Ribbon (#FCCB0B) -->
+    <path d="M 32 445 C 45 320 105 220 190 160 C 160 210 108 315 88 445 Z" fill="#FCCB0B" />
+    <!-- Red Ribbon (#E11D1D) -->
+    <path d="M 12 460 C 30 350 85 255 165 200 C 135 250 88 345 68 460 Z" fill="#E11D1D" />
 
-  <!-- ── Document icon ── -->
-  <g transform="translate(145, 65)">
-    <!-- Document body -->
-    <path d="M 12,0 L 190,0 L 230,40 L 230,290 Q 230,302 218,302 L 12,302 Q 0,302 0,290 L 0,12 Q 0,0 12,0 Z"
-          fill="url(#docFav)" stroke="white" stroke-width="6"/>
-    <!-- Folded corner -->
-    <path d="M 190,0 L 230,40 L 190,40 Z" fill="#CBD5E1" stroke="white" stroke-width="4"/>
-    <!-- Document text lines -->
-    <rect x="30" y="90"  width="140" height="16" rx="8" fill="#1B2A6B" opacity="0.8"/>
-    <rect x="30" y="122" width="140" height="16" rx="8" fill="#1B2A6B" opacity="0.8"/>
-    <rect x="30" y="154" width="110" height="16" rx="8" fill="#1B2A6B" opacity="0.7"/>
-    <rect x="30" y="186" width="80"  height="16" rx="8" fill="#2563EB" opacity="0.5"/>
-  </g>
+    <!-- Document: White with folded blue corner and two navy text lines -->
+    <g transform="translate(112, 70)">
+      <!-- Main Document Shape -->
+      <path d="M 0 0 L 170 0 L 230 60 L 230 310 C 230 322 220 332 208 332 L 22 332 C 10 332 0 322 0 310 Z" fill="#FFFFFF" />
 
-  <!-- ── Verification shield (overlapping bottom-right of doc) ── -->
-  <g transform="translate(258, 240)">
-    <!-- Shield -->
-    <path d="M 80,0 L 160,30 L 160,94 Q 160,158 80,180 Q 0,158 0,94 L 0,30 Z"
-          fill="url(#shieldFav)" stroke="white" stroke-width="7"/>
-    <!-- Checkmark -->
-    <polyline points="36,90 66,120 126,58"
-              fill="none" stroke="white" stroke-width="18"
-              stroke-linecap="round" stroke-linejoin="round"/>
+      <!-- Folded Top-Right Blue Corner (#1E6FE8) -->
+      <path d="M 170 0 L 230 60 L 170 60 Z" fill="#1E6FE8" />
+
+      <!-- Two Thick Navy Text Lines (#0B2A6F) for crisp recognition at tiny sizes -->
+      <rect x="36" y="105" width="138" height="24" rx="12" fill="#0B2A6F" />
+      <rect x="36" y="150" width="100" height="24" rx="12" fill="#0B2A6F" />
+    </g>
+
+    <!-- Verification Shield: White-outlined blue shield with bold white checkmark overlapping lower-right -->
+    <g transform="translate(245, 255)">
+      <!-- White Outer Border / Outline -->
+      <path d="M 76 0 L 152 32 L 152 98 C 152 165 76 195 76 195 C 76 195 0 165 0 98 L 0 32 Z" fill="#FFFFFF" />
+
+      <!-- Shield Body (#1E6FE8 with subtle gradient) -->
+      <path d="M 76 12 L 140 40 L 140 98 C 140 154 76 180 76 180 C 76 180 12 154 12 98 L 12 40 Z" fill="url(#favShieldGrad)" />
+
+      <!-- Bold White Checkmark -->
+      <path d="M 42 92 L 64 116 L 110 62" fill="none" stroke="#FFFFFF" stroke-width="17" stroke-linecap="round" stroke-linejoin="round" />
+    </g>
+
   </g>
 </svg>
-
