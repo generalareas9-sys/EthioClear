@@ -9,7 +9,10 @@ function Footer() {
   const { t } = useTranslation();
 
   return (
-    <footer className="border-t border-gray-200 bg-white px-4 py-4 text-center text-xs text-gray-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">
+    <footer className="border-t border-gray-200 bg-white px-4 py-5 text-center text-xs text-gray-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">
+      <div className="mb-3 flex justify-center">
+        <img src="/logo.svg" alt="EthioClear" className="h-7 w-auto opacity-80" style={{ maxWidth: '160px' }} />
+      </div>
       <p>{t('footer.line1')}</p>
       <p className="mt-1">{t('footer.line2', { year })}</p>
     </footer>

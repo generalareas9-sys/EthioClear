@@ -117,4 +117,19 @@ const config = {
   },
 };
 
+// Updated validation to only treat missing non-DB vars as fatal in production
+
+// Safe diagnostic: report whether DATABASE_URL is set and its hostname (no credentials)
+if (process.env.DATABASE_URL) {
+  try {
+    // Use the WHATWG URL parser – it safely handles typical PostgreSQL connection strings.
+    const dbUrl = new URL(process.env.DATABASE_URL);
+    // eslint-disable-next-line no-console
+    console.info(`[env.config] DATABASE_URL detected – hostname: ${dbUrl.hostname}`);
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.warn('[env.config] Invalid DATABASE_URL format – could not parse hostname');
+  }
+}
+
 module.exports = config;

@@ -31,7 +31,20 @@ const pool = new Pool({
   connectionTimeoutMillis: 5000,
 });
 
-pool.on('error', (err) => {
+// Diagnostic: report connectionString status and SSL usage (no credentials)
+if (config.db.connectionString) {
+  try {
+    const dbUrl = new URL(config.db.connectionString);
+    // eslint-disable-next-line no-console
+    console.info(`[db.config] Using DATABASE_URL – host: ${dbUrl.hostname}`);
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.warn('[db.config] Invalid DATABASE_URL format – cannot extract hostname');
+  }
+}
+// eslint-disable-next-line no-console
+console.info(`[db.config] SSL enabled: ${config.db.ssl}`);
+ pool.on('error', (err) => {
   // Errors on idle clients (e.g. connection dropped by the DB server)
   // must be handled here or they crash the process.
   logger.error('Unexpected error on idle PostgreSQL client', err);

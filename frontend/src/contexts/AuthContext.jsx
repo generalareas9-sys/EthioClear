@@ -79,8 +79,8 @@ export function AuthProvider({ children }) {
    * tokens. Callers should redirect to /login on success.
    * Throws on failure (duplicate email, validation errors, etc.).
    */
-  const register = useCallback(async ({ fullName, email, phoneNumber, password }) => {
-    const response = await api.post('/auth/register', { fullName, email, phoneNumber, password });
+  const register = useCallback(async (userData) => {
+    const response = await api.post('/auth/register', userData);
     return response.data.data.user;
   }, []);
 

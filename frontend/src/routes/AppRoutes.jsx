@@ -23,6 +23,8 @@ import Login from '../pages/auth/Login.jsx';
 import ForgotPassword from '../pages/auth/ForgotPassword.jsx';
 import ResetPassword from '../pages/auth/ResetPassword.jsx';
 import Register from '../pages/auth/Register.jsx';
+import Terms from '../pages/public/Terms.jsx';
+import Privacy from '../pages/public/Privacy.jsx';
 import ApplicantDashboard from '../pages/applicant/ApplicantDashboard.jsx';
 import ApplicationsList from '../pages/applicant/ApplicationsList.jsx';
 import NewApplication from '../pages/applicant/NewApplication.jsx';
@@ -54,12 +56,16 @@ function AppRoutes() {
         <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/privacy" element={<Privacy />} />
         <Route path="/403" element={<AccessDenied />} />
         <Route path="/error" element={<ErrorPage />} />
         <Route path="/verify" element={<CertificateVerification />} />
         <Route path="/verify/:id" element={<CertificateVerification />} />
       </Route>
+
+      {/* Standalone dedicated registration wizard page matching Figma layout */}
+      <Route path="/register" element={<Register />} />
 
       {/* Shared authenticated routes — all roles */}
       <Route element={<ProtectedRoute allowedRoles={ALL_ROLES} />}>

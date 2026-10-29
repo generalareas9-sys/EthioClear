@@ -24,13 +24,41 @@ const { ROLES, USER_STATUS, AUDIT_ACTIONS } = require('../utils/constants');
  */
 async function register(req, res, next) {
   try {
-    const { fullName, email, phoneNumber, password } = req.body;
+    const {
+      firstName,
+      middleName,
+      lastName,
+      fullName: providedFullName,
+      dateOfBirth,
+      gender,
+      region,
+      nationalIdNumber,
+      email,
+      phoneNumber,
+      address,
+      password,
+    } = req.body;
+
+    const fullName =
+      (providedFullName && providedFullName.trim()) ||
+      [firstName, middleName, lastName].filter(Boolean).join(' ').trim();
 
     const existing = await userModel.findByEmail(email);
     if (existing) {
       // Deliberately generic message — does not confirm which part of
       // the input was wrong, to avoid account-enumeration by email.
       return failure(res, { statusCode: 409, message: 'Registration could not be completed with the provided details.' });
+    }
+
+    if (nationalIdNumber) {
+      const existingId = await userModel.findByNationalId(nationalIdNumber);
+      if (existingId) {
+        return failure(res, {
+          statusCode: 409,
+          message: 'An account with this National ID number already exists.',
+          errors: [{ field: 'nationalIdNumber', message: 'An account with this National ID already exists.' }],
+        });
+      }
     }
 
     const passwordHash = await authService.hashPassword(password);
@@ -40,6 +68,11 @@ async function register(req, res, next) {
       phoneNumber,
       passwordHash,
       role: ROLES.APPLICANT,
+      nationalIdNumber: nationalIdNumber || null,
+      dateOfBirth: dateOfBirth || null,
+      gender: gender || null,
+      region: region || null,
+      address: address || null,
     });
 
     await auditLogModel.record({
@@ -57,6 +90,18 @@ async function register(req, res, next) {
       data: { user },
     });
   } catch (err) {
+    if (err.code === '23505') {
+      if (err.detail && err.detail.includes('national_id_number')) {
+        return failure(res, {
+          statusCode: 409,
+          message: 'An account with this National ID number already exists.',
+          errors: [{ field: 'nationalIdNumber', message: 'An account with this National ID already exists.' }],
+        });
+      }
+      if (err.detail && err.detail.includes('email')) {
+        return failure(res, { statusCode: 409, message: 'Registration could not be completed with the provided details.' });
+      }
+    }
     return next(err);
   }
 }

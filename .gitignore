@@ -1,0 +1,6 @@
+
+# Local archives and debug scripts
+backend.zip
+frontend.zip
+backend/debugDb.js
+testEnv.js

@@ -61,7 +61,7 @@ function Sidebar({ links, isCollapsed, onToggleCollapse, isMobileOpen, onCloseMo
           <div className="fixed inset-0 bg-black/50" onClick={onCloseMobile} aria-hidden="true" />
           <aside className="fixed inset-y-0 left-0 z-50 flex w-64 flex-col bg-white shadow-lg dark:bg-slate-900">
             <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3 dark:border-slate-700">
-              <span className="font-semibold text-primary-700">Menu</span>
+              <img src="/logo.svg" alt="EthioClear" className="h-7 w-auto" style={{ maxWidth: '140px' }} />
               <button
                 type="button"
                 onClick={onCloseMobile}

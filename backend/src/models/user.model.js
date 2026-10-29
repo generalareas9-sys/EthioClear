@@ -12,15 +12,64 @@ const { query } = require('../config/db.config');
  * Create a new user. Role is always passed explicitly by the caller
  * (never taken directly from unauthenticated request bodies) so
  * self-registration cannot be used to grant elevated roles.
+ * Supports additional profile fields added in Migration 005.
  */
-async function createUser({ fullName, email, phoneNumber, passwordHash, role }) {
+async function createUser({
+  fullName,
+  email,
+  phoneNumber,
+  passwordHash,
+  role,
+  nationalIdNumber,
+  dateOfBirth,
+  gender,
+  region,
+  address,
+}) {
+  try {
+    const result = await query(
+      `INSERT INTO users (full_name, email, phone_number, password_hash, role, national_id_number, date_of_birth, gender, region, address)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+       RETURNING id, full_name, email, phone_number, role, status, national_id_number, date_of_birth, gender, region, address, created_at`,
+      [
+        fullName,
+        email,
+        phoneNumber || null,
+        passwordHash,
+        role,
+        nationalIdNumber || null,
+        dateOfBirth || null,
+        gender || null,
+        region || null,
+        address || null,
+      ]
+    );
+    return result.rows[0];
+  } catch (err) {
+    // If migration 005 has not been executed yet on the database, fall back to base columns
+    if (err.code === '42703') {
+      const fallbackResult = await query(
+        `INSERT INTO users (full_name, email, phone_number, password_hash, role, national_id_number)
+         VALUES ($1, $2, $3, $4, $5, $6)
+         RETURNING id, full_name, email, phone_number, role, status, national_id_number, created_at`,
+        [fullName, email, phoneNumber || null, passwordHash, role, nationalIdNumber || null]
+      );
+      return fallbackResult.rows[0];
+    }
+    throw err;
+  }
+}
+
+/** Find a user by national ID number — public-safe fields only. */
+async function findByNationalId(nationalIdNumber) {
+  if (!nationalIdNumber) return null;
   const result = await query(
-    `INSERT INTO users (full_name, email, phone_number, password_hash, role)
-     VALUES ($1, $2, $3, $4, $5)
-     RETURNING id, full_name, email, phone_number, role, status, created_at`,
-    [fullName, email, phoneNumber || null, passwordHash, role]
+    `SELECT id, full_name, email, phone_number, role, status, national_id_number, created_at
+     FROM users
+     WHERE national_id_number = $1`,
+    [nationalIdNumber]
   );
-  return result.rows[0];
+  return result.rows[0] || null;
 }
 
 /** Find a user by email — includes password_hash, for use in login only. */
@@ -145,6 +194,7 @@ module.exports = {
   createUser,
   findByEmailWithPassword,
   findByEmail,
+  findByNationalId,
   findById,
   findAll,
   countAll,

@@ -127,9 +127,13 @@ function Navbar({ onMenuClick, unreadNotifications = 0, variant = 'dashboard' })
             </button>
           )}
 
-          <Link to="/" className="flex items-center gap-2 font-semibold text-primary-700" aria-label="EthioClear home">
-            <span className="rounded bg-primary-700 px-1.5 py-0.5 text-xs font-bold text-white">EC</span>
-            <span className="text-lg dark:text-white">EthioClear</span>
+          <Link to="/" aria-label="EthioClear home">
+            <img
+              src="/logo.svg"
+              alt="EthioClear — Your Criminal Record Certificate, Simplified."
+              className="h-9 w-auto"
+              style={{ maxWidth: '220px' }}
+            />
           </Link>
         </div>
 

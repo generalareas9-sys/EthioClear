@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="EthioClear favicon">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1E3A8A;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1B2A6B;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="shieldFav" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2563EB;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="docFav" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#E8F0FE;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- ── Rounded-square background ── -->
+  <rect x="0" y="0" width="512" height="512" rx="100" ry="100" fill="url(#bgGrad)"/>
+
+  <!-- ── Ethiopian ribbon swooshes (left accent) ── -->
+  <!-- Green -->
+  <path d="M 35,360 Q 90,220 175,130" stroke="#078930" stroke-width="28" fill="none"
+        stroke-linecap="round" opacity="0.95"/>
+  <!-- Yellow -->
+  <path d="M 20,395 Q 80,255 165,165" stroke="#FCDD09" stroke-width="24" fill="none"
+        stroke-linecap="round" opacity="0.95"/>
+  <!-- Red -->
+  <path d="M 5,430 Q 70,290 155,200" stroke="#DA121A" stroke-width="24" fill="none"
+        stroke-linecap="round" opacity="0.95"/>
+
+  <!-- ── Document icon ── -->
+  <g transform="translate(145, 65)">
+    <!-- Document body -->
+    <path d="M 12,0 L 190,0 L 230,40 L 230,290 Q 230,302 218,302 L 12,302 Q 0,302 0,290 L 0,12 Q 0,0 12,0 Z"
+          fill="url(#docFav)" stroke="white" stroke-width="6"/>
+    <!-- Folded corner -->
+    <path d="M 190,0 L 230,40 L 190,40 Z" fill="#CBD5E1" stroke="white" stroke-width="4"/>
+    <!-- Document text lines -->
+    <rect x="30" y="90"  width="140" height="16" rx="8" fill="#1B2A6B" opacity="0.8"/>
+    <rect x="30" y="122" width="140" height="16" rx="8" fill="#1B2A6B" opacity="0.8"/>
+    <rect x="30" y="154" width="110" height="16" rx="8" fill="#1B2A6B" opacity="0.7"/>
+    <rect x="30" y="186" width="80"  height="16" rx="8" fill="#2563EB" opacity="0.5"/>
+  </g>
+
+  <!-- ── Verification shield (overlapping bottom-right of doc) ── -->
+  <g transform="translate(258, 240)">
+    <!-- Shield -->
+    <path d="M 80,0 L 160,30 L 160,94 Q 160,158 80,180 Q 0,158 0,94 L 0,30 Z"
+          fill="url(#shieldFav)" stroke="white" stroke-width="7"/>
+    <!-- Checkmark -->
+    <polyline points="36,90 66,120 126,58"
+              fill="none" stroke="white" stroke-width="18"
+              stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>
+
