@@ -9,26 +9,26 @@
 
 @layer base {
   :root {
-    /* Semantic Color Tokens - Light Mode */
-    --color-bg-app: #f8fafc;        /* slate-50 */
+    /* Semantic Color Tokens - Light Mode matching Figma design */
+    --color-bg-app: #f4f6fb;        /* Figma soft blue-gray background */
     --color-bg-surface: #ffffff;    /* pure white */
     --color-bg-card: #ffffff;       /* card surface */
-    --color-bg-subtle: #f1f5f9;     /* slate-100 */
-    --color-bg-header: #ffffff;     /* crisp light header */
+    --color-bg-subtle: #edf1f8;     /* subtle muted elements */
+    --color-bg-header: #ffffff;     /* top bar */
 
-    --color-border: #e2e8f0;        /* slate-200 */
+    --color-border: #e4e8f1;        /* soft light borders */
     --color-border-subtle: #cbd5e1; /* slate-300 */
-    --color-border-focus: #1d4ed8;  /* primary-700 */
+    --color-border-focus: #0f2a6b;  /* navy focus ring */
 
-    --color-text-primary: #0f172a;  /* slate-900 (strong contrast) */
+    --color-text-primary: #0f1d40;  /* deep navy-charcoal heading/primary text */
     --color-text-secondary: #334155;/* slate-700 */
     --color-text-muted: #64748b;    /* slate-500 */
 
-    --site-foreground: #0f172a;
+    --site-foreground: #0f1d40;
     --site-muted: #64748b;
-    --site-bg: #f8fafc;
+    --site-bg: #f4f6fb;
     --site-bg-weak: #ffffff;
-    --site-primary: #1d4ed8;
+    --site-primary: #0f2a6b;
   }
 
   html.dark {
