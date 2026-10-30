@@ -77,13 +77,13 @@ function Login() {
     <div className="mx-auto flex w-full max-w-md flex-col justify-center px-4 py-8 sm:py-16">
       <Card title={t('auth.loginTitle')} className="shadow-lg">
         {justRegistered && (
-          <div className="mb-4 rounded-lg bg-secondary-50 dark:bg-secondary-950/40 border border-secondary-200 dark:border-secondary-900/50 px-4 py-3 text-sm text-secondary-800 dark:text-secondary-300">
+          <div className="mb-4 rounded-lg bg-secondary-50 border border-secondary-200 px-4 py-3 text-sm text-secondary-800">
             {t('auth.registrationSuccessful')}
           </div>
         )}
 
         {formError && (
-          <div role="alert" className="mb-4 rounded-lg bg-red-500/10 border border-red-500/20 px-4 py-3 text-sm text-red-600 dark:text-red-400 font-medium">
+          <div role="alert" className="mb-4 rounded-lg bg-red-500/10 border border-red-500/20 px-4 py-3 text-sm text-red-600 font-medium">
             {formError}
           </div>
         )}
@@ -105,7 +105,7 @@ function Login() {
               <label className="text-xs sm:text-sm font-medium text-text-primary">
                 {t('auth.password')}
               </label>
-              <Link to="/forgot-password" className="text-xs font-semibold text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:underline">
+              <Link to="/forgot-password" className="text-xs font-semibold text-primary-600 hover:text-primary-700">
                 Forgot password?
               </Link>
             </div>
@@ -130,7 +130,7 @@ function Login() {
 
         <p className="mt-6 text-center text-sm text-text-muted">
           {t('auth.noAccount')}{' '}
-          <Link to="/register" className="font-semibold text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:underline">
+          <Link to="/register" className="font-semibold text-primary-600 hover:text-primary-700">
             {t('auth.signUp')}
           </Link>
         </p>
