@@ -968,13 +968,13 @@ export default function NewApplication() {
 
             </div>
 
-            {/* Honest Warning Notice matching requirements */}
+            {/* Warning Notice matching Figma screenshot */}
             <div className="mb-6 rounded-xl bg-amber-50/80 border border-amber-200/90 p-4 text-xs sm:text-sm text-amber-900 flex items-start gap-3">
               <svg className="h-5 w-5 text-amber-600 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
               </svg>
               <div className="leading-relaxed">
-                By submitting, you confirm that all information is accurate. Providing false information may lead to rejection of your application.
+                By submitting, you confirm all information is accurate and authorize EthioClear to conduct necessary verification on your behalf. Providing false information is an offence.
               </div>
             </div>
 
