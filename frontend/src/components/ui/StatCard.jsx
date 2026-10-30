@@ -5,29 +5,29 @@
 
 const COLOR_MAP = {
   navy: {
-    text: 'text-[#0f2a6b] dark:text-blue-300',
-    iconBg: 'bg-blue-50 text-blue-700 dark:bg-blue-950/50 dark:text-blue-300',
-    bar: 'bg-[#0f2a6b] dark:bg-blue-500',
+    text: 'text-[#0f2a6b]',
+    iconBg: 'bg-blue-50 text-blue-700',
+    bar: 'bg-[#0f2a6b]',
   },
   green: {
-    text: 'text-emerald-600 dark:text-emerald-400',
-    iconBg: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
-    bar: 'bg-emerald-600 dark:bg-emerald-500',
+    text: 'text-emerald-600',
+    iconBg: 'bg-emerald-50 text-emerald-700',
+    bar: 'bg-emerald-600',
   },
   amber: {
-    text: 'text-amber-600 dark:text-amber-400',
-    iconBg: 'bg-amber-50 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
-    bar: 'bg-amber-500 dark:bg-amber-400',
+    text: 'text-amber-600',
+    iconBg: 'bg-amber-50 text-amber-700',
+    bar: 'bg-amber-500',
   },
   red: {
-    text: 'text-red-600 dark:text-red-400',
-    iconBg: 'bg-red-50 text-red-700 dark:bg-red-950/50 dark:text-red-300',
-    bar: 'bg-red-600 dark:bg-red-500',
+    text: 'text-red-600',
+    iconBg: 'bg-red-50 text-red-700',
+    bar: 'bg-red-600',
   },
   purple: {
-    text: 'text-purple-600 dark:text-purple-400',
-    iconBg: 'bg-purple-50 text-purple-700 dark:bg-purple-950/50 dark:text-purple-300',
-    bar: 'bg-purple-600 dark:bg-purple-500',
+    text: 'text-purple-600',
+    iconBg: 'bg-purple-50 text-purple-700',
+    bar: 'bg-purple-600',
   },
 };
 
