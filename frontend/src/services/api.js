@@ -6,10 +6,16 @@
 import axios from 'axios';
 import { STORAGE_KEYS } from '../utils/constants.js';
 
-// Base URL points at the EthioClear backend (see backend Module 3 —
-// CORS there is configured to allow this frontend's origin).
-// Overridable via VITE_API_BASE_URL for different environments.
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+// Base URL points at the EthioClear backend.
+// Supports VITE_API_URL and VITE_API_BASE_URL environment variables.
+// Normalizes trailing slashes and ensures the /api suffix is present.
+const rawApiUrl =
+  import.meta.env.VITE_API_URL ||
+  import.meta.env.VITE_API_BASE_URL ||
+  'http://localhost:5000/api';
+
+const cleanUrl = rawApiUrl.trim().replace(/\/$/, '');
+const BASE_URL = cleanUrl.endsWith('/api') ? cleanUrl : `${cleanUrl}/api`;
 
 const api = axios.create({
   baseURL: BASE_URL,
