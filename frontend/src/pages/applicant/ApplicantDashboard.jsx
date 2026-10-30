@@ -143,7 +143,7 @@ function ApplicantDashboard() {
 
       {/* Info Alert Banner matching Figma style */}
       {activeReviewApp && (
-        <div className="flex items-center justify-between gap-4 rounded-xl border border-blue-200 bg-blue-50/80 dark:border-blue-800/60 dark:bg-blue-950/40 p-4 shadow-sm animate-in fade-in duration-150">
+        <div className="flex items-center justify-between gap-4 rounded-xl border border-blue-200 bg-blue-50/80 p-4 shadow-sm animate-in fade-in duration-150">
           <div className="flex items-center gap-3">
             <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-blue-600 text-white shadow-sm">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-5 w-5">
@@ -153,17 +153,17 @@ function ApplicantDashboard() {
               </svg>
             </div>
             <div>
-              <p className="text-sm font-semibold text-blue-900 dark:text-blue-200">
+              <p className="text-sm font-semibold text-blue-900">
                 Application <span className="font-mono">{getReferenceNumber(activeReviewApp.id)}</span> is currently {activeReviewApp.status === 'under_review' ? 'under officer review' : 'submitted and awaiting review'}.
               </p>
-              <p className="text-xs text-blue-700/80 dark:text-blue-300/80">
+              <p className="text-xs text-blue-700/80">
                 Purpose: {activeReviewApp.purpose} • Submitted on {formatDate(activeReviewApp.submitted_at)}
               </p>
             </div>
           </div>
           <Link
             to={`/applicant/applications/${activeReviewApp.id}`}
-            className="shrink-0 text-xs font-bold text-blue-700 hover:text-blue-900 dark:text-blue-300 dark:hover:underline"
+            className="shrink-0 text-xs font-bold text-blue-700 hover:text-blue-900"
           >
             Track Status →
           </Link>
@@ -172,7 +172,7 @@ function ApplicantDashboard() {
 
       {/* Error alert */}
       {error && (
-        <div role="alert" className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-800 dark:bg-red-950/40 dark:text-red-300">
+        <div role="alert" className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
           <span>{error}</span>{' '}
           <button type="button" onClick={loadDashboard} className="font-bold underline ml-2">
             Retry
@@ -231,7 +231,7 @@ function ApplicantDashboard() {
               applications.length > 0 && (
                 <Link
                   to="/applicant/applications"
-                  className="text-xs font-semibold text-primary-600 hover:text-primary-700 dark:text-primary-400 hover:underline"
+                  className="text-xs font-semibold text-primary-600 hover:text-primary-700 hover:underline"
                 >
                   View all applications →
                 </Link>
@@ -273,7 +273,7 @@ function ApplicantDashboard() {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="flex items-center gap-2.5">
-                              <div className="flex h-7 w-7 items-center justify-center rounded-full bg-blue-100 text-blue-900 dark:bg-blue-950 dark:text-blue-300 font-bold text-xs">
+                              <div className="flex h-7 w-7 items-center justify-center rounded-full bg-blue-100 text-blue-900 font-bold text-xs">
                                 {initials}
                               </div>
                               <span className="text-text-primary font-medium">{currentUser?.fullName || 'Applicant'}</span>
