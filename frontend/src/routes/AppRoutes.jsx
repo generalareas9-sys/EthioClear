@@ -55,8 +55,6 @@ function AppRoutes() {
         <Route path="/information" element={<Information />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/help" element={<HelpContactPlus />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/403" element={<AccessDenied />} />
@@ -68,6 +66,8 @@ function AppRoutes() {
       {/* Standalone dedicated auth pages matching Figma split layout */}
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
 
       {/* Shared authenticated routes — all roles */}
       <Route element={<ProtectedRoute allowedRoles={ALL_ROLES} />}>
