@@ -17,10 +17,10 @@ import LoadingSpinner from '../../components/common/LoadingSpinner.jsx';
 // Result status badge
 // ------------------------------------------------------------------
 const RESULT_META = {
-  valid:     { label: 'VALID CERTIFICATE', className: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-300 border-emerald-300' },
-  revoked:   { label: 'REVOKED RECORD',    className: 'bg-rose-100 text-rose-800 dark:bg-rose-950/70 dark:text-rose-300 border-rose-300' },
-  not_found: { label: 'RECORD NOT FOUND',  className: 'bg-amber-100 text-amber-800 dark:bg-amber-950/70 dark:text-amber-300 border-amber-300' },
-  invalid:   { label: 'INVALID SIGNATURE', className: 'bg-rose-100 text-rose-800 dark:bg-rose-950/70 dark:text-rose-300 border-rose-300' },
+  valid:     { label: 'VALID CERTIFICATE', className: 'bg-emerald-100 text-emerald-800 border-emerald-300' },
+  revoked:   { label: 'REVOKED RECORD',    className: 'bg-rose-100 text-rose-800 border-rose-300' },
+  not_found: { label: 'RECORD NOT FOUND',  className: 'bg-amber-100 text-amber-800 border-amber-300' },
+  invalid:   { label: 'INVALID SIGNATURE', className: 'bg-rose-100 text-rose-800 border-rose-300' },
 };
 
 function deriveResultKey(data) {
@@ -51,9 +51,9 @@ function VerificationResult({ data }) {
   // "Not searchable" case — cert number entered, no UUID available
   if (data?.notSearchable) {
     return (
-      <div className="bg-white dark:bg-slate-900 rounded-2xl p-8 border border-slate-200 dark:border-slate-800 shadow-md text-center space-y-4">
+      <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-md text-center space-y-4">
         <ResultBadge resultKey="not_found" />
-        <p className="text-sm text-slate-600 dark:text-slate-300 max-w-md mx-auto">{data.message}</p>
+        <p className="text-sm text-slate-600 max-w-md mx-auto">{data.message}</p>
         {data.certificateNumber && (
           <p className="text-xs font-mono text-slate-400">Entered: {data.certificateNumber}</p>
         )}
@@ -64,9 +64,9 @@ function VerificationResult({ data }) {
   // Certificate not found
   if (!data?.certificateId && !data?.certificateNumber) {
     return (
-      <div className="bg-white dark:bg-slate-900 rounded-2xl p-8 border border-slate-200 dark:border-slate-800 shadow-md text-center space-y-4">
+      <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-md text-center space-y-4">
         <ResultBadge resultKey="not_found" />
-        <p className="text-sm text-slate-600 dark:text-slate-300">
+        <p className="text-sm text-slate-600">
           No active certificate was found for the provided identifier. Please confirm the UUID or scan the certificate QR code directly.
         </p>
       </div>
@@ -74,7 +74,7 @@ function VerificationResult({ data }) {
   }
 
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-lg relative overflow-hidden space-y-6">
+    <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-lg relative overflow-hidden space-y-6">
       
       {/* National Ribbon Stripe across top */}
       <div className="flex h-1.5 w-full rounded-full overflow-hidden absolute top-0 left-0 right-0">
@@ -84,10 +84,10 @@ function VerificationResult({ data }) {
       </div>
 
       {/* Status header */}
-      <div className="flex flex-col items-center gap-3 border-b border-slate-100 dark:border-slate-800 pb-5 text-center pt-2">
+      <div className="flex flex-col items-center gap-3 border-b border-slate-100 pb-5 text-center pt-2">
         <ResultBadge resultKey={resultKey} />
         {data.notice && (
-          <p className="max-w-md text-xs text-slate-500 dark:text-slate-400">{data.notice}</p>
+          <p className="max-w-md text-xs text-slate-500">{data.notice}</p>
         )}
       </div>
 
@@ -102,9 +102,9 @@ function VerificationResult({ data }) {
           ['Certificate ID',     data.certificateId],
         ].map(([label, value]) =>
           value ? (
-            <div key={label} className="p-3 rounded-lg bg-[#F4F6FB] dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800">
+            <div key={label} className="p-3 rounded-lg bg-[#F4F6FB] border border-slate-100">
               <dt className="text-xs font-mono uppercase tracking-wider text-slate-400">{label}</dt>
-              <dd className="mt-1 font-semibold text-slate-900 dark:text-slate-100 break-all">{value}</dd>
+              <dd className="mt-1 font-semibold text-slate-900 break-all">{value}</dd>
             </div>
           ) : null
         )}
@@ -112,14 +112,14 @@ function VerificationResult({ data }) {
 
       {/* QR verification URL */}
       {data.qrCodeValue && (
-        <div className="border-t border-slate-100 dark:border-slate-800 pt-4 text-xs text-slate-500 dark:text-slate-400">
+        <div className="border-t border-slate-100 pt-4 text-xs text-slate-500">
           <span className="font-mono uppercase text-[10px] block text-slate-400 mb-1">Authenticated QR URL</span>
-          <p className="font-mono break-all text-blue-600 dark:text-blue-400">{data.qrCodeValue}</p>
+          <p className="font-mono break-all text-blue-600">{data.qrCodeValue}</p>
         </div>
       )}
 
       {/* Prototype seal statement */}
-      <div className="p-3 rounded-lg bg-blue-50/70 dark:bg-blue-950/40 border border-blue-200/50 dark:border-blue-900/40 text-center text-xs text-blue-900 dark:text-blue-200">
+      <div className="p-3 rounded-lg bg-blue-50/70 border border-blue-200/50 text-center text-xs text-blue-900">
         Demo Record • Verified by EthioClear Academic Prototype (Haramaya University)
       </div>
     </div>
@@ -189,7 +189,7 @@ function CertificateVerification() {
   }
 
   return (
-    <div className="bg-[#F4F6FB] dark:bg-slate-950 min-h-screen text-slate-800 dark:text-slate-100 transition-colors">
+    <div className="bg-[#F4F6FB] min-h-screen text-slate-800 transition-colors">
       
       {/* 1. HERO BANNER */}
       <section className="bg-gradient-to-r from-[#0F2A6B] to-[#1E3A8A] text-white py-16 sm:py-20 px-4 sm:px-6 lg:px-8 border-b border-blue-900/50">
@@ -208,15 +208,15 @@ function CertificateVerification() {
       <section className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-16 space-y-8">
         
         {/* Academic prototype disclaimer */}
-        <div className="rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/40 p-4 text-xs text-amber-800 dark:text-amber-300 flex items-start gap-3">
-          <span className="w-5 h-5 rounded-full bg-amber-200 dark:bg-amber-900 text-amber-800 dark:text-amber-200 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">!</span>
+        <div className="rounded-xl bg-amber-50 border border-amber-200 p-4 text-xs text-amber-800 flex items-start gap-3">
+          <span className="w-5 h-5 rounded-full bg-amber-200 text-amber-800 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">!</span>
           <p>
             <strong>Academic Demonstration:</strong> Certificates verified on this platform are prototype test records generated for Haramaya University graduation research, not legal government documents.
           </p>
         </div>
 
         {/* Verification input card */}
-        <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 sm:p-8 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+        <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/80 shadow-sm">
           <form onSubmit={handleSubmit} className="space-y-4">
             <Input
               label="Certificate ID or Verification URL"
@@ -226,7 +226,7 @@ function CertificateVerification() {
               placeholder="Paste certificate UUID (e.g. d0000000-0000-4000-8000-000000000001) or /verify/... URL"
               error={inputError}
             />
-            <p className="text-xs text-slate-500 dark:text-slate-400">
+            <p className="text-xs text-slate-500">
               Tip: Scanning the QR code on a clearance certificate will open this verifier automatically with the authentic record.
             </p>
             <Button 
@@ -249,7 +249,7 @@ function CertificateVerification() {
 
         {/* Server Error Alert */}
         {serverError && !isLoading && (
-          <div role="alert" className="rounded-xl bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-900 p-4 text-sm text-rose-700 dark:text-rose-300">
+          <div role="alert" className="rounded-xl bg-rose-50 border border-rose-200 p-4 text-sm text-rose-700">
             {serverError}
           </div>
         )}
