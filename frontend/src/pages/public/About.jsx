@@ -53,7 +53,7 @@ function About() {
   ];
 
   return (
-    <div className="bg-[#F4F6FB] dark:bg-slate-950 min-h-screen text-slate-800 dark:text-slate-100 transition-colors">
+    <div className="bg-[#F4F6FB] min-h-screen text-slate-800 transition-colors">
       
       {/* 1. HERO BANNER */}
       <section className="bg-gradient-to-r from-[#0F2A6B] to-[#1E3A8A] text-white py-16 sm:py-20 px-4 sm:px-6 lg:px-8 border-b border-blue-900/50">
@@ -73,20 +73,20 @@ function About() {
 
       {/* 2. INSTITUTIONAL MISSION & OVERVIEW */}
       <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 space-y-12">
-        <div className="bg-white dark:bg-slate-900 rounded-2xl p-8 sm:p-10 border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-6">
+        <div className="bg-white rounded-2xl p-8 sm:p-10 border border-slate-200/80 shadow-sm space-y-6">
           <div className="space-y-2">
             <div className="w-10 h-0.5 bg-[#D4A53A]"></div>
-            <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#0F2A6B] dark:text-blue-200">
+            <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#0F2A6B]">
               Our Vision and Academic Scope
             </h2>
           </div>
-          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+          <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
             Obtaining a criminal record clearance certificate in Ethiopia has traditionally involved in-person visits to police bureaus, manual identification checks, long queuing, and multi-day waiting periods for physical paper documents.
           </p>
-          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+          <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
             EthioClear was conceived and developed as an <strong>Academic Graduation Project</strong> at <strong>Haramaya University</strong>, Department of Information Science, to demonstrate how an end-to-end digital system can streamline applicant submissions, assist verification officers with structured review queues, and allow instant public verification using QR codes and cryptographically protected serial identifiers.
           </p>
-          <div className="p-4 rounded-xl bg-blue-50/70 dark:bg-blue-950/40 border border-blue-200/60 dark:border-blue-900/40 text-xs text-blue-900 dark:text-blue-200 space-y-1">
+          <div className="p-4 rounded-xl bg-blue-50/70 border border-blue-200/60 text-xs text-blue-900 space-y-1">
             <p className="font-bold">Important Academic Disclosure:</p>
             <p>
               EthioClear is an independent student prototype built solely for educational and research demonstration purposes. It is not affiliated with, authorized by, or an official service of the Ethiopian Federal Police Commission or any government department.
@@ -98,10 +98,10 @@ function About() {
         <div>
           <div className="text-center space-y-3 mb-10">
             <div className="w-10 h-0.5 bg-[#D4A53A] mx-auto rounded-full"></div>
-            <h3 className="font-serif text-2xl font-bold text-[#0F2A6B] dark:text-blue-200">
+            <h3 className="font-serif text-2xl font-bold text-[#0F2A6B]">
               Core Architectural Pillars
             </h3>
-            <p className="text-slate-600 dark:text-slate-400 text-sm max-w-lg mx-auto">
+            <p className="text-slate-600 text-sm max-w-lg mx-auto">
               Principles guiding the system design and functional implementation.
             </p>
           </div>
@@ -110,13 +110,13 @@ function About() {
             {missionCards.map((card, idx) => (
               <div 
                 key={idx}
-                className="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200/80 dark:border-slate-800 shadow-sm relative overflow-hidden space-y-3 hover:shadow-md transition-shadow"
+                className="bg-white rounded-xl p-6 border border-slate-200/80 shadow-sm relative overflow-hidden space-y-3 hover:shadow-md transition-shadow"
               >
                 <div className={`absolute top-0 left-0 right-0 h-1.5 ${card.stripeColor}`}></div>
-                <h4 className="font-serif text-lg font-bold text-[#0F2A6B] dark:text-blue-200 pt-1">
+                <h4 className="font-serif text-lg font-bold text-[#0F2A6B] pt-1">
                   {card.title}
                 </h4>
-                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                   {card.desc}
                 </p>
               </div>
@@ -128,10 +128,10 @@ function About() {
         <div>
           <div className="text-center space-y-3 mb-10">
             <div className="w-10 h-0.5 bg-[#D4A53A] mx-auto rounded-full"></div>
-            <h3 className="font-serif text-2xl font-bold text-[#0F2A6B] dark:text-blue-200">
+            <h3 className="font-serif text-2xl font-bold text-[#0F2A6B]">
               Project Development Team
             </h3>
-            <p className="text-slate-600 dark:text-slate-400 text-sm max-w-lg mx-auto">
+            <p className="text-slate-600 text-sm max-w-lg mx-auto">
               Haramaya University • Department of Information Science
             </p>
           </div>
@@ -140,22 +140,22 @@ function About() {
             {teamMembers.map((member, idx) => (
               <div 
                 key={idx}
-                className="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200/80 dark:border-slate-800 shadow-sm text-center space-y-3"
+                className="bg-white rounded-xl p-6 border border-slate-200/80 shadow-sm text-center space-y-3"
               >
                 <div className="w-14 h-14 mx-auto rounded-full bg-[#0F2A6B] text-[#D4A53A] font-serif font-bold text-lg flex items-center justify-center shadow-inner">
                   {member.initials}
                 </div>
                 <div>
-                  <h4 className="font-bold text-base text-slate-900 dark:text-white">
+                  <h4 className="font-bold text-base text-slate-900">
                     {member.name}
                   </h4>
                   <p className="text-xs font-medium text-[#D4A53A]">
                     {member.role}
                   </p>
                 </div>
-                <div className="text-xs text-slate-500 dark:text-slate-400 border-t border-slate-100 dark:border-slate-800 pt-3">
+                <div className="text-xs text-slate-500 border-t border-slate-100 pt-3">
                   <div>{member.dept}</div>
-                  <div className="font-semibold text-slate-700 dark:text-slate-300">{member.institution}</div>
+                  <div className="font-semibold text-slate-700">{member.institution}</div>
                 </div>
               </div>
             ))}
