@@ -45,17 +45,27 @@ export default function AuthLayout({ children, topAction, cardMaxWidth = 'max-w-
           <Logo variant="dark" size={38} showSubtitle={true} />
         </div>
 
-        {/* Bottom Section: Quote, Caption, and Accent Ribbon */}
-        <div className="relative z-10 mt-auto pt-12">
+        {/* Bottom Section: Quote, Caption with Avatar, and Accent Ribbon */}
+        <div className="relative z-10 mt-auto pt-10">
           {/* Large Serif Quote */}
           <blockquote className="font-serif text-2xl xl:text-3xl font-normal leading-relaxed text-white text-pretty">
             “{t('auth.quote')}”
           </blockquote>
 
-          {/* Honest Prototype Caption */}
-          <p className="mt-4 text-xs xl:text-sm font-medium tracking-wide text-blue-200/90">
-            {t('auth.quoteCaption')}
-          </p>
+          {/* Honest Prototype Caption with Initials Avatar */}
+          <div className="mt-5 flex items-center gap-3">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#E5B54F] text-[#0F2A6B] font-bold text-sm shadow-sm select-none">
+              EC
+            </div>
+            <div>
+              <p className="text-sm font-bold text-white tracking-wide">
+                EthioClear Verification
+              </p>
+              <p className="text-xs text-blue-200/90 font-medium">
+                {t('auth.quoteCaption')}
+              </p>
+            </div>
+          </div>
 
           {/* Ethiopian Flag Accent Bar: long green segment, then yellow and red */}
           <div className="mt-8 flex h-1.5 w-full max-w-xs rounded-full overflow-hidden shadow-xs">
