@@ -48,6 +48,7 @@ export const translations = {
       signUp: 'Register',
       createOneFree: 'Create one free',
       signInButton: 'Sign In',
+      keepMeSignedIn: 'Keep me signed in',
       disclaimer: 'This is an academic prototype of EthioClear. Not an official government service.',
       quote: 'A faster, safer, and more transparent way to apply for your certificate.',
       quoteCaption: 'EthioClear · University Graduation Project',
