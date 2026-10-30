@@ -15,7 +15,7 @@ function HowItWorks() {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
         </svg>
       ),
-      color: 'bg-blue-50 text-blue-600 dark:bg-blue-950/60 dark:text-blue-400 border-blue-200 dark:border-blue-800'
+      color: 'bg-blue-50 text-blue-600 border-blue-200'
     },
     {
       num: 'STEP 02',
@@ -26,7 +26,7 @@ function HowItWorks() {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
         </svg>
       ),
-      color: 'bg-amber-50 text-amber-600 dark:bg-amber-950/60 dark:text-amber-400 border-amber-200 dark:border-amber-800'
+      color: 'bg-amber-50 text-amber-600 border-amber-200'
     },
     {
       num: 'STEP 03',
@@ -37,7 +37,7 @@ function HowItWorks() {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
         </svg>
       ),
-      color: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800'
+      color: 'bg-emerald-50 text-emerald-600 border-emerald-200'
     },
     {
       num: 'STEP 04',
@@ -48,7 +48,7 @@ function HowItWorks() {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
         </svg>
       ),
-      color: 'bg-indigo-50 text-indigo-600 dark:bg-indigo-950/60 dark:text-indigo-400 border-indigo-200 dark:border-indigo-800'
+      color: 'bg-indigo-50 text-indigo-600 border-indigo-200'
     }
   ];
 
@@ -112,7 +112,7 @@ function HowItWorks() {
   ];
 
   return (
-    <div className="bg-[#F4F6FB] dark:bg-slate-950 min-h-screen text-slate-800 dark:text-slate-100 transition-colors">
+    <div className="bg-[#F4F6FB] min-h-screen text-slate-800 transition-colors">
       
       {/* Hero Banner */}
       <section className="bg-gradient-to-r from-[#0F2A6B] to-[#1E3A8A] text-white py-16 sm:py-20 px-4 sm:px-6 lg:px-8 border-b border-blue-900/50">
@@ -131,10 +131,10 @@ function HowItWorks() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
         <div className="text-center mb-14 space-y-3">
           <div className="w-10 h-0.5 bg-[#D4A53A] mx-auto rounded-full"></div>
-          <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#0F2A6B] dark:text-blue-300">
+          <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#0F2A6B]">
             Four Steps to Digital Verification
           </h2>
-          <p className="text-slate-600 dark:text-slate-400 text-sm max-w-xl mx-auto">
+          <p className="text-slate-600 text-sm max-w-xl mx-auto">
             From initial registration to instant employer verification, every stage is fully digitized.
           </p>
         </div>
@@ -143,7 +143,7 @@ function HowItWorks() {
           {steps.map((step, idx) => (
             <div 
               key={idx} 
-              className="bg-white dark:bg-slate-900 rounded-xl p-6 shadow-sm border border-slate-200/80 dark:border-slate-800 flex flex-col justify-between hover:shadow-md transition-shadow relative"
+              className="bg-white rounded-xl p-6 shadow-sm border border-slate-200/80 flex flex-col justify-between hover:shadow-md transition-shadow relative"
             >
               <div className="space-y-4">
                 <div className={`w-12 h-12 rounded-lg flex items-center justify-center border ${step.color}`}>
@@ -152,10 +152,10 @@ function HowItWorks() {
                 <span className="font-mono text-xs font-semibold text-[#D4A53A] tracking-wider uppercase">
                   {step.num}
                 </span>
-                <h3 className="text-base font-bold text-[#0F2A6B] dark:text-blue-200">
+                <h3 className="text-base font-bold text-[#0F2A6B]">
                   {step.title}
                 </h3>
-                <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                <p className="text-xs text-slate-600 leading-relaxed">
                   {step.desc}
                 </p>
               </div>
@@ -165,26 +165,26 @@ function HowItWorks() {
       </section>
 
       {/* What You'll Need */}
-      <section className="bg-white dark:bg-slate-900 border-y border-slate-200/80 dark:border-slate-800 py-16">
+      <section className="bg-white border-y border-slate-200/80 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 space-y-3">
             <div className="w-10 h-0.5 bg-[#D4A53A] mx-auto rounded-full"></div>
-            <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#0F2A6B] dark:text-blue-300">
+            <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#0F2A6B]">
               What You Will Need
             </h2>
-            <p className="text-slate-600 dark:text-slate-400 text-sm max-w-lg mx-auto">
+            <p className="text-slate-600 text-sm max-w-lg mx-auto">
               Ensure you have the following information and documents ready before starting your application.
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {requirements.map((req, idx) => (
-              <div key={idx} className="p-5 rounded-xl border border-slate-100 dark:border-slate-800 bg-[#F4F6FB] dark:bg-slate-950/60 space-y-3">
-                <div className="w-10 h-10 rounded-lg bg-blue-100/70 dark:bg-blue-900/40 text-[#0F2A6B] dark:text-blue-300 flex items-center justify-center">
+              <div key={idx} className="p-5 rounded-xl border border-slate-100 bg-[#F4F6FB] space-y-3">
+                <div className="w-10 h-10 rounded-lg bg-blue-100/70 text-[#0F2A6B] flex items-center justify-center">
                   {req.icon}
                 </div>
-                <h4 className="font-bold text-sm text-slate-800 dark:text-slate-200">{req.title}</h4>
-                <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">{req.desc}</p>
+                <h4 className="font-bold text-sm text-slate-800">{req.title}</h4>
+                <p className="text-xs text-slate-600 leading-relaxed">{req.desc}</p>
               </div>
             ))}
           </div>
@@ -195,22 +195,22 @@ function HowItWorks() {
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
         <div className="text-center mb-12 space-y-3">
           <div className="w-10 h-0.5 bg-[#D4A53A] mx-auto rounded-full"></div>
-          <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#0F2A6B] dark:text-blue-300">
+          <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#0F2A6B]">
             Frequently Asked Questions
           </h2>
-          <p className="text-slate-600 dark:text-slate-400 text-sm">
+          <p className="text-slate-600 text-sm">
             Answers to common questions regarding the EthioClear academic prototype.
           </p>
         </div>
 
         <div className="space-y-4">
           {faqs.map((faq, idx) => (
-            <div key={idx} className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-2">
-              <h3 className="font-bold text-sm sm:text-base text-[#0F2A6B] dark:text-blue-200 flex items-start gap-2.5">
-                <span className="w-5 h-5 rounded-full bg-amber-100 dark:bg-amber-950 text-amber-600 flex items-center justify-center text-xs shrink-0 mt-0.5 font-bold">?</span>
+            <div key={idx} className="bg-white p-6 rounded-xl border border-slate-200/80 shadow-sm space-y-2">
+              <h3 className="font-bold text-sm sm:text-base text-[#0F2A6B] flex items-start gap-2.5">
+                <span className="w-5 h-5 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center text-xs shrink-0 mt-0.5 font-bold">?</span>
                 {faq.q}
               </h3>
-              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 pl-7 leading-relaxed">
+              <p className="text-xs sm:text-sm text-slate-600 pl-7 leading-relaxed">
                 {faq.a}
               </p>
             </div>
