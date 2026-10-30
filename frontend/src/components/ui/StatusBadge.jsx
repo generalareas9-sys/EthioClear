@@ -6,23 +6,23 @@ function getBadgeVariant(label = '', badgeClass = '') {
   const text = (label || '').toLowerCase();
 
   if (text.includes('approved') || text.includes('verified') || text.includes('active')) {
-    return 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800/60 dot-emerald';
+    return 'bg-emerald-50 text-emerald-700 border-emerald-200 dot-emerald';
   }
   if (text.includes('rejected') || text.includes('suspended')) {
-    return 'bg-red-50 text-red-700 border-red-200 dark:bg-red-950/40 dark:text-red-300 dark:border-red-800/60 dot-red';
+    return 'bg-red-50 text-red-700 border-red-200 dot-red';
   }
   if (text.includes('review') || text.includes('submitted')) {
-    return 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/40 dark:text-blue-300 dark:border-blue-800/60 dot-blue';
+    return 'bg-blue-50 text-blue-700 border-blue-200 dot-blue';
   }
   if (text.includes('pending')) {
-    return 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-800/60 dot-amber';
+    return 'bg-amber-50 text-amber-700 border-amber-200 dot-amber';
   }
   if (text.includes('certificate') || text.includes('issued')) {
-    return 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-300 dark:border-indigo-800/60 dot-indigo';
+    return 'bg-indigo-50 text-indigo-700 border-indigo-200 dot-indigo';
   }
 
   // Fallback to existing badgeClass or gray
-  return badgeClass || 'bg-slate-100 text-slate-700 border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700 dot-slate';
+  return badgeClass || 'bg-slate-100 text-slate-700 border-slate-200 dot-slate';
 }
 
 function StatusBadge({ label, badgeClass = '' }) {
