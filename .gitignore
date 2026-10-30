@@ -1,6 +1,60 @@
+# =====================================================================
+# EthioClear — Root Git Ignore Configuration
+# =====================================================================
+
+# Environment variables & secrets (NEVER commit real credentials)
+.env
+.env.local
+.env.*.local
+*.env
+
+# Dependencies
+node_modules/
+backend/node_modules/
+frontend/node_modules/
+
+# Production build outputs
+dist/
+dist-ssr/
+frontend/dist/
+frontend/dist-ssr/
+
+# Runtime storage (preserve folder structure via .gitkeep, ignore runtime files)
+storage/uploads/*
+storage/certificates/*
+storage/temp/*
+!storage/uploads/.gitkeep
+!storage/certificates/.gitkeep
+!storage/temp/.gitkeep
+backend/storage/uploads/*
+backend/storage/certificates/*
+backend/storage/temp/*
+!backend/storage/uploads/.gitkeep
+!backend/storage/certificates/.gitkeep
+!backend/storage/temp/.gitkeep
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Test coverage
+coverage/
+backend/coverage/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Editor directories
+.vscode/
+.idea/
 
 # Local archives and debug scripts
+*.zip
 backend.zip
 frontend.zip
-backend/debugDb.js
 testEnv.js
+backend/debugDb.js
