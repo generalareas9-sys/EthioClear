@@ -1,9 +1,8 @@
 // tailwind.config.js
-// Tailwind CSS configuration for EthioClear.
+// Tailwind CSS configuration for EthioClear (Light-only theme).
 
 /** @type {import('tailwindcss').Config} */
 export default {
-  darkMode: 'class',
   content: ['./index.html', './src/**/*.{js,jsx}'],
   theme: {
     extend: {
@@ -73,7 +72,7 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['"Outfit"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        sans: ['"Outfit"', '"Noto Sans Ethiopic"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         serif: ['"DM Serif Display"', 'Georgia', 'serif'],
         mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
       },
