@@ -116,7 +116,7 @@ function OfficerDashboard() {
       </div>
 
       {error && (
-        <div role="alert" className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-800 dark:bg-red-950/40 dark:text-red-300">
+        <div role="alert" className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
           <span>{error}</span>{' '}
           <button type="button" onClick={load} className="font-bold underline ml-2">Retry</button>
         </div>
@@ -172,7 +172,7 @@ function OfficerDashboard() {
             headerRight={
               <Link
                 to="/officer/queue"
-                className="text-xs font-semibold text-primary-600 hover:text-primary-700 dark:text-primary-400 hover:underline"
+                className="text-xs font-semibold text-primary-600 hover:text-primary-700 hover:underline"
               >
                 View full queue ({counts['submitted'] ?? 0}) →
               </Link>
@@ -214,7 +214,7 @@ function OfficerDashboard() {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="flex items-center gap-2.5">
-                              <div className="flex h-7 w-7 items-center justify-center rounded-full bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-300 font-bold text-xs">
+                              <div className="flex h-7 w-7 items-center justify-center rounded-full bg-amber-100 text-amber-900 font-bold text-xs">
                                 {appInitials}
                               </div>
                               <span className="text-text-primary font-medium">{app.applicant_name}</span>
@@ -250,10 +250,10 @@ function OfficerDashboard() {
             <Card title="Quick Queue Filters">
               <div className="space-y-2.5">
                 {[
-                  { status: 'submitted',    label: 'Pending Initial Review', count: counts['submitted'] ?? 0, bg: 'hover:bg-amber-50 dark:hover:bg-amber-950/30' },
-                  { status: 'under_review', label: 'Under Detailed Review',  count: counts['under_review'] ?? 0, bg: 'hover:bg-blue-50 dark:hover:bg-blue-950/30' },
-                  { status: 'approved',     label: 'Approved Submissions',   count: counts['approved'] ?? 0, bg: 'hover:bg-emerald-50 dark:hover:bg-emerald-950/30' },
-                  { status: 'rejected',     label: 'Rejected Submissions',   count: counts['rejected'] ?? 0, bg: 'hover:bg-red-50 dark:hover:bg-red-950/30' },
+                  { status: 'submitted',    label: 'Pending Initial Review', count: counts['submitted'] ?? 0, bg: 'hover:bg-amber-50' },
+                  { status: 'under_review', label: 'Under Detailed Review',  count: counts['under_review'] ?? 0, bg: 'hover:bg-blue-50' },
+                  { status: 'approved',     label: 'Approved Submissions',   count: counts['approved'] ?? 0, bg: 'hover:bg-emerald-50' },
+                  { status: 'rejected',     label: 'Rejected Submissions',   count: counts['rejected'] ?? 0, bg: 'hover:bg-red-50' },
                 ].map(({ status, label, count, bg }) => (
                   <Link
                     key={status}
