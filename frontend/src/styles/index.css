@@ -1,6 +1,6 @@
 /* src/styles/index.css
- * Global stylesheet. Loads Tailwind's base/components/utilities
- * layers, then defines semantic design tokens and accessibility rules.
+ * Global stylesheet for EthioClear.
+ * Single polished light-only theme adhering to Figma color architecture.
  */
 
 @tailwind base;
@@ -9,55 +9,33 @@
 
 @layer base {
   :root {
-    /* Semantic Color Tokens - Light Mode matching Figma design */
+    /* Semantic Color Tokens - Single Polished Light Theme */
     --color-bg-app: #f4f6fb;        /* Figma soft blue-gray background */
     --color-bg-surface: #ffffff;    /* pure white */
     --color-bg-card: #ffffff;       /* card surface */
     --color-bg-subtle: #edf1f8;     /* subtle muted elements */
-    --color-bg-header: #ffffff;     /* top bar */
+    --color-bg-header: #ffffff;     /* solid white top bar */
 
-    --color-border: #e4e8f1;        /* soft light borders */
+    --color-border: #e2e8f0;        /* slate-200 */
     --color-border-subtle: #cbd5e1; /* slate-300 */
     --color-border-focus: #0f2a6b;  /* navy focus ring */
 
-    --color-text-primary: #0f1d40;  /* deep navy-charcoal heading/primary text */
+    --color-text-primary: #0f172a;  /* slate-900 / deep navy text */
     --color-text-secondary: #334155;/* slate-700 */
-    --color-text-muted: #64748b;    /* slate-500 */
+    --color-text-muted: #475569;    /* slate-600 - High contrast WCAG AA */
 
-    --site-foreground: #0f1d40;
-    --site-muted: #64748b;
+    --site-foreground: #0f172a;
+    --site-muted: #475569;
     --site-bg: #f4f6fb;
     --site-bg-weak: #ffffff;
     --site-primary: #0f2a6b;
-  }
-
-  html.dark {
-    /* Semantic Color Tokens - Dark Mode */
-    --color-bg-app: #030712;        /* deep rich charcoal/black */
-    --color-bg-surface: #0b1329;    /* deep dark navy */
-    --color-bg-card: #0f172a;       /* slate-900 */
-    --color-bg-subtle: #1e293b;     /* slate-800 */
-    --color-bg-header: #0b152d;     /* deep navy header - stands out from app bg */
-
-    --color-border: #1e293b;        /* slate-800 */
-    --color-border-subtle: #334155; /* slate-700 */
-    --color-border-focus: #3b82f6;  /* primary-500 */
-
-    --color-text-primary: #f8fafc;  /* slate-50 (WCAG AAA contrast) */
-    --color-text-secondary: #cbd5e1;/* slate-300 */
-    --color-text-muted: #94a3b8;    /* slate-400 */
-
-    --site-foreground: #f8fafc;
-    --site-muted: #94a3b8;
-    --site-bg: #030712;
-    --site-bg-weak: #0f172a;
-    --site-primary: #3b82f6;
   }
 
   html {
     @apply antialiased;
     background-color: var(--color-bg-app);
     color: var(--color-text-primary);
+    color-scheme: light;
   }
 
   body {
@@ -73,41 +51,25 @@
 
   /* Always show a visible focus ring for keyboard navigation */
   :focus-visible {
-    @apply outline outline-2 outline-offset-2 outline-primary-600 dark:outline-primary-400;
+    @apply outline outline-2 outline-offset-2 outline-[#0F2A6B];
   }
 }
 
-/* Hero banner backgrounds */
-.hero-banner {
-  background-image: url('/src/assets/banner-light.svg');
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-
-html.dark .hero-banner {
-  background-image: url('/src/assets/banner-dark.svg');
-}
-
-@media (max-width: 640px) {
-  .hero-banner {
-    background-position: center 30%;
-    background-size: 200% auto;
-  }
-}
-
-/* Custom scrollbar for modern mobile/desktop touch experience */
+/* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
+
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: #f1f5f9;
 }
+
 ::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.4);
-  border-radius: 9999px;
+  background: #cbd5e1;
+  border-radius: 4px;
 }
-.dark ::-webkit-scrollbar-thumb {
-  background: rgba(71, 85, 105, 0.5);
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }
