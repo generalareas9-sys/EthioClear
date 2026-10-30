@@ -1,13 +1,13 @@
 // src/components/common/Button.jsx
-// Reusable button with accessible contrast, min-44px touch targets on mobile, and theme support.
+// Reusable button with accessible contrast, min-44px touch targets on mobile, and light theme support.
 
 import LoadingSpinner from './LoadingSpinner.jsx';
 
 const VARIANT_CLASSES = {
-  primary: 'bg-primary-700 text-white hover:bg-primary-800 focus-visible:outline-primary-700 shadow-sm',
-  secondary: 'bg-secondary-700 text-white hover:bg-secondary-800 focus-visible:outline-secondary-700 shadow-sm',
-  outline: 'bg-surface text-text-primary border border-border-theme hover:bg-card-subtle focus-visible:outline-primary-600 shadow-sm',
-  danger: 'bg-red-600 text-white hover:bg-red-700 focus-visible:outline-red-600 shadow-sm',
+  primary: 'bg-[#0F2A6B] text-white hover:bg-[#1E3A8A] focus-visible:outline-[#0F2A6B] shadow-xs',
+  secondary: 'bg-emerald-600 text-white hover:bg-emerald-700 focus-visible:outline-emerald-600 shadow-xs',
+  outline: 'bg-transparent text-slate-800 border border-slate-300 hover:bg-slate-100 focus-visible:outline-[#0F2A6B] shadow-xs',
+  danger: 'bg-red-600 text-white hover:bg-red-700 focus-visible:outline-red-600 shadow-xs',
 };
 
 const SIZE_CLASSES = {
@@ -36,7 +36,7 @@ function Button({
   const variantClass = VARIANT_CLASSES[variant] || VARIANT_CLASSES.primary;
   const sizeClass = SIZE_CLASSES[size] || SIZE_CLASSES.md;
   const spinnerStyle = variant === 'outline'
-    ? { borderColor: 'var(--color-border-focus)', borderTopColor: 'transparent' }
+    ? { borderColor: '#0F2A6B', borderTopColor: 'transparent' }
     : { borderColor: 'white', borderTopColor: 'transparent' };
 
   return (
@@ -50,10 +50,19 @@ function Button({
         sizeClass,
         fullWidth ? 'w-full' : '',
         className,
-      ].join(' ')}
+      ]
+        .filter(Boolean)
+        .join(' ')}
       {...rest}
     >
-      {isLoading && <LoadingSpinner size="sm" label="Loading" style={spinnerStyle} />}
+      {isLoading && (
+        <span
+          className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid"
+          style={spinnerStyle}
+          role="status"
+          aria-label="Loading"
+        />
+      )}
       {children}
     </button>
   );
