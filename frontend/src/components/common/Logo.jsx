@@ -18,11 +18,11 @@ export default function Logo({ size = 38, showSubtitle = true, variant = 'light'
       </div>
 
       <div className="leading-tight text-left">
-        <div className={`font-sans font-extrabold text-xl tracking-tight ${isDark ? 'text-white' : 'text-[#0F2A6B] dark:text-blue-100'}`}>
-          Ethio<span className="text-[#D4A53A] dark:text-amber-400">Clear</span>
+        <div className={`font-sans font-extrabold text-xl tracking-tight ${isDark ? 'text-white' : 'text-[#0F2A6B]'}`}>
+          Ethio<span className="text-[#D4A53A]">Clear</span>
         </div>
         {showSubtitle && (
-          <div className="text-[9px] font-semibold tracking-widest uppercase text-slate-500 dark:text-slate-400">
+          <div className="text-[9px] font-semibold tracking-widest uppercase text-slate-500">
             CERTIFICATE SYSTEM
           </div>
         )}
