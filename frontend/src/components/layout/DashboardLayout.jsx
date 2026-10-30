@@ -44,8 +44,6 @@ function DashboardLayout() {
             <Outlet />
           </div>
         </main>
-
-        <Footer />
       </div>
     </div>
   );
