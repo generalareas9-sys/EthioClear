@@ -358,7 +358,7 @@ export default function Register() {
           Already have an account?{' '}
           <Link
             to="/login"
-            className="font-semibold text-primary-600 hover:text-primary-700 dark:text-primary-400 hover:underline"
+            className="font-semibold text-primary-600 hover:text-primary-700 hover:underline"
           >
             Sign In
           </Link>
@@ -384,8 +384,8 @@ export default function Register() {
                           isCompleted
                             ? 'bg-[#16a34a] text-white'
                             : isCurrent
-                            ? 'bg-[#0f2d6b] text-white ring-4 ring-blue-100 dark:ring-blue-900/40'
-                            : 'bg-[#e8edf5] dark:bg-slate-800 text-[#94a3b8] dark:text-slate-500',
+                            ? 'bg-[#0f2d6b] text-white ring-4 ring-blue-100'
+                            : 'bg-[#e8edf5] text-[#94a3b8]',
                         ].join(' ')}
                       >
                         {isCompleted ? (
@@ -408,10 +408,10 @@ export default function Register() {
                         className={[
                           'text-[10px] sm:text-xs mt-1.5 font-medium hidden sm:block',
                           isCurrent
-                            ? 'text-[#0f2d6b] dark:text-blue-300 font-bold'
+                            ? 'text-[#0f2d6b] font-bold'
                             : isCompleted
-                            ? 'text-slate-700 dark:text-slate-300'
-                            : 'text-[#94a3b8] dark:text-slate-500',
+                            ? 'text-slate-700'
+                            : 'text-[#94a3b8]',
                         ].join(' ')}
                       >
                         {step.title}
@@ -422,7 +422,7 @@ export default function Register() {
                       <div
                         className={[
                           'w-10 sm:w-16 h-0.5 mx-1.5 mb-0 sm:mb-4 transition-colors',
-                          index < currentStep ? 'bg-[#16a34a]' : 'bg-[#e8edf5] dark:bg-slate-700',
+                          index < currentStep ? 'bg-[#16a34a]' : 'bg-[#e8edf5]',
                         ].join(' ')}
                         aria-hidden="true"
                       />
@@ -439,16 +439,16 @@ export default function Register() {
             {formError && (
               <div
                 role="alert"
-                className="mb-6 rounded-lg bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/50 p-4 text-sm text-red-700 dark:text-red-300"
+                className="mb-6 rounded-lg bg-red-50 border border-red-200 p-4 text-sm text-red-700"
               >
                 {isConflict ? (
                   <span>
                     We couldn&#39;t complete registration with these details. If you already registered, you can{' '}
-                    <Link to="/login" className="font-semibold underline hover:text-red-900 dark:hover:text-red-100">
+                    <Link to="/login" className="font-semibold underline hover:text-red-900">
                       log in
                     </Link>{' '}
                     or{' '}
-                    <Link to="/forgot-password" className="font-semibold underline hover:text-red-900 dark:hover:text-red-100">
+                    <Link to="/forgot-password" className="font-semibold underline hover:text-red-900">
                       reset your password
                     </Link>
                     .
@@ -462,10 +462,10 @@ export default function Register() {
             {/* STEP 1: Personal Information */}
             {currentStep === 0 && (
               <div>
-                <h2 className="font-serif text-2xl font-bold text-[#0f2d6b] dark:text-blue-200 mb-1">
+                <h2 className="font-serif text-2xl font-bold text-[#0f2d6b] mb-1">
                   Personal Information
                 </h2>
-                <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">
+                <p className="text-sm text-slate-500 mb-6">
                   Enter your details exactly as they appear on your national ID.
                 </p>
 
@@ -473,7 +473,7 @@ export default function Register() {
                   {/* Name Fields: 3 columns */}
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <div>
-                      <label htmlFor="firstName" className="block text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider mb-1.5">
+                      <label htmlFor="firstName" className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">
                         First Name <span className="text-red-500">*</span>
                       </label>
                       <input
@@ -486,19 +486,19 @@ export default function Register() {
                         aria-invalid={Boolean(fieldErrors.firstName)}
                         aria-describedby={fieldErrors.firstName ? 'firstName-error' : undefined}
                         className={[
-                          'w-full px-3.5 py-2.5 rounded-lg border text-sm text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-900 transition-colors focus:outline-none focus:ring-2 focus:ring-[#0f2d6b] dark:focus:ring-blue-500',
-                          fieldErrors.firstName ? 'border-red-400' : 'border-slate-300 dark:border-slate-700',
+                          'w-full px-3.5 py-2.5 rounded-lg border text-sm text-slate-900 bg-white transition-colors focus:outline-none focus:ring-2 focus:ring-[#0f2d6b]',
+                          fieldErrors.firstName ? 'border-red-400' : 'border-slate-300',
                         ].join(' ')}
                       />
                       {fieldErrors.firstName && (
-                        <p id="firstName-error" className="mt-1 text-xs text-red-600 dark:text-red-400 font-medium">
+                        <p id="firstName-error" className="mt-1 text-xs text-red-600 font-medium">
                           {fieldErrors.firstName}
                         </p>
                       )}
                     </div>
 
                     <div>
-                      <label htmlFor="middleName" className="block text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider mb-1.5">
+                      <label htmlFor="middleName" className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">
                         Middle Name
                       </label>
                       <input
@@ -508,12 +508,12 @@ export default function Register() {
                         value={formData.middleName}
                         onChange={handleChange}
                         placeholder="Tadesse"
-                        className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 text-sm text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-900 transition-colors focus:outline-none focus:ring-2 focus:ring-[#0f2d6b] dark:focus:ring-blue-500"
+                        className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm text-slate-900 bg-white transition-colors focus:outline-none focus:ring-2 focus:ring-[#0f2d6b]"
                       />
                     </div>
 
                     <div>
-                      <label htmlFor="lastName" className="block text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider mb-1.5">
+                      <label htmlFor="lastName" className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">
                         Last Name <span className="text-red-500">*</span>
                       </label>
                       <input
@@ -526,12 +526,12 @@ export default function Register() {
                         aria-invalid={Boolean(fieldErrors.lastName)}
                         aria-describedby={fieldErrors.lastName ? 'lastName-error' : undefined}
                         className={[
-                          'w-full px-3.5 py-2.5 rounded-lg border text-sm text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-900 transition-colors focus:outline-none focus:ring-2 focus:ring-[#0f2d6b] dark:focus:ring-blue-500',
-                          fieldErrors.lastName ? 'border-red-400' : 'border-slate-300 dark:border-slate-700',
+                          'w-full px-3.5 py-2.5 rounded-lg border text-sm text-slate-900 bg-white transition-colors focus:outline-none focus:ring-2 focus:ring-[#0f2d6b]',
+                          fieldErrors.lastName ? 'border-red-400' : 'border-slate-300',
                         ].join(' ')}
                       />
                       {fieldErrors.lastName && (
-                        <p id="lastName-error" className="mt-1 text-xs text-red-600 dark:text-red-400 font-medium">
+                        <p id="lastName-error" className="mt-1 text-xs text-red-600 font-medium">
                           {fieldErrors.lastName}
                         </p>
                       )}
@@ -541,7 +541,7 @@ export default function Register() {
                   {/* DOB and Gender: 2 columns */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label htmlFor="dateOfBirth" className="block text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider mb-1.5">
+                      <label htmlFor="dateOfBirth" className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">
                         Date of Birth <span className="text-red-500">*</span>
                       </label>
                       <input
@@ -553,19 +553,19 @@ export default function Register() {
                         aria-invalid={Boolean(fieldErrors.dateOfBirth)}
                         aria-describedby={fieldErrors.dateOfBirth ? 'dateOfBirth-error' : undefined}
                         className={[
-                          'w-full px-3.5 py-2.5 rounded-lg border text-sm text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-900 transition-colors focus:outline-none focus:ring-2 focus:ring-[#0f2d6b] dark:focus:ring-blue-500',
-                          fieldErrors.dateOfBirth ? 'border-red-400' : 'border-slate-300 dark:border-slate-700',
+                          'w-full px-3.5 py-2.5 rounded-lg border text-sm text-slate-900 bg-white transition-colors focus:outline-none focus:ring-2 focus:ring-[#0f2d6b]',
+                          fieldErrors.dateOfBirth ? 'border-red-400' : 'border-slate-300',
                         ].join(' ')}
                       />
                       {fieldErrors.dateOfBirth && (
-                        <p id="dateOfBirth-error" className="mt-1 text-xs text-red-600 dark:text-red-400 font-medium">
+                        <p id="dateOfBirth-error" className="mt-1 text-xs text-red-600 font-medium">
                           {fieldErrors.dateOfBirth}
                         </p>
                       )}
                     </div>
 
                     <div>
-                      <label htmlFor="gender" className="block text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider mb-1.5">
+                      <label htmlFor="gender" className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">
                         Gender <span className="text-red-500">*</span>
                       </label>
                       <select
@@ -576,8 +576,8 @@ export default function Register() {
                         aria-invalid={Boolean(fieldErrors.gender)}
                         aria-describedby={fieldErrors.gender ? 'gender-error' : undefined}
                         className={[
-                          'w-full px-3.5 py-2.5 rounded-lg border text-sm text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-900 transition-colors focus:outline-none focus:ring-2 focus:ring-[#0f2d6b] dark:focus:ring-blue-500',
-                          fieldErrors.gender ? 'border-red-400' : 'border-slate-300 dark:border-slate-700',
+                          'w-full px-3.5 py-2.5 rounded-lg border text-sm text-slate-900 bg-white transition-colors focus:outline-none focus:ring-2 focus:ring-[#0f2d6b]',
+                          fieldErrors.gender ? 'border-red-400' : 'border-slate-300',
                         ].join(' ')}
                       >
                         <option value="">Select gender</option>
@@ -585,7 +585,7 @@ export default function Register() {
                         <option value="Female">Female</option>
                       </select>
                       {fieldErrors.gender && (
-                        <p id="gender-error" className="mt-1 text-xs text-red-600 dark:text-red-400 font-medium">
+                        <p id="gender-error" className="mt-1 text-xs text-red-600 font-medium">
                           {fieldErrors.gender}
                         </p>
                       )}
@@ -594,7 +594,7 @@ export default function Register() {
 
                   {/* Region */}
                   <div>
-                    <label htmlFor="region" className="block text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider mb-1.5">
+                    <label htmlFor="region" className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">
                       Region <span className="text-red-500">*</span>
                     </label>
                     <select
@@ -605,8 +605,8 @@ export default function Register() {
                       aria-invalid={Boolean(fieldErrors.region)}
                       aria-describedby={fieldErrors.region ? 'region-error' : undefined}
                       className={[
-                        'w-full px-3.5 py-2.5 rounded-lg border text-sm text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-900 transition-colors focus:outline-none focus:ring-2 focus:ring-[#0f2d6b] dark:focus:ring-blue-500',
-                        fieldErrors.region ? 'border-red-400' : 'border-slate-300 dark:border-slate-700',
+                        'w-full px-3.5 py-2.5 rounded-lg border text-sm text-slate-900 bg-white transition-colors focus:outline-none focus:ring-2 focus:ring-[#0f2d6b]',
+                        fieldErrors.region ? 'border-red-400' : 'border-slate-300',
                       ].join(' ')}
                     >
                       <option value="">Select region</option>
@@ -617,7 +617,7 @@ export default function Register() {
                       ))}
                     </select>
                     {fieldErrors.region && (
-                      <p id="region-error" className="mt-1 text-xs text-red-600 dark:text-red-400 font-medium">
+                      <p id="region-error" className="mt-1 text-xs text-red-600 font-medium">
                         {fieldErrors.region}
                       </p>
                     )}
@@ -625,7 +625,7 @@ export default function Register() {
 
                   {/* National ID No. */}
                   <div>
-                    <label htmlFor="nationalIdNumber" className="block text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider mb-1.5">
+                    <label htmlFor="nationalIdNumber" className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">
                       National ID No. <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -639,16 +639,16 @@ export default function Register() {
                       aria-invalid={Boolean(fieldErrors.nationalIdNumber)}
                       aria-describedby={fieldErrors.nationalIdNumber ? 'nationalIdNumber-error' : 'nationalIdNumber-hint'}
                       className={[
-                        'w-full px-3.5 py-2.5 rounded-lg border text-sm text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-900 tracking-wider font-mono transition-colors focus:outline-none focus:ring-2 focus:ring-[#0f2d6b] dark:focus:ring-blue-500',
-                        fieldErrors.nationalIdNumber ? 'border-red-400' : 'border-slate-300 dark:border-slate-700',
+                        'w-full px-3.5 py-2.5 rounded-lg border text-sm text-slate-900 bg-white tracking-wider font-mono transition-colors focus:outline-none focus:ring-2 focus:ring-[#0f2d6b]',
+                        fieldErrors.nationalIdNumber ? 'border-red-400' : 'border-slate-300',
                       ].join(' ')}
                     />
                     {fieldErrors.nationalIdNumber ? (
-                      <p id="nationalIdNumber-error" className="mt-1 text-xs text-red-600 dark:text-red-400 font-medium">
+                      <p id="nationalIdNumber-error" className="mt-1 text-xs text-red-600 font-medium">
                         {fieldErrors.nationalIdNumber}
                       </p>
                     ) : (
-                      <p id="nationalIdNumber-hint" className="mt-1 text-[11px] text-slate-400 dark:text-slate-500">
+                      <p id="nationalIdNumber-hint" className="mt-1 text-[11px] text-slate-400">
                         Prototype format: EID-000-000-000 (3 blocks of 3 digits). Never checked against a real registry.
                       </p>
                     )}
@@ -660,17 +660,17 @@ export default function Register() {
             {/* STEP 2: Contact Details */}
             {currentStep === 1 && (
               <div>
-                <h2 className="font-serif text-2xl font-bold text-[#0f2d6b] dark:text-blue-200 mb-1">
+                <h2 className="font-serif text-2xl font-bold text-[#0f2d6b] mb-1">
                   Contact Details
                 </h2>
-                <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">
+                <p className="text-sm text-slate-500 mb-6">
                   We&#39;ll use these to send you application updates and your certificate.
                 </p>
 
                 <div className="space-y-4">
                   {/* Email */}
                   <div>
-                    <label htmlFor="email" className="block text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider mb-1.5">
+                    <label htmlFor="email" className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">
                       Email Address <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -683,12 +683,12 @@ export default function Register() {
                       aria-invalid={Boolean(fieldErrors.email)}
                       aria-describedby={fieldErrors.email ? 'email-error' : undefined}
                       className={[
-                        'w-full px-3.5 py-2.5 rounded-lg border text-sm text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-900 transition-colors focus:outline-none focus:ring-2 focus:ring-[#0f2d6b] dark:focus:ring-blue-500',
-                        fieldErrors.email ? 'border-red-400' : 'border-slate-300 dark:border-slate-700',
+                        'w-full px-3.5 py-2.5 rounded-lg border text-sm text-slate-900 bg-white transition-colors focus:outline-none focus:ring-2 focus:ring-[#0f2d6b]',
+                        fieldErrors.email ? 'border-red-400' : 'border-slate-300',
                       ].join(' ')}
                     />
                     {fieldErrors.email && (
-                      <p id="email-error" className="mt-1 text-xs text-red-600 dark:text-red-400 font-medium">
+                      <p id="email-error" className="mt-1 text-xs text-red-600 font-medium">
                         {fieldErrors.email}
                       </p>
                     )}
@@ -696,16 +696,16 @@ export default function Register() {
 
                   {/* Phone Number: Fixed +251 prefix inside same field row */}
                   <div>
-                    <label htmlFor="phoneDigits" className="block text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider mb-1.5">
+                    <label htmlFor="phoneDigits" className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">
                       Phone Number <span className="text-red-500">*</span>
                     </label>
                     <div
                       className={[
-                        'flex items-center rounded-lg border bg-white dark:bg-slate-900 overflow-hidden focus-within:ring-2 focus-within:ring-[#0f2d6b] dark:focus-within:ring-blue-500',
-                        fieldErrors.phoneNumber ? 'border-red-400' : 'border-slate-300 dark:border-slate-700',
+                        'flex items-center rounded-lg border bg-white overflow-hidden focus-within:ring-2 focus-within:ring-[#0f2d6b]',
+                        fieldErrors.phoneNumber ? 'border-red-400' : 'border-slate-300',
                       ].join(' ')}
                     >
-                      <span className="px-3.5 py-2.5 text-sm font-semibold text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 select-none">
+                      <span className="px-3.5 py-2.5 text-sm font-semibold text-slate-600 bg-slate-100 border-r border-slate-200 select-none">
                         +251
                       </span>
                       <input
@@ -718,15 +718,15 @@ export default function Register() {
                         maxLength={9}
                         aria-invalid={Boolean(fieldErrors.phoneNumber)}
                         aria-describedby={fieldErrors.phoneNumber ? 'phone-error' : 'phone-hint'}
-                        className="flex-1 px-3.5 py-2.5 text-sm text-slate-900 dark:text-slate-100 bg-transparent outline-none placeholder:text-slate-400"
+                        className="flex-1 px-3.5 py-2.5 text-sm text-slate-900 bg-transparent outline-none placeholder:text-slate-400"
                       />
                     </div>
                     {fieldErrors.phoneNumber ? (
-                      <p id="phone-error" className="mt-1 text-xs text-red-600 dark:text-red-400 font-medium">
+                      <p id="phone-error" className="mt-1 text-xs text-red-600 font-medium">
                         {fieldErrors.phoneNumber}
                       </p>
                     ) : (
-                      <p id="phone-hint" className="mt-1 text-[11px] text-slate-400 dark:text-slate-500">
+                      <p id="phone-hint" className="mt-1 text-[11px] text-slate-400">
                         9 digits starting with 9 or 7 (e.g. 91 123 4567)
                       </p>
                     )}
@@ -734,7 +734,7 @@ export default function Register() {
 
                   {/* Current Address */}
                   <div>
-                    <label htmlFor="address" className="block text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider mb-1.5">
+                    <label htmlFor="address" className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">
                       Current Address <span className="text-red-500">*</span>
                     </label>
                     <textarea
@@ -747,12 +747,12 @@ export default function Register() {
                       aria-invalid={Boolean(fieldErrors.address)}
                       aria-describedby={fieldErrors.address ? 'address-error' : undefined}
                       className={[
-                        'w-full px-3.5 py-2.5 rounded-lg border text-sm text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-900 resize-none transition-colors focus:outline-none focus:ring-2 focus:ring-[#0f2d6b] dark:focus:ring-blue-500',
-                        fieldErrors.address ? 'border-red-400' : 'border-slate-300 dark:border-slate-700',
+                        'w-full px-3.5 py-2.5 rounded-lg border text-sm text-slate-900 bg-white resize-none transition-colors focus:outline-none focus:ring-2 focus:ring-[#0f2d6b]',
+                        fieldErrors.address ? 'border-red-400' : 'border-slate-300',
                       ].join(' ')}
                     />
                     {fieldErrors.address && (
-                      <p id="address-error" className="mt-1 text-xs text-red-600 dark:text-red-400 font-medium">
+                      <p id="address-error" className="mt-1 text-xs text-red-600 font-medium">
                         {fieldErrors.address}
                       </p>
                     )}
@@ -764,17 +764,17 @@ export default function Register() {
             {/* STEP 3: Account Setup */}
             {currentStep === 2 && (
               <div>
-                <h2 className="font-serif text-2xl font-bold text-[#0f2d6b] dark:text-blue-200 mb-1">
+                <h2 className="font-serif text-2xl font-bold text-[#0f2d6b] mb-1">
                   Account Setup
                 </h2>
-                <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">
+                <p className="text-sm text-slate-500 mb-6">
                   Create a strong password to secure your account.
                 </p>
 
                 <div className="space-y-4">
                   {/* Password Field with Eye Toggle */}
                   <div>
-                    <label htmlFor="password" className="block text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider mb-1.5">
+                    <label htmlFor="password" className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">
                       Password <span className="text-red-500">*</span>
                     </label>
                     <div className="relative">
@@ -788,14 +788,14 @@ export default function Register() {
                         aria-invalid={Boolean(fieldErrors.password)}
                         aria-describedby="password-strength-label"
                         className={[
-                          'w-full px-3.5 py-2.5 pr-10 rounded-lg border text-sm text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-900 transition-colors focus:outline-none focus:ring-2 focus:ring-[#0f2d6b] dark:focus:ring-blue-500',
-                          fieldErrors.password ? 'border-red-400' : 'border-slate-300 dark:border-slate-700',
+                          'w-full px-3.5 py-2.5 pr-10 rounded-lg border text-sm text-slate-900 bg-white transition-colors focus:outline-none focus:ring-2 focus:ring-[#0f2d6b]',
+                          fieldErrors.password ? 'border-red-400' : 'border-slate-300',
                         ].join(' ')}
                       />
                       <button
                         type="button"
                         onClick={() => setShowPassword((s) => !s)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 focus:outline-none"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 focus:outline-none"
                         aria-label={showPassword ? 'Hide password' : 'Show password'}
                       >
                         {showPassword ? <EyeOffIcon /> : <EyeIcon />}
@@ -817,7 +817,7 @@ export default function Register() {
                         ))}
                       </div>
                       <div className="flex justify-between items-center mt-1.5">
-                        <span id="password-strength-label" className="text-xs font-medium text-slate-500 dark:text-slate-400">
+                        <span id="password-strength-label" className="text-xs font-medium text-slate-500">
                           Password strength:{' '}
                           <strong style={{ color: passwordStrength.score > 0 ? passwordStrength.color : undefined }}>
                             {passwordStrength.label}
@@ -829,7 +829,7 @@ export default function Register() {
                       </div>
                     </div>
                     {fieldErrors.password && (
-                      <p className="mt-1 text-xs text-red-600 dark:text-red-400 font-medium">
+                      <p className="mt-1 text-xs text-red-600 font-medium">
                         {fieldErrors.password}
                       </p>
                     )}
@@ -837,7 +837,7 @@ export default function Register() {
 
                   {/* Confirm Password Field with Eye Toggle */}
                   <div>
-                    <label htmlFor="confirmPassword" className="block text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider mb-1.5">
+                    <label htmlFor="confirmPassword" className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">
                       Confirm Password <span className="text-red-500">*</span>
                     </label>
                     <div className="relative">
@@ -850,61 +850,61 @@ export default function Register() {
                         placeholder="Repeat your password"
                         aria-invalid={Boolean(fieldErrors.confirmPassword)}
                         className={[
-                          'w-full px-3.5 py-2.5 pr-10 rounded-lg border text-sm text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-900 transition-colors focus:outline-none focus:ring-2 focus:ring-[#0f2d6b] dark:focus:ring-blue-500',
-                          fieldErrors.confirmPassword ? 'border-red-400' : 'border-slate-300 dark:border-slate-700',
+                          'w-full px-3.5 py-2.5 pr-10 rounded-lg border text-sm text-slate-900 bg-white transition-colors focus:outline-none focus:ring-2 focus:ring-[#0f2d6b]',
+                          fieldErrors.confirmPassword ? 'border-red-400' : 'border-slate-300',
                         ].join(' ')}
                       />
                       <button
                         type="button"
                         onClick={() => setShowConfirmPassword((s) => !s)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 focus:outline-none"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 focus:outline-none"
                         aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
                       >
                         {showConfirmPassword ? <EyeOffIcon /> : <EyeIcon />}
                       </button>
                     </div>
                     {formData.confirmPassword.length > 0 && (
-                      <p className={`mt-1.5 text-xs font-medium ${passwordsMatch ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-500 dark:text-red-400'}`}>
+                      <p className={`mt-1.5 text-xs font-medium ${passwordsMatch ? 'text-emerald-600' : 'text-red-500'}`}>
                         {passwordsMatch ? '✓ Passwords match' : '✗ Passwords do not match'}
                       </p>
                     )}
                     {fieldErrors.confirmPassword && (
-                      <p className="mt-1 text-xs text-red-600 dark:text-red-400 font-medium">
+                      <p className="mt-1 text-xs text-red-600 font-medium">
                         {fieldErrors.confirmPassword}
                       </p>
                     )}
                   </div>
 
                   {/* Prototype Notice Box */}
-                  <div className="rounded-xl border border-blue-100 bg-blue-50/80 p-3.5 text-xs text-blue-900 dark:border-blue-900/50 dark:bg-blue-950/30 dark:text-blue-300 leading-relaxed">
+                  <div className="rounded-xl border border-blue-100 bg-blue-50/80 p-3.5 text-xs text-blue-900 leading-relaxed">
                     By creating an account you confirm that you are an Ethiopian citizen, that all information provided is accurate, and that you consent to processing your personal data in accordance with the EthioClear Privacy Policy. EthioClear is a university academic prototype, not an official government service.
                   </div>
 
                   {/* Terms & Privacy Checkbox */}
                   <div className="pt-1">
-                    <label className="flex items-start gap-2.5 cursor-pointer text-sm text-slate-600 dark:text-slate-300">
+                    <label className="flex items-start gap-2.5 cursor-pointer text-sm text-slate-600">
                       <input
                         type="checkbox"
                         name="agreeTerms"
                         id="agreeTerms"
                         checked={formData.agreeTerms}
                         onChange={handleChange}
-                        className="mt-0.5 h-4 w-4 rounded border-gray-300 text-[#0f2d6b] focus:ring-[#0f2d6b] dark:border-slate-700 dark:bg-slate-800"
+                        className="mt-0.5 h-4 w-4 rounded border-gray-300 text-[#0f2d6b] focus:ring-[#0f2d6b]"
                       />
                       <span className="leading-snug">
                         I agree to the{' '}
-                        <Link to="/terms" target="_blank" className="font-semibold text-[#0f2d6b] dark:text-blue-400 hover:underline">
+                        <Link to="/terms" target="_blank" className="font-semibold text-[#0f2d6b] hover:underline">
                           Terms of Service
                         </Link>{' '}
                         and{' '}
-                        <Link to="/privacy" target="_blank" className="font-semibold text-[#0f2d6b] dark:text-blue-400 hover:underline">
+                        <Link to="/privacy" target="_blank" className="font-semibold text-[#0f2d6b] hover:underline">
                           Privacy Policy
                         </Link>
                         .
                       </span>
                     </label>
                     {fieldErrors.agreeTerms && (
-                      <p className="mt-1 text-xs text-red-600 dark:text-red-400 font-medium">
+                      <p className="mt-1 text-xs text-red-600 font-medium">
                         {fieldErrors.agreeTerms}
                       </p>
                     )}
@@ -916,7 +916,7 @@ export default function Register() {
             {/* STEP 4: Confirmation */}
             {currentStep === 3 && (
               <div className="text-center py-4 sm:py-6">
-                <div className="w-16 h-16 bg-emerald-100 dark:bg-emerald-950/60 rounded-full flex items-center justify-center mx-auto mb-5 shadow-sm">
+                <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-5 shadow-sm">
                   <svg
                     width="32"
                     height="32"
@@ -930,15 +930,15 @@ export default function Register() {
                   </svg>
                 </div>
 
-                <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#0f2d6b] dark:text-blue-200 mb-2">
+                <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#0f2d6b] mb-2">
                   Account Created!
                 </h2>
 
-                <p className="text-base text-slate-600 dark:text-slate-300 mb-2">
+                <p className="text-base text-slate-600 mb-2">
                   Welcome to EthioClear, <strong>{formData.firstName || 'Applicant'}</strong>.
                 </p>
 
-                <p className="text-sm text-slate-500 dark:text-slate-400 mb-8 max-w-sm mx-auto leading-relaxed">
+                <p className="text-sm text-slate-500 mb-8 max-w-sm mx-auto leading-relaxed">
                   Your account is ready. You can sign in now.
                 </p>
 
@@ -954,12 +954,12 @@ export default function Register() {
 
             {/* Footer Navigation Buttons (Steps 0, 1, 2) */}
             {currentStep < 3 && (
-              <div className="flex items-center justify-between mt-8 pt-6 border-t border-gray-100 dark:border-slate-800">
+              <div className="flex items-center justify-between mt-8 pt-6 border-t border-gray-100">
                 {currentStep > 0 ? (
                   <button
                     type="button"
                     onClick={handleBack}
-                    className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-[#0f2d6b] dark:hover:text-white transition-colors focus:outline-none focus:underline"
+                    className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-600 hover:text-[#0f2d6b] transition-colors focus:outline-none focus:underline"
                   >
                     <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
@@ -1012,17 +1012,17 @@ export default function Register() {
 
           {/* Academic Prototype Notice & Security Footer */}
           <div className="mt-8 text-center">
-            <p className="text-xs text-slate-400 dark:text-slate-500">
+            <p className="text-xs text-slate-400">
               This is an academic prototype of EthioClear. Not an official government service.
             </p>
-            <div className="mt-3 flex items-center justify-center gap-3 text-xs text-slate-400 dark:text-slate-500">
+            <div className="mt-3 flex items-center justify-center gap-3 text-xs text-slate-400">
               <span className="flex items-center gap-1">
                 <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true">
                   <path strokeLinecap="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
                 </svg>
                 256-bit Encrypted
               </span>
-              <span className="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-600" aria-hidden="true" />
+              <span className="w-1 h-1 rounded-full bg-slate-300" aria-hidden="true" />
               <span>Secure Prototype Connection</span>
             </div>
           </div>
