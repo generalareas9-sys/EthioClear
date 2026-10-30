@@ -55,7 +55,6 @@ function AppRoutes() {
         <Route path="/information" element={<Information />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/help" element={<HelpContactPlus />} />
-        <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/terms" element={<Terms />} />
@@ -66,7 +65,8 @@ function AppRoutes() {
         <Route path="/verify/:id" element={<CertificateVerification />} />
       </Route>
 
-      {/* Standalone dedicated registration wizard page matching Figma layout */}
+      {/* Standalone dedicated auth pages matching Figma split layout */}
+      <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
 
       {/* Shared authenticated routes — all roles */}
