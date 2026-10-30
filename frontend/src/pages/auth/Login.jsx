@@ -52,6 +52,7 @@ function Login() {
   }, [isAuthenticated, currentUser, navigate, location.state]);
 
   const [formData, setFormData] = useState({ email: '', password: '' });
+  const [keepSignedIn, setKeepSignedIn] = useState(true);
   const [fieldErrors, setFieldErrors] = useState({});
   const [formError, setFormError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -242,6 +243,23 @@ function Login() {
                 {fieldErrors.password}
               </p>
             )}
+          </div>
+
+          {/* Keep me signed in */}
+          <div className="flex items-center pt-1">
+            <label className="flex items-center gap-2.5 cursor-pointer select-none">
+              <input
+                id="keep-signed-in"
+                name="keepSignedIn"
+                type="checkbox"
+                checked={keepSignedIn}
+                onChange={(e) => setKeepSignedIn(e.target.checked)}
+                className="h-4 w-4 rounded border-slate-300 text-[#0F2A6B] focus:ring-[#0F2A6B] focus:ring-offset-0"
+              />
+              <span className="text-xs sm:text-sm text-slate-700 font-normal">
+                {t('auth.keepMeSignedIn') || 'Keep me signed in'}
+              </span>
+            </label>
           </div>
 
           {/* Full-width Sign In Button */}
