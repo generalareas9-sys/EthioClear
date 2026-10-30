@@ -60,6 +60,20 @@ function generateCertificateNumber() {
   return `ECL-${year}-${randomSegment}`;
 }
 
+/**
+ * Generates an uppercase verification code (e.g. ECL-VFY-8K4M2P1A9C)
+ * printed on the certificate PDF.
+ */
+function generateVerificationCode() {
+  const chars = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+  let randomSegment = '';
+  const bytes = crypto.randomBytes(10);
+  for (let i = 0; i < 10; i++) {
+    randomSegment += chars[bytes[i] % chars.length];
+  }
+  return `ECL-VFY-${randomSegment}`;
+}
+
 /** Internal-only verification URL — never an external or government endpoint. */
 function buildVerificationUrl(certificateId) {
   return `${config.verification.baseUrl}/${certificateId}`;
@@ -83,6 +97,7 @@ module.exports = {
   assertApplicationReadyForCertificate,
   assertDownloadAccess,
   generateCertificateNumber,
+  generateVerificationCode,
   buildVerificationUrl,
   toPublicVerificationView,
 };

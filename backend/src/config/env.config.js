@@ -12,8 +12,6 @@ const path = require('path');
 require('dotenv').config({ path: path.resolve(process.cwd(), '.env') });
 
 // Variables that MUST be present for the app to start safely.
-// (Auth-related secrets are required now so Module 4 doesn't silently
-// run with insecure defaults; they are not yet used by any route.)
 const DEFAULT_ENV = {
   PORT: '5000',
   PGHOST: 'localhost',
@@ -67,6 +65,18 @@ function validateEnv() {
 
 validateEnv();
 
+const rawOrigins = [
+  ...(process.env.CLIENT_ORIGIN || '').split(','),
+  ...(process.env.FRONTEND_BASE_URL || '').split(','),
+  'http://localhost:5173',
+  'http://localhost:4173',
+  'https://ethio-clear-3yxy.vercel.app',
+];
+
+const clientOrigins = Array.from(
+  new Set(rawOrigins.map((o) => o.trim().replace(/\/+$/, '')).filter(Boolean))
+);
+
 const config = {
   env: process.env.NODE_ENV || 'development',
   isProduction: process.env.NODE_ENV === 'production',
@@ -74,9 +84,7 @@ const config = {
   server: {
     port: parseInt(process.env.PORT, 10) || 5000,
     apiBasePath: process.env.API_BASE_PATH || '/api',
-    clientOrigins: (process.env.CLIENT_ORIGIN || 'http://localhost:4173')
-      .split(',')
-      .map((origin) => origin.trim()),
+    clientOrigins,
   },
 
   db: {
@@ -113,16 +121,17 @@ const config = {
   },
 
   verification: {
-    baseUrl: process.env.VERIFICATION_BASE_URL || 'http://localhost:4173/verify',
+    baseUrl: (
+      process.env.VERIFICATION_BASE_URL ||
+      (process.env.FRONTEND_BASE_URL ? `${process.env.FRONTEND_BASE_URL.replace(/\/+$/, '')}/verify` : null) ||
+      'http://localhost:4173/verify'
+    ).replace(/\/+$/, ''),
   },
 };
-
-// Updated validation to only treat missing non-DB vars as fatal in production
 
 // Safe diagnostic: report whether DATABASE_URL is set and its hostname (no credentials)
 if (process.env.DATABASE_URL) {
   try {
-    // Use the WHATWG URL parser – it safely handles typical PostgreSQL connection strings.
     const dbUrl = new URL(process.env.DATABASE_URL);
     // eslint-disable-next-line no-console
     console.info(`[env.config] DATABASE_URL detected – hostname: ${dbUrl.hostname}`);

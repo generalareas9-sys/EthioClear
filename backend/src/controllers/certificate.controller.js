@@ -20,6 +20,7 @@ const applicationModel = require('../models/application.model');
 const certificateModel = require('../models/certificate.model');
 const notificationModel = require('../models/notification.model');
 const auditLogModel = require('../models/auditLog.model');
+const userModel = require('../models/user.model');
 const certificateService = require('../services/certificate.service');
 const pdfService = require('../services/pdf.service');
 const qrcodeService = require('../services/qrcode.service');
@@ -55,7 +56,19 @@ async function generateCertificate(req, res, next) {
     const certificateId = crypto.randomUUID();
     const certificateNumber = certificateService.generateCertificateNumber();
     const verificationUrl = certificateService.buildVerificationUrl(certificateId);
+    const rawVerificationCode = certificateService.generateVerificationCode();
     const qrCodePng = await qrcodeService.generateQrCodePng(verificationUrl);
+
+    // Retrieve officer's full name for the certificate signature block
+    let officerName = req.user?.full_name || null;
+    if (!officerName && req.user?.id) {
+      try {
+        const officerUser = await userModel.findById(req.user.id);
+        officerName = officerUser?.full_name || null;
+      } catch (err) {
+        // Non-fatal: default to null
+      }
+    }
 
     const fileName = `${certificateNumber}.pdf`;
     const relativePath = path.join(config.storage.certificateDir, fileName);
@@ -68,6 +81,9 @@ async function generateCertificate(req, res, next) {
       purpose: application.purpose,
       issuedAt: new Date(),
       qrCodePng,
+      verificationCode: rawVerificationCode,
+      verificationUrl,
+      officerName,
     });
 
     const { application: updatedApplication, certificate } = await certificateModel.issueWithTransaction({
