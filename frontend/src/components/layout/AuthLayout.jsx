@@ -11,7 +11,7 @@ import Logo from '../common/Logo.jsx';
 import LanguageSelector from '../common/LanguageSelector.jsx';
 import { useTranslation } from '../../i18n/LanguageContext.jsx';
 
-export default function AuthLayout({ children }) {
+export default function AuthLayout({ children, topAction, cardMaxWidth = 'max-w-[440px]' }) {
   const { t } = useTranslation();
 
   return (
@@ -70,24 +70,28 @@ export default function AuthLayout({ children }) {
       <div className="flex-1 flex flex-col justify-between min-h-screen px-4 py-6 sm:px-8 sm:py-8 lg:px-12 lg:py-10">
         
         {/* Top Header Bar inside Right Panel */}
-        <div className="w-full max-w-xl mx-auto flex items-center justify-between gap-4 pb-4">
-          <Link
-            to="/"
-            className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-600 hover:text-[#0F2A6B] transition-colors focus-visible:outline-[#0F2A6B] rounded-lg px-2 py-1"
-            aria-label={t('auth.backToHome')}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2.2}
+        <div className="w-full max-w-2xl mx-auto flex items-center justify-between gap-4 pb-4">
+          {topAction ? (
+            topAction
+          ) : (
+            <Link
+              to="/"
+              className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-600 hover:text-[#0F2A6B] transition-colors focus-visible:outline-[#0F2A6B] rounded-lg px-2 py-1"
+              aria-label={t('auth.backToHome')}
             >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg>
-            <span>{t('auth.backToHome')}</span>
-          </Link>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2.2}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              </svg>
+              <span>{t('auth.backToHome')}</span>
+            </Link>
+          )}
 
           {/* Language Selector */}
           <LanguageSelector />
@@ -105,7 +109,7 @@ export default function AuthLayout({ children }) {
           </div>
 
           {/* Form Card Container */}
-          <div className="w-full max-w-[440px]">
+          <div className={`w-full ${cardMaxWidth}`}>
             {children}
           </div>
 
