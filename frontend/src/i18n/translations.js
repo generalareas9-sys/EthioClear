@@ -3,6 +3,7 @@ export const LANGUAGES = Object.freeze([
   { code: 'om', name: 'Afaan Oromo', nativeName: 'Afaan Oromoo' },
   { code: 'ti', name: 'Tigrinya', nativeName: 'ትግርኛ' },
   { code: 'en', name: 'English', nativeName: 'English' },
+  { code: 'aa', name: 'Afar', nativeName: 'Afar' },
 ]);
 
 export const DEFAULT_LANGUAGE = 'en';
@@ -17,8 +18,13 @@ export const translations = {
       notifications: 'Notifications',
       myProfile: 'My profile',
       language: 'Language',
+      home: 'Home',
+      howItWorks: 'How It Works',
+      about: 'About',
+      contact: 'Contact',
+      getStarted: 'Get Started',
     },
-    landing: {
+        landing: {
       badge: 'University Graduation Project — Academic Prototype',
       title: 'EthioClear',
       intro:
