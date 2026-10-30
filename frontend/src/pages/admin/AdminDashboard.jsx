@@ -115,7 +115,7 @@ function AdminDashboard() {
       </div>
 
       {error && (
-        <div role="alert" className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-800 dark:bg-red-950/40 dark:text-red-300">
+        <div role="alert" className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
           <span>{error}</span>{' '}
           <button type="button" onClick={load} className="font-bold underline ml-2">Retry</button>
         </div>
@@ -166,9 +166,9 @@ function AdminDashboard() {
             <Card title="User Accounts Breakdown">
               <div className="space-y-4">
                 {[
-                  { role: 'Applicants', count: getCount(stats.usersByRole, 'role', 'applicant'), bar: 'bg-blue-600', color: 'text-blue-700 dark:text-blue-300' },
-                  { role: 'Verification Officers', count: getCount(stats.usersByRole, 'role', 'officer'), bar: 'bg-amber-500', color: 'text-amber-700 dark:text-amber-300' },
-                  { role: 'System Administrators', count: getCount(stats.usersByRole, 'role', 'admin'), bar: 'bg-red-500', color: 'text-red-700 dark:text-red-300' },
+                  { role: 'Applicants', count: getCount(stats.usersByRole, 'role', 'applicant'), bar: 'bg-blue-600', color: 'text-blue-700' },
+                  { role: 'Verification Officers', count: getCount(stats.usersByRole, 'role', 'officer'), bar: 'bg-amber-500', color: 'text-amber-700' },
+                  { role: 'System Administrators', count: getCount(stats.usersByRole, 'role', 'admin'), bar: 'bg-red-500', color: 'text-red-700' },
                 ].map((item) => {
                   const pct = stats.totals.users > 0 ? Math.round((item.count / stats.totals.users) * 100) : 0;
                   return (
@@ -186,7 +186,7 @@ function AdminDashboard() {
               </div>
 
               <div className="mt-6 pt-4 border-t border-border-theme flex justify-end">
-                <Link to="/admin/users" className="text-xs font-bold text-primary-600 hover:text-primary-700 dark:text-primary-400 hover:underline">
+                <Link to="/admin/users" className="text-xs font-bold text-primary-600 hover:text-primary-700 hover:underline">
                   Manage all users →
                 </Link>
               </div>
@@ -217,7 +217,7 @@ function AdminDashboard() {
               </div>
 
               <div className="mt-6 pt-4 border-t border-border-theme flex justify-end">
-                <Link to="/admin/reports" className="text-xs font-bold text-primary-600 hover:text-primary-700 dark:text-primary-400 hover:underline">
+                <Link to="/admin/reports" className="text-xs font-bold text-primary-600 hover:text-primary-700 hover:underline">
                   View analytics report →
                 </Link>
               </div>
@@ -231,7 +231,7 @@ function AdminDashboard() {
             headerRight={
               <Link
                 to="/admin/audit-logs"
-                className="text-xs font-semibold text-primary-600 hover:text-primary-700 dark:text-primary-400 hover:underline"
+                className="text-xs font-semibold text-primary-600 hover:text-primary-700 hover:underline"
               >
                 View full audit trail →
               </Link>
@@ -258,7 +258,7 @@ function AdminDashboard() {
                     {recentLogs.map((log) => (
                       <tr key={log.id} className="hover:bg-card-subtle/40 transition-colors">
                         <td className="px-6 py-3.5 font-bold text-text-primary whitespace-nowrap">
-                          <span className="inline-block px-2 py-0.5 rounded bg-primary-50 text-primary-700 dark:bg-primary-950/60 dark:text-primary-300 border border-primary-200 dark:border-primary-800">
+                          <span className="inline-block px-2 py-0.5 rounded bg-primary-50 text-primary-700 border border-primary-200">
                             {log.action}
                           </span>
                         </td>
