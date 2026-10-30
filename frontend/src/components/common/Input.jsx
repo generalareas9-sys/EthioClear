@@ -39,7 +39,7 @@ function Input({
         className={[
           'block w-full min-h-[44px] rounded-lg border px-3.5 py-2.5 text-sm sm:text-base shadow-sm transition-colors',
           'placeholder:text-text-muted',
-          'focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent dark:focus:ring-primary-500',
+          'focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent',
           error
             ? 'border-red-400 bg-red-50/20 text-text-primary'
             : 'border-border-theme bg-surface text-text-primary hover:border-border-subtle',
@@ -50,7 +50,7 @@ function Input({
         {...rest}
       />
       {error && (
-        <p id={`${inputId}-error`} className="mt-1.5 text-xs text-red-600 dark:text-red-400 font-medium">
+        <p id={`${inputId}-error`} className="mt-1.5 text-xs text-red-600 font-medium">
           {error}
         </p>
       )}
