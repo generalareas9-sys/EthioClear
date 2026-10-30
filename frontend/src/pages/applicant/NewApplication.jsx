@@ -29,7 +29,7 @@ function Stepper({ currentStep }) {
       <div className="sm:hidden">
         <div className="flex items-center justify-between text-xs font-semibold text-text-primary mb-1.5">
           <span>Step {currentStep + 1} of {STEPS.length}: {STEPS[currentStep]}</span>
-          <span className="text-primary-600 dark:text-primary-400 font-bold">{progressPercent}%</span>
+          <span className="text-primary-600 font-bold">{progressPercent}%</span>
         </div>
         <div className="w-full h-2 rounded-full bg-card-subtle overflow-hidden">
           <div
@@ -52,7 +52,7 @@ function Stepper({ currentStep }) {
                   isDone
                     ? 'bg-secondary-600 text-white'
                     : isCurrent
-                    ? 'bg-primary-700 text-white ring-2 ring-primary-300 dark:ring-primary-800'
+                    ? 'bg-primary-700 text-white ring-2 ring-primary-300'
                     : 'bg-card-subtle text-text-muted',
                 ].join(' ')}
               >
@@ -138,7 +138,7 @@ function NewApplication() {
         <Stepper currentStep={step} />
 
         {formError && (
-          <div role="alert" className="mb-4 rounded-lg bg-red-500/10 border border-red-500/20 px-4 py-3 text-sm text-red-600 dark:text-red-400 font-medium">
+          <div role="alert" className="mb-4 rounded-lg bg-red-500/10 border border-red-500/20 px-4 py-3 text-sm text-red-600 font-medium">
             {formError}
           </div>
         )}
@@ -210,7 +210,7 @@ function NewApplication() {
               />
             )}
             {!isOtherPurpose && purposeError && (
-              <p className="text-xs sm:text-sm text-red-600 dark:text-red-400 font-medium">{purposeError}</p>
+              <p className="text-xs sm:text-sm text-red-600 font-medium">{purposeError}</p>
             )}
           </div>
         )}
@@ -233,7 +233,7 @@ function NewApplication() {
               </div>
             </div>
             
-            <p className="rounded-lg bg-primary-50/50 dark:bg-primary-950/30 p-3 text-xs text-text-muted leading-relaxed">
+            <p className="rounded-lg bg-primary-50/50 p-3 text-xs text-text-muted leading-relaxed">
               After submitting, you will be able to upload supporting documents (such as your National ID and passport photo) on the application details page.
             </p>
           </div>
